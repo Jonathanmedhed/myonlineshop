@@ -1,0 +1,5135 @@
+@import 'config';
+@import 'form';
+@import 'table';
+@import 'utilities';
+
+@import '~primeicons/primeicons.css';
+@import '~primereact/resources/primereact.min.css';
+
+/** Main Config */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: white;
+  color: #333;
+  // Scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color $white-color;
+
+  &::-webkit-scrollbar {
+    width: 1rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $white-dark-color;
+    border-radius: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 6px;
+    border: 1px solid $white-color;
+  }
+}
+a {
+  text-decoration: none; //remove underline
+  cursor: pointer;
+}
+ul {
+  list-style: none; //remove bullet points
+}
+img {
+  width: 100%; //take full width of container
+}
+
+/*****************************************************************************************************
+* Accordion
+*****************************************************************************************************/
+
+/** Closed */
+
+.p-accordion.p-component.p-reset .p-accordion-header {
+  background-color: $primary-color;
+  border-top-left-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+  margin-bottom: 0.1rem;
+  min-width: 50rem;
+}
+
+.p-accordion.p-component.p-reset .p-accordion-tab .p-accordion-header-text {
+  color: $white-color;
+  font-weight: bold;
+}
+
+.p-accordion.p-component.p-reset .p-accordion-tab .p-accordion-toggle-icon {
+  color: $dark-color;
+}
+
+.p-accordion.p-component.p-reset .p-accordion-content {
+  background-color: $white-color;
+}
+
+/** Opened */
+
+.p-accordion.p-component.p-reset .p-accordion-header.p-highlight {
+  background-color: $dark-color;
+}
+
+.p-accordion.p-component.p-reset
+  .p-accordion-header.p-highlight
+  .p-accordion-header-text {
+  color: $white-color;
+  font-weight: bold;
+}
+
+.p-accordion.p-component.p-reset
+  .p-accordion-header.p-highlight
+  .p-accordion-toggle-icon {
+  color: $white-color;
+}
+
+/*******************************************************************************************************
+Buttons Form
+*******************************************************************************************************/
+.buttons-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  .btn {
+    width: 100%;
+    margin: 0 1rem 0 1rem;
+    white-space: nowrap;
+  }
+  input {
+    border-radius: 0.2rem;
+  }
+}
+
+.buttons-form-free {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  .btn {
+    min-width: 10rem;
+    margin: 0 1rem 0 1rem;
+    white-space: nowrap;
+  }
+  input {
+    border-radius: 0.2rem;
+  }
+}
+
+.buttons-upload-remove {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .btn {
+    margin: 0.5rem 0 0.5rem 0;
+    white-space: nowrap;
+  }
+}
+
+.buttons-form-free-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  .btn {
+    max-width: 10rem;
+    min-width: 10rem;
+    margin: 0 0.2rem 0 0.2rem;
+  }
+  input {
+    border-radius: 0.2rem;
+  }
+}
+
+/*******************************************************************************************************
+Buttons Prime
+*******************************************************************************************************/
+
+.p-button.p-component {
+  color: $white-color;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.p-button.p-component .p-button-text.p-c {
+  padding-bottom: 0.25rem;
+}
+
+.p-button.p-component.p-button-text-icon-left {
+  border-radius: 0.5rem;
+  margin: 0 0.1rem 0 0.1rem;
+  border: solid 2px $white-color;
+  background-color: $primary-color;
+  padding: 0;
+}
+
+.p-button.p-component.p-button-text-icon-left:hover {
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-text-icon-left:focus {
+  border: solid 2px #5fe5fa;
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-text-icon-right {
+  border-radius: 0.5rem;
+  margin: 0 0.1rem 0 0.1rem;
+  border: solid 2px $white-color;
+  background-color: $primary-color;
+  padding: 0;
+}
+
+.p-button.p-component.p-button-text-icon-right:hover {
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-text-icon-right:focus {
+  border: solid 2px #5fe5fa;
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-icon-only {
+  border-radius: 0.5rem;
+  margin: 0 0.1rem 0 0.1rem;
+  border: solid 2px $white-color;
+  background-color: $primary-color;
+  padding: 0;
+}
+
+.p-button.p-component.p-button-icon-only:hover {
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-icon-only:focus {
+  border: solid 2px #5fe5fa;
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-text-only.p-disabled {
+  border: solid 2px $white-color;
+  background-color: #66b1bd;
+}
+
+.p-button.p-component.p-button-text-only.p-disabled:hover {
+  border: solid 2px $white-color;
+  background-color: #66b1bd;
+}
+
+.p-button.p-component.p-button-text-only {
+  border-radius: 0.5rem;
+  margin: 0 0.1rem 0 0.1rem;
+  border: solid 2px $white-color;
+  background-color: $primary-color;
+  padding: 0;
+}
+
+.p-button.p-component.p-button-text-only:hover {
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-text-only:focus {
+  border: solid 2px #5fe5fa;
+  background-color: #128799;
+}
+
+.p-button.p-component.p-button-secondary.p-button-text-only {
+  color: rgb(94, 94, 94);
+  border: solid 2px $white-color;
+  background-color: #fff;
+}
+
+.p-button.p-component.p-button-secondary.p-button-text-only:hover {
+  background-color: rgb(202, 202, 202);
+}
+
+.p-button.p-component.p-button-secondary.p-button-text-only:focus {
+  border: solid 2px #5fe5fa;
+  background-color: #fff;
+  color: rgb(94, 94, 94);
+}
+
+.p-button.p-component.p-button-success.p-button-text-only {
+  border: solid 2px $white-color;
+  background-color: #28a745;
+}
+
+.p-button.p-component.p-button-success.p-button-text-only:hover {
+  background-color: #23913c;
+}
+
+.p-button.p-component.p-button-success.p-button-text-only:focus {
+  border: solid 2px #2fd356;
+  background-color: #23913c;
+}
+
+.p-button.p-component.p-button-warning.p-button-text-only {
+  border: solid 2px $white-color;
+  background-color: #c7ca1f;
+}
+
+.p-button.p-component.p-button-warning.p-button-text-only:hover {
+  background-color: #babd1f;
+}
+
+.p-button.p-component.p-button-warning.p-button-text-only:focus {
+  border: solid 2px #929416;
+  background-color: #c7ca1f;
+}
+
+.p-button.p-component.p-button-danger.p-button-text-only {
+  border: solid 2px $white-color;
+  background-color: $danger-color;
+}
+
+.p-button.p-component.p-button-danger.p-button-text-only:hover {
+  background-color: #b92b39;
+}
+
+.p-button.p-component.p-button-danger.p-button-text-only:focus {
+  border: solid 2px #8d1f2a;
+  background-color: #b92b39;
+}
+
+.p-button.p-component.p-button-rounded.p-button-text-only {
+  border-radius: 1rem;
+}
+
+@media (max-width: 700px) {
+  .prime-buttons h3 {
+    max-width: 20rem;
+    margin: auto;
+    text-align: center;
+    margin: 0.5rem 0.5rem;
+  }
+  .prime-buttons .prime-buttons-btns {
+    margin: auto;
+    max-width: 20rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/********************************************************************************************************
+Card Review
+********************************************************************************************************/
+
+.card-review {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .review-text {
+    max-width: 20rem;
+  }
+  .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    max-width: 10rem;
+  }
+  .message {
+    min-width: 20rem;
+    max-width: 20rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+  }
+  // Layout for horizontal transaction
+  .status-table {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .table {
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid 1px $primary-color;
+    .row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-left: solid 1px $primary-color;
+      .cell {
+        display: flex;
+        flex-direction: column;
+        min-width: 8rem;
+        max-width: 8rem;
+        .header {
+          background-color: $primary-color;
+          color: $white-color;
+          padding-left: 0.2rem;
+        }
+        .header-right {
+          background-color: $primary-color;
+          color: $white-color;
+          padding-right: 0.2rem;
+          text-align: right;
+        }
+        .td {
+          border-right: solid 1px $primary-color;
+          text-align: center;
+          word-break: break-all;
+        }
+      }
+    }
+  }
+  .status-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .bold {
+      font-size: 0.8rem;
+    }
+  }
+
+  .card-item-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .message {
+      padding: 0 0.5rem 0 0.5rem;
+      max-width: 10rem;
+      word-break: break-all;
+    }
+  }
+
+  .card-product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+    h3 {
+      margin-top: 0.2rem;
+      color: #333;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    img {
+      max-height: 10rem;
+      max-width: 10rem;
+      object-fit: cover;
+    }
+  }
+
+  .card-product-info-sm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+    h3 {
+      margin-top: 0rem;
+      color: #333;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    img {
+      max-height: 5rem;
+      max-width: 5rem;
+      object-fit: cover;
+    }
+  }
+  .card-shop-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+    h3 {
+      margin-top: 0.2rem;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    img {
+      max-height: 10rem;
+      max-width: 10rem;
+      object-fit: cover;
+    }
+  }
+  .card-user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      max-height: 5rem;
+      max-width: 5rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+}
+
+.status-hor {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5rem 0 5rem;
+  .bold {
+    font-size: 0.8rem;
+  }
+}
+
+.status-hor-sm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem 0 2rem;
+  .bold {
+    font-size: 0.8rem;
+  }
+}
+
+/********************************************************************************************************
+Card Review Vertical
+********************************************************************************************************/
+
+.card-review-vert {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  margin: 0 0.1rem 0 0.1rem;
+  border-top: solid 2px $white-color;
+  border-bottom: solid 2.5px $white-dark-color;
+  border-right: solid 2.5px $white-dark-color;
+  border-left: solid 2px $white-color;
+  min-width: 20rem;
+  max-width: 20rem;
+  .card-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .card-data-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 1rem;
+    }
+  }
+  .top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .review-text {
+    max-width: 20rem;
+  }
+  .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    max-width: 12rem;
+  }
+  .message {
+    min-width: 20rem;
+    max-width: 20rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1rem 0 1rem 0;
+  }
+  button {
+    margin-top: 1rem;
+  }
+  .card-product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+    h3 {
+      margin-top: 0.2rem;
+      color: #333;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    img {
+      max-height: 10rem;
+      max-width: 10rem;
+      object-fit: cover;
+    }
+  }
+  .card-product-info-sm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+    h3 {
+      margin-top: 0rem;
+      color: #333;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    img {
+      max-height: 8rem;
+      max-width: 8rem;
+      object-fit: cover;
+    }
+  }
+  .card-shop-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+    h3 {
+      margin-top: 0.2rem;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    img {
+      max-height: 10rem;
+      max-width: 10rem;
+      object-fit: cover;
+    }
+  }
+}
+
+.card-review-vert-border {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 0.5rem 0;
+  margin: 0 0.1rem 0 0.1rem;
+  border-top: solid 2px $primary-color;
+  border-bottom: solid 2.5px $primary-color;
+  border-right: solid 2.5px $primary-color;
+  border-left: solid 2px $primary-color;
+  .top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+  .review-text {
+    max-width: 20rem;
+  }
+  .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    max-width: 12rem;
+  }
+  .message {
+    min-width: 20rem;
+    max-width: 20rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  button {
+    margin-top: 1rem;
+  }
+  .inner-small {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+  }
+}
+
+/*******************************************************************************************************
+Card List
+*******************************************************************************************************/
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+/**
+Carrousel prime Carrousel prime Carrousel prime Carrousel prime  Carrousel prime  Carrousel prime 
+*/
+
+.carousel-container {
+  margin: auto;
+}
+
+/**Buttons*/
+
+.p-carousel-prev.p-button,
+.p-carousel-next.p-button {
+  background-color: $primary-color;
+  color: $white-color;
+  border: solid 1px $primary-color;
+}
+
+.p-carousel-prev.p-button:hover,
+.p-carousel-next.p-button:hover {
+  background-color: $dark-color;
+}
+
+/**Disabled Buttons*/
+
+.p-carousel-prev.p-button.p-disabled,
+.p-carousel-next.p-button.p-disabled {
+  background-color: $white-dark-color;
+  color: $white-color;
+  border: solid 1px $white-dark-color;
+}
+
+.p-carousel-prev.p-button.p-disabled:hover,
+.p-carousel-next.p-button.p-disabled {
+  background-color: $white-dark-color;
+  color: $white-color;
+  border: solid 1px $white-dark-color;
+}
+
+.p-carousel.p-component.p-carousel-horizontal,
+.p-carousel.p-component.p-carousel-vertical {
+  max-width: 70rem;
+  margin: auto;
+}
+
+.p-carousel.p-component.p-carousel-horizontal .p-carousel-header,
+.p-carousel.p-component.p-carousel-vertical .p-carousel-header {
+  text-align: center;
+}
+
+/**Dots */
+
+.p-carousel.p-component.p-carousel-horizontal
+  .p-carousel-content
+  .p-carousel-dots-container.p-reset
+  .p-carousel-dot-icon.pi.pi-circle-on,
+.p-carousel.p-component.p-carousel-vertical
+  .p-carousel-content
+  .p-carousel-dots-container.p-reset
+  .p-carousel-dot-icon.pi.pi-circle-on {
+  color: $primary-color;
+  font-size: 1rem;
+}
+
+.p-carousel.p-component.p-carousel-horizontal
+  .p-carousel-content
+  .p-carousel-dots-container.p-reset
+  .p-carousel-dot-icon.pi.pi-circle-off,
+.p-carousel.p-component.p-carousel-vertical
+  .p-carousel-content
+  .p-carousel-dots-container.p-reset
+  .p-carousel-dot-icon.pi.pi-circle-off {
+  color: $primary-color;
+  font-size: 1rem;
+}
+
+/** end dots */
+
+/** Item */
+
+.p-carousel.p-component.p-carousel-horizontal
+  .p-carousel-content
+  .p-carousel-container
+  .p-carousel-items-content
+  .p-carousel-item,
+.p-carousel.p-component.p-carousel-vertical
+  .p-carousel-content
+  .p-carousel-container
+  .p-carousel-items-content
+  .p-carousel-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+.p-carousel.p-component.p-carousel-horizontal
+  .p-carousel-content
+  .p-carousel-container
+  .p-carousel-items-content
+  .p-carousel-item
+  .p-col-12.car-data,
+.p-carousel.p-component.p-carousel-vertical
+  .p-carousel-content
+  .p-carousel-container
+  .p-carousel-items-content
+  .p-carousel-item
+  .p-col-12.car-data {
+  padding: 1rem 0 1rem 0;
+}
+
+.p-carousel.p-component.p-carousel-horizontal
+  .p-carousel-content
+  .p-carousel-container
+  .p-carousel-items-content
+  .p-carousel-item
+  .p-col-12.car-data
+  .car-buttons,
+.p-carousel.p-component.p-carousel-vertical
+  .p-carousel-content
+  .p-carousel-container
+  .p-carousel-items-content
+  .p-carousel-item
+  .p-col-12.car-data
+  .car-buttons {
+  padding: 1rem 0 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .p-carousel.p-component.p-carousel-horizontal {
+    max-width: 24rem;
+  }
+}
+
+/********************************************************************************************************
+Cart
+********************************************************************************************************/
+.header-cart {
+  position: absolute;
+  right: 2rem;
+}
+
+.purchase-options {
+  border: solid 2px $dark-color;
+  border-radius: 0.2rem;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+/********************************************************************************************************
+Chart
+********************************************************************************************************/
+
+.chart-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chart-wrapper-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.chart-container {
+  width: 40rem;
+}
+.chartjs-render-monitor {
+  max-width: 100%;
+}
+
+.chart-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/********************************************************************************************************
+Chips
+********************************************************************************************************/
+
+.p-chips.p-component {
+  border-radius: 0.2rem;
+  max-width: 20rem;
+  background-color: $white-light-color;
+}
+// outer input
+.p-chips.p-component .p-inputtext {
+  padding: 0;
+  background-color: $white-color;
+}
+// inner input
+.p-chips.p-component .p-inputtext input {
+  border: solid 2px $primary-color;
+  padding: 0.4rem;
+}
+// display input field in next line
+.p-chips.p-component .p-inputtext li:last-child {
+  display: block;
+}
+// items
+.p-chips.p-component .p-chips-token.p-highlight {
+  background-color: $primary-color;
+  color: $white-color;
+  border-radius: 1rem;
+  padding: 0 0.5rem 0 0.5rem;
+  font-weight: bold;
+}
+// inner container
+.p-chips.p-component .p-chips-input-token {
+  margin: 0.2rem 0 0 0;
+  padding: 0;
+  input {
+    background-color: $white-light-color;
+  }
+}
+
+/********************************************************************************************************
+Dashboard
+********************************************************************************************************/
+
+.dashboard {
+  //top
+  display: flex;
+  flex-direction: column;
+  background-color: $white-color;
+  .top-section {
+    display: flex;
+    flex-direction: row;
+    background-color: $white-color;
+    .item {
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+      .pic {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .data {
+        display: flex;
+        flex-direction: horizontal;
+        align-items: center;
+        justify-content: space-between;
+        .sub {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+    }
+    .far.fa-edit {
+      color: $primary-color;
+      margin-left: 1rem;
+    }
+    .far.fa-edit:hover {
+      cursor: pointer;
+      color: $dark-color;
+    }
+  }
+  .top-section-user {
+    display: flex;
+    flex-direction: row;
+    background-color: $white-color;
+    margin: 1rem 0 1rem 0;
+    .item {
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+      .pic {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .data {
+        display: flex;
+        flex-direction: horizontal;
+        align-items: center;
+        justify-content: space-between;
+        .sub {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+    }
+    .far.fa-edit {
+      color: $primary-color;
+      margin-left: 1rem;
+    }
+    .far.fa-edit:hover {
+      cursor: pointer;
+      color: $dark-color;
+    }
+  }
+  //Bottom
+  .select-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  //Accordion Lists
+  .accord-list {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+  // Card horizontal items
+  .card-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  // Left Side(User Card)
+  .card-user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      max-height: 5rem;
+      max-width: 5rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+  // Card horizontal items with space between
+  .card-item-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  //Card vertical items with margin
+  .card-item-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+  }
+  .big-items {
+    max-width: 30rem;
+    margin: auto;
+  }
+  // lone item
+  .big-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // Info Section
+  .info-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  //Move Options
+  .move-options {
+    position: absolute;
+    right: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    i:hover {
+      cursor: pointer;
+    }
+    .fas.fa-sort-up,
+    .fas.fa-sort-down {
+      font-size: 4rem;
+      color: $primary-color;
+    }
+    .fas.fa-sort-up:hover,
+    .fas.fa-sort-down:hover {
+      color: $dark-color;
+    }
+    .fas.fa-trash-alt {
+      font-size: 2.5rem;
+      color: $primary-color;
+    }
+    .fas.fa-trash-alt:hover {
+      color: $dark-color;
+    }
+    .fas.fa-cog {
+      font-size: 2.5rem;
+      color: $primary-color;
+    }
+    .fas.fa-cog:hover {
+      color: $dark-color;
+    }
+    .fas.fa-trash-alt {
+      color: $danger-color;
+    }
+    .fas.fa-trash-alt:hover {
+      color: $danger-dark-color;
+    }
+  }
+  /********************************************************************************************************
+  Cart
+  ********************************************************************************************************/
+  .cart {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    //Dataview
+    .p-dataview.p-component.p-dataview-list {
+      max-width: 32rem;
+      min-width: 32rem;
+    }
+    .p-dataview-content {
+      max-width: 30rem;
+      margin: 0 1rem 0 1rem;
+      .p-dataview-content .p-grid {
+        display: flex;
+        flex-direction: column;
+        .card-item {
+          border: solid 2px black;
+          justify-content: left;
+          align-self: left;
+        }
+      }
+    }
+    .p-dataview.p-component.p-dataview-grid {
+      max-width: 32rem;
+      min-width: 32rem;
+    }
+  }
+  // Right side invoice
+  .cart-invoice {
+    .inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .buttons {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .payment-message {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 1rem 0 1rem;
+    }
+  }
+
+  .right-data {
+    margin-left: 1rem;
+    text-align: right;
+    max-width: 6rem;
+    min-width: 6rem;
+  }
+}
+
+/*************************************************************************************************************
+Data-View 
+*************************************************************************************************************/
+
+/** Header */
+
+.p-dataview-header .p-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.p-dataview.p-component {
+  background-color: $white-light-color;
+}
+/** Items */
+
+.p-dataview.p-component.p-dataview-list {
+  border: solid 2px rgb(211, 211, 211);
+  min-width: 50rem;
+}
+
+.p-dataview.p-component.p-dataview-list .p-dataview-content .car-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem 1rem 2rem;
+  border-bottom: solid 1px rgb(201, 201, 201);
+}
+
+.p-dataview.p-component.p-dataview-list
+  .p-dataview-content
+  .car-details
+  .p-button.p-component.p-button-icon-only {
+  color: $white-color;
+}
+
+.p-dataview.p-component.p-dataview-list
+  .p-dataview-content
+  .car-details
+  div:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.p-dataview.p-component.p-dataview-list
+  .p-dataview-content
+  .car-details
+  div:first-child
+  .p-grid {
+  margin-left: 1rem;
+}
+
+/****************************************************************************************************
+Dialog Prime Dialog Prime Dialog Prime Dialog Prime Dialog Prime Dialog Prime Dialog Prime Dialog 
+*****************************************************************************************************/
+
+.p-dialog.p-component {
+  background-color: whitesmoke;
+  border-bottom: solid 2px rgb(158, 158, 158);
+  border-top: solid 1px whitesmoke;
+  border-right: solid 2px rgb(158, 158, 158);
+  border-left: solid 1px rgb(185, 185, 185);
+
+  .p-dialog-content {
+    padding: 0.5rem 1rem 0 1rem;
+    .social-inputs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    // Scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color $white-color;
+
+    &::-webkit-scrollbar {
+      width: 1rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $white-dark-color;
+      border-radius: 0.2rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $primary-color;
+      border-radius: 6px;
+      border: 1px solid $white-color;
+    }
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .dialog-steps {
+    .p-steps.p-component {
+      .p-steps-item.p-highlight.p-steps-current {
+        .p-steps-title {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  .text-dark.bold {
+    text-align: center;
+    &:hover {
+      cursor: pointer;
+      color: $primary-color;
+    }
+  }
+}
+
+.p-dialog.p-component .p-dialog-titlebar {
+  border-bottom: solid 1px rgb(185, 185, 185);
+  background-color: $primary-color;
+  color: whitesmoke;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.p-dialog.p-component .p-dialog-footer {
+  border-top: solid 1px rgb(185, 185, 185);
+  padding: 0.4rem;
+}
+
+.p-dialog.p-component .pi {
+  color: whitesmoke;
+  font-size: 1.1rem;
+}
+
+.p-dialog.p-component .pi:hover {
+  color: rgb(185, 185, 185);
+}
+
+.p-dialog.p-component
+  .p-button.p-component.p-button-secondary.p-button-text-icon-left {
+  background-color: rgb(185, 185, 185);
+}
+
+.p-dialog.p-component
+  .p-button.p-component.p-button-secondary.p-button-text-icon-left:hover {
+  background-color: rgb(163, 163, 163);
+}
+
+.dialog-message {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.jumbo-dialog {
+  background-color: black;
+  max-height: 20rem;
+  min-height: 20rem;
+  max-width: 50rem;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .dialog-exit {
+    position: absolute;
+    z-index: 2;
+    top: 1rem;
+    right: 1rem;
+    color: $white-color;
+    &:hover {
+      cursor: pointer;
+      color: $white-dark-color;
+    }
+  }
+  .inner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    z-index: 1;
+    color: $white-light-color;
+    text-align: center;
+    .text-container {
+      position: relative;
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 25rem;
+    }
+  }
+  .jumbo-dialog-img {
+    max-height: 20rem;
+    min-width: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+  }
+}
+
+.message-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0rem 1rem 1rem 1rem;
+  .message {
+    font-size: 2.5rem;
+    font-weight: solid;
+    margin-bottom: 0.5rem;
+  }
+  .btn {
+    font-size: 1.5rem;
+  }
+}
+
+.message-button-sm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0rem 1rem 1rem 1rem;
+  .message {
+    font-size: 1.5rem;
+    font-weight: solid;
+    margin-bottom: 0.5rem;
+  }
+  .options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    .btn {
+      font-size: 1rem;
+    }
+    .btn:first-child {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .p-dialog.p-component {
+    min-width: 20rem;
+    max-width: 20rem;
+  }
+}
+
+/*****************************************************************************************************
+* Display
+*****************************************************************************************************/
+/** Hide or Show Elements */
+.hide {
+  display: none;
+}
+
+.hide-sm {
+  display: unset;
+}
+
+.show-sm {
+  display: none;
+}
+
+/*****************************************************************************************************
+* Email Text Area
+*****************************************************************************************************/
+
+.email-text {
+  position: relative;
+  display: inline-block;
+  //p-inputtext p-inputtextarea p-component p-filled
+  &:after {
+    content: '';
+    border-top: 20px solid black;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    -webkit-transform: rotate(-45deg);
+    z-index: 1;
+    opacity: 0.5;
+    position: absolute;
+    right: -18px;
+    bottom: -3px;
+    pointer-events: none;
+  }
+  .pull-tab {
+    height: 0px;
+    width: 0px;
+    border-top: 20px solid $primary-color;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    -webkit-transform: rotate(-45deg);
+    position: absolute;
+    bottom: 0px;
+    right: -15px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .p-inputtext.p-inputtextarea.p-component.p-filled {
+    position: relative;
+    margin: 20px 0 0 20px;
+    z-index: 1;
+  }
+  .p-inputtext.p-inputtextarea.p-component.p-filled::-webkit-scrollbar {
+    width: 1rem;
+  }
+
+  .p-inputtext.p-inputtextarea.p-component.p-filled {
+    border: solid 2px $primary-color;
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color $white-light-color;
+  }
+
+  .p-inputtext.p-inputtextarea.p-component.p-filled::-webkit-scrollbar-track {
+    background: $white-light-color;
+  }
+
+  .p-inputtext.p-inputtextarea.p-component.p-filled::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 6px;
+    border: 3px solid $white-light-color;
+  }
+}
+/**
+Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl Growl
+*/
+
+.p-growl-item-container {
+  color: whitesmoke;
+}
+
+.p-growl-item-container .p-growl-icon-close-icon.pi.pi-times {
+  color: whitesmoke;
+}
+
+.p-growl-item-container.p-growl-message-success {
+  background-color: #28a745;
+}
+
+.p-growl-item-container.p-growl-message-info {
+  background-color: $primary-color;
+}
+
+.p-growl-item-container.p-growl-message-warn {
+  background-color: #c7ca1f;
+}
+
+.p-growl-item-container.p-growl-message-error {
+  background-color: #dc3545;
+}
+
+/*************************************************************************************************************
+Info Section
+*************************************************************************************************************/
+.info-section {
+  background-color: $white-light-color;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1rem 0 1rem 0;
+  min-height: 10rem;
+  .info-message {
+    max-width: 20rem;
+  }
+  .info-message-big {
+    min-width: 25rem;
+    max-width: 25rem;
+  }
+  .info-extra {
+    max-width: 20rem;
+  }
+  .info-section-reg {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1rem 0 1rem 0;
+    margin: 0.5rem 0 0.5rem 0;
+    .info-message {
+      max-width: 20rem;
+    }
+    .info-extra {
+      max-width: 20rem;
+    }
+  }
+  .info-section-rev {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1rem 0 1rem 0;
+    margin: 0.5rem 0 0.5rem 0;
+    .info-message {
+      max-width: 20rem;
+    }
+    .info-extra {
+      max-width: 20rem;
+    }
+  }
+  .info-section-only {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0 1rem 0;
+    margin: 0.5rem 0 0.5rem 0;
+    .info-message {
+      text-align: center;
+      max-width: 40rem;
+    }
+  }
+  .fas.fa-exchange-alt {
+    font-size: 4rem;
+    color: $primary-color;
+    margin: 0 1rem 0 1rem;
+  }
+  .fas.fa-exchange-alt:hover {
+    cursor: pointer;
+    color: $dark-color;
+  }
+}
+
+/*****************************************************************************************************************
+Input group
+******************************************************************************************************************/
+
+.p-inputgroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.p-inputgroup input {
+  font-weight: bold;
+  font-size: 1rem;
+  padding-left: 0.3rem;
+  margin-left: -0.1rem;
+  border-bottom-right-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+}
+
+.p-inputgroup .p-inputgroup-addon {
+  color: $white-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+.p-inputgroup .p-inputgroup-addon i {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.p-inputgroup .p-inputtext.p-component {
+  background-color: $white-color;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.p-inputgroup button {
+  padding: 0;
+}
+
+.p-inputgroup .p-checkbox-box.p-component {
+  background-color: $white-color;
+  color: $primary-color;
+}
+
+.p-inputgroup .p-checkbox-box.p-component:hover {
+  background-color: #1ab6cf;
+  opacity: 0.9;
+}
+
+.p-inputgroup .p-radiobutton-box.p-component {
+  background-color: $white-color;
+  color: $primary-color;
+}
+
+.p-inputgroup .p-radiobutton-box.p-component:hover {
+  background-color: rgba(26, 182, 207, 0.1);
+}
+
+.value-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .item {
+    margin: 0 0.2rem 0 0.2rem;
+  }
+}
+
+/************************************************************************************************************* 
+Dataview
+*************************************************************************************************************/
+
+/** Vertical List */
+
+.p-dataview.p-component.p-dataview-list .p-dataview-content .p-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.p-dataview.p-component.p-dataview-list .p-dataview-content .p-grid .p-col-12 {
+  display: block;
+}
+
+/* Horizontal grid */
+
+.p-dataview.p-component.p-dataview-grid .p-dataview-content .p-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.p-dataview.p-component.p-dataview-grid
+  .p-dataview-content
+  .p-grid
+  .p-col-12.p-md-3 {
+  max-width: 15rem;
+}
+
+.p-dataview.p-component.p-dataview-grid {
+  border: solid 2px rgb(211, 211, 211);
+}
+
+.p-dataview.p-component.p-dataview-grid
+  .p-dataview-content
+  .p-grid
+  .p-panel.p-component {
+  border: solid 1px rgb(201, 201, 201);
+  border-radius: 0.2rem;
+}
+
+.p-dataview.p-component.p-dataview-grid
+  .p-dataview-content
+  .p-grid
+  .p-panel.p-component
+  .p-panel-titlebar {
+  border-bottom: solid 1px rgb(201, 201, 201);
+  font-weight: bold;
+}
+
+.p-dataview.p-component.p-dataview-grid
+  .p-dataview-content
+  .p-grid
+  .p-panel.p-component
+  .car-detail {
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+/** Right Ordering buttons */
+
+.p-dataview-header
+  .p-dataview-layout-options.p-selectbutton.p-buttonset
+  .p-button.p-button-icon-only:last-child {
+  margin-left: 0.2rem;
+}
+
+.p-dataview-header
+  .p-dataview-layout-options.p-selectbutton.p-buttonset
+  .p-button.p-button-icon-only.p-highlight {
+  background-color: $primary-color;
+  border: solid 2px $primary-color;
+  font-size: 1rem;
+}
+.p-dataview-header
+  .p-dataview-layout-options.p-selectbutton.p-buttonset
+  .p-button.p-button-icon-only {
+  border: solid 2px $primary-color;
+  font-size: 1rem;
+}
+
+.p-dataview-header
+  .p-dataview-layout-options.p-selectbutton.p-buttonset
+  .p-button.p-button-icon-only.p-highlight
+  i {
+  color: $white-color;
+  font-size: 1rem;
+}
+.p-dataview-header
+  .p-dataview-layout-options.p-selectbutton.p-buttonset
+  .p-button.p-button-icon-only
+  i {
+  color: $primary-color;
+  font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+  .p-dataview.p-component.p-dataview-list {
+    min-width: 20rem;
+  }
+  .p-dataview-header
+    .p-dataview-layout-options.p-selectbutton.p-buttonset
+    .p-button.p-button-icon-only.p-highlight
+    i {
+    color: $white-color;
+    font-size: 1rem;
+  }
+  .p-dataview-header
+    .p-dataview-layout-options.p-selectbutton.p-buttonset
+    .p-button.p-button-icon-only
+    i {
+    color: black;
+    font-size: 1rem;
+  }
+}
+
+/** Paginator in Dataview */
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-first.p-paginator-element.p-link,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-first.p-paginator-element.p-link {
+  font-size: 1.5rem;
+  color: rgb(170, 170, 170);
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-first.p-paginator-element.p-link.p-disabled,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-first.p-paginator-element.p-link.p-disabled {
+  color: $white-color;
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-prev.p-paginator-element.p-link,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-prev.p-paginator-element.p-link {
+  font-size: 1.5rem;
+  color: rgb(170, 170, 170);
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-prev.p-paginator-element.p-link.p-disabled,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-prev.p-paginator-element.p-link.p-disabled {
+  color: $white-color;
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-last.p-paginator-element.p-link,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-last.p-paginator-element.p-link {
+  font-size: 1.5rem;
+  color: rgb(170, 170, 170);
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-last.p-paginator-element.p-link.p-disabled,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-last.p-paginator-element.p-link.p-disabled {
+  color: $white-color;
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-next.p-paginator-element.p-link,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-next.p-paginator-element.p-link {
+  font-size: 1.5rem;
+  color: rgb(170, 170, 170);
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-next.p-paginator-element.p-link.p-disabled,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-next.p-paginator-element.p-link.p-disabled {
+  color: $white-color;
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-pages
+  button,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-pages
+  button {
+  font-size: 1.3rem;
+  color: rgb(170, 170, 170);
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-page.p-paginator-element.p-link.p-highlight,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-page.p-paginator-element.p-link.p-highlight {
+  background-color: $primary-color;
+  color: $white-color;
+}
+
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-top
+  .p-paginator-pages,
+.p-dataview.p-component
+  .p-paginator.p-component.p-unselectable-text.p-paginator-bottom
+  .p-paginator-pages {
+  display: flex;
+  align-items: center;
+}
+
+/**************************************************************************************************************
+Dropdown Prime
+***************************************************************************************************************/
+
+.p-dropdown.p-component {
+  border: solid 2px $primary-color;
+  background-color: $white-light-color;
+}
+
+.p-dropdown.p-component .p-dropdown-trigger {
+  border-left: solid 2px $primary-color;
+  background-color: $primary-color;
+  color: $white-color;
+}
+
+.p-dropdown.p-component .p-dropdown-trigger:hover {
+  color: $dark-color;
+}
+
+.p-dropdown-items.p-dropdown-list.p-component {
+  border-right: solid 2px $primary-color;
+  color: $dark-color;
+  background-color: $white-light-color;
+}
+
+.p-dropdown-items-wrapper::-webkit-scrollbar {
+  width: 1rem;
+}
+
+.p-dropdown-items-wrapper {
+  border: solid 2px $primary-color;
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color $white-light-color;
+}
+
+.p-dropdown-items-wrapper::-webkit-scrollbar-track {
+  background: $white-light-color;
+}
+
+.p-dropdown-items-wrapper::-webkit-scrollbar-thumb {
+  background-color: $dark-color;
+  border-radius: 6px;
+  border: 3px solid $white-light-color;
+}
+
+.p-dropdown-label.p-inputtext {
+  font-weight: bold;
+  margin: 0 1rem 0 1rem;
+}
+
+.custom-dropdown {
+  .p-dropdown-label.p-inputtext {
+    font-weight: bold;
+    padding: 0 0 0 0.3rem;
+    max-width: 10rem;
+  }
+
+  .p-dropdown-clear-icon.pi.pi-times {
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 1.5rem;
+    left: 0;
+  }
+}
+
+.p-dropdown-items.p-dropdown-list.p-component .p-dropdown-item:hover {
+  background: $primary-color;
+  color: $white-color;
+}
+
+.p-dropdown-filter-container {
+  background-color: $primary-color;
+  border-left: solid 2px $primary-color;
+  border-right: solid 2px $primary-color;
+  border-top: solid 2px $primary-color;
+  input {
+    border: solid 2px $dark-color;
+  }
+}
+
+/********************************************************************************************************
+Form Confirm
+*******************************************************************************************************/
+.form-confirm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $white-color;
+  border: solid 2px $primary-color;
+  border-radius: 0.2rem;
+  padding: 1rem;
+  color: black;
+  text-align: left;
+  .group {
+    display: flex;
+    flex-direction: column;
+  }
+  .label {
+    font-weight: bold;
+  }
+  &-vert {
+    min-width: 20rem;
+    display: flex;
+    flex-direction: column;
+    background-color: $white-color;
+    border: solid 2px $primary-color;
+    border-radius: 0.2rem;
+    padding: 1rem;
+    color: black;
+    text-align: left;
+    .group {
+      display: flex;
+      flex-direction: column;
+    }
+    .group-imgs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .label {
+      font-weight: bold;
+    }
+  }
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    text-align: center;
+  }
+  .message {
+    max-width: 20rem;
+    flex-wrap: wrap;
+  }
+}
+
+/********************************************************************************************************
+icons 
+*******************************************************************************************************/
+
+.p-component.p-panelmenu-header .p-menuitem-icon.pi.pi-fw {
+  font-size: 1.2rem;
+}
+
+.p-component.p-panelmenu-header.p-highlight
+  .p-panelmenu-icon.pi.pi-fw.pi-caret-down {
+  font-size: 1rem;
+}
+
+/** Content */
+
+.p-submenu-list.p-panelmenu-root-submenu .p-menuitem-link {
+  text-align: left;
+  color: rgb(31, 31, 31);
+}
+
+.p-submenu-list.p-panelmenu-root-submenu
+  .p-panelmenu-icon.pi.pi-fw.pi-caret-right,
+.p-submenu-list.p-panelmenu-root-submenu
+  .p-panelmenu-icon.pi.pi-fw.pi-caret-down {
+  color: $primary-color;
+}
+
+/********************************************************************************************************
+Inplace
+********************************************************************************************************/
+
+.p-inplace.p-component.p-inplace-closable {
+  text-align: center;
+  margin: 0.5rem 0 0.5rem 0;
+  .p-inplace-display {
+    margin: 0.5rem 0 0.5rem 0;
+    border: solid 2px $primary-color;
+    background-color: $primary-color;
+    color: $white-color;
+    font-weight: bold;
+    border-radius: 0.2rem;
+  }
+  .p-inplace-display:hover {
+    border: solid 2px $dark-color;
+    background-color: $primary-color;
+  }
+}
+
+/********************************************************************************************************
+Input Number
+********************************************************************************************************/
+
+.p-inputnumber.p-component.p-inputnumber-buttons-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+  // Left Button
+  .p-inputnumber-button.p-inputnumber-button-down.p-button.p-button-icon-only.p-component {
+    color: $white-color;
+    background-color: $danger-color;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin: 0 -1rem 0 0;
+  }
+  // Right Button
+  .p-inputnumber-button.p-inputnumber-button-up.p-button.p-button-icon-only.p-component {
+    color: $white-color;
+    background-color: $success-color;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin: 0 0 0 -1rem;
+  }
+  // Input
+  .p-inputtext.p-component.p-inputnumber-input {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border: solid 1px $white-color;
+    max-width: 5rem;
+  }
+}
+
+/********************************************************************************************************
+Input Switch
+********************************************************************************************************/
+
+.p-inputswitch.p-component.p-inputswitch-checked .p-inputswitch-slider {
+  border: solid 2px $primary-color;
+  background-color: $primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-inputswitch.p-component.p-inputswitch-checked .p-inputswitch-slider::before {
+  border: solid 2px $primary-color;
+  background-color: $white-color;
+  margin-bottom: -0.25rem;
+  margin-left: -0.25rem;
+}
+
+.p-inputswitch.p-component .p-inputswitch-slider {
+  border: solid 2px gray;
+  background-color: rgb(165, 165, 165);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-inputswitch.p-component .p-inputswitch-slider::before {
+  border: solid 2px gray;
+  background-color: $white-color;
+  margin-bottom: -0.25rem;
+  margin-left: -0.25rem;
+}
+
+/*****************************************************************************************************
+* Item Creation
+*****************************************************************************************************/
+.item-creation {
+  background-color: $white-color;
+  border: solid 2px $dark-color;
+  border-radius: 0.2rem;
+  position: fixed;
+  min-width: 30rem;
+  max-width: 30rem;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+    //min-height: 30rem;
+    max-height: 30rem;
+    min-width: 29rem;
+    max-width: 29rem;
+    overflow: auto;
+    padding: 1rem;
+    .form-group-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  }
+  .inner-sm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    min-height: 15rem;
+    max-height: 30rem;
+    min-width: 29rem;
+    max-width: 29rem;
+    overflow: auto;
+    padding: 1rem;
+    .form-group-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  }
+  .form-group p {
+    text-align: center;
+  }
+  .p-inputtext.p-component.p-inputnumber-input.p-filled {
+    border: solid 2px $primary-color;
+  }
+  .exit {
+    position: absolute;
+    top: 0.4rem;
+    right: 1rem;
+    z-index: 2;
+    i {
+      color: $white-color;
+    }
+    i:hover {
+      cursor: pointer;
+      color: $white-dark-color;
+    }
+  }
+}
+
+// Scrollbar
+.item-creation {
+  .inner::-webkit-scrollbar {
+    width: 1rem;
+  }
+
+  .inner {
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color $white-color;
+  }
+
+  .inner::-webkit-scrollbar-track {
+    background: $white-dark-color;
+    border-radius: 0.2rem;
+  }
+
+  .inner::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 6px;
+    border: 1px solid $white-color;
+  }
+}
+
+/*****************************************************************************************************
+* Jumbo Footer
+*****************************************************************************************************/
+.jumbo-footer {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: $primary-color;
+  bottom: 0;
+  padding: 0.2rem 0 0.2rem 0;
+  .contact-us {
+    color: $white-color;
+    font-weight: bold;
+  }
+  .search {
+    text-align: center;
+    border-radius: 1rem;
+    position: absolute;
+    right: 1rem;
+    padding: 0.2rem;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+}
+
+.jumbo-footer .icons {
+  margin-bottom: 1rem;
+}
+
+.jumbo-footer i {
+  margin: 0 0.5rem 0 0.5rem;
+  font-size: 2rem;
+}
+
+.jumbo-footer i:hover {
+  color: $dark-color;
+  cursor: pointer;
+}
+
+.jumbo-footer a {
+  color: #fff;
+  padding: 0.45rem;
+  margin: 0 0.25rem;
+  text-decoration: none;
+}
+
+.jumbo-footer a:hover {
+  color: $dark-color;
+}
+
+.jumbo-footer .copy i,
+.jumbo-footer .copy a:hover {
+  color: #f5f5f5;
+}
+
+/*****************************************************************************************************
+* Jumbo Header
+*****************************************************************************************************/
+.jumbo-header {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  background-color: $primary-color;
+  top: 0;
+  padding: 0.2rem 0 0.2rem 0;
+  z-index: 2;
+  a {
+    color: $white-color;
+    padding: 0.45rem;
+    text-decoration: none;
+    display: inline;
+    &:hover {
+      color: $white-dark-color;
+      cursor: pointer;
+    }
+    &:hover ~ .underline {
+      transition: all 0.3s ease-in;
+      background-color: $white-dark-color;
+      width: 100%;
+    }
+  }
+  // Searchbox
+  .search {
+    margin: 0.5rem 0 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    max-width: 8rem;
+  }
+  .search-big {
+    margin: 0 0 0 0;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    max-width: 12rem;
+    min-width: 12rem;
+    background-color: $white-light-color;
+    border-top: solid 1px $white-color;
+    border-left: solid 1px $white-color;
+    border-right: solid 2px $white-dark-color;
+    border-bottom: solid 2px $white-dark-color;
+  }
+  // left side
+  .title {
+    color: $white-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    h1 {
+      margin: 0;
+      padding: 0 0 0 0;
+      font-size: 1.5rem;
+    }
+  }
+  //Right Side
+  .p-menubar.p-component {
+    border: solid 2px red;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    // options
+    .p-menuitem-link {
+      .span {
+        color: $white-color;
+        &:hover {
+          color: $white-dark-color;
+        }
+      }
+      .p-menuitem-text {
+        font-weight: bold;
+      }
+    }
+    // Separator between left and right
+    .p-menu-separator {
+      display: inline-block;
+    }
+    // Sub menu item
+    .p-submenu-list {
+      background-color: $primary-color;
+    }
+  }
+  .full-cart {
+    .fas.fa-shopping-cart {
+      color: $white-color;
+      border: solid 2px $white-color;
+      border-radius: 50%;
+      padding: 0.3rem;
+      &:hover {
+        border: solid 2px $white-dark-color;
+        color: $white-dark-color;
+      }
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .empty-cart {
+    .fas.fa-shopping-cart {
+      color: $dark-color;
+      border: solid 2px $dark-color;
+      border-radius: 50%;
+      padding: 0.3rem;
+    }
+  }
+}
+
+/*****************************************************************************************************
+* Landing
+*****************************************************************************************************/
+
+.landing {
+  .left {
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    .logo {
+      max-width: 7rem;
+    }
+  }
+  .right {
+    position: relative;
+    background: url('../img/showcase.jpg') no-repeat center center/cover;
+    height: 100vh;
+    width: 100%;
+    .dark-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .inner {
+      color: $white-color;
+      height: 100%;
+      width: 80%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      .logo {
+        max-width: 10rem;
+      }
+    }
+  }
+  .login-text {
+    font-weight: bold;
+    color: $dark-color;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
+/******************************************************************************************************
+List Box
+*******************************************************************************************************/
+
+.p-listbox.p-inputtext.p-component {
+  border: solid 2px $primary-color;
+  border-radius: 0.2rem;
+  background-color: $white-light-color;
+}
+
+// item
+.p-listbox-list .p-listbox-item {
+  border: solid 1px $white-color;
+  font-weight: bold;
+  justify-content: space-between;
+}
+
+.p-listbox-list .p-listbox-item:hover {
+  border: solid 1px #ccc;
+}
+
+.p-listbox-list .p-listbox-item.p-highlight {
+  background-color: $primary-color;
+  color: $white-color;
+}
+
+// Header
+.p-listbox-header input {
+  border: solid 2px $primary-color;
+  border-radius: 0.2rem;
+}
+
+// Searchbox
+.p-listbox-header .p-listbox-filter-icon.pi.pi-search {
+  color: $white-dark-color;
+  margin-right: 1rem;
+}
+
+// Scrollbar
+
+.p-listbox-list-wrapper::-webkit-scrollbar {
+  width: 1rem;
+}
+
+.p-listbox-list-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color $white-color;
+}
+
+.p-listbox-list-wrapper::-webkit-scrollbar-track {
+  background: $white-dark-color;
+  border-radius: 0.2rem;
+}
+
+.p-listbox-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: $primary-color;
+  border-radius: 6px;
+  border: 1px solid $white-color;
+}
+
+/**
+List Item with IMG
+*/
+.list-item-img {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  img {
+    width: 2rem;
+  }
+}
+
+/*****************************************************************************************************
+* Lightbox
+*****************************************************************************************************/
+.light-box {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  background-color: rgba(0, 0, 0, 0.5);
+  .inner {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 30rem;
+    max-height: 30rem;
+    i {
+      position: absolute;
+      top: -2rem;
+      right: -2rem;
+      color: $white-color;
+      border-radius: 50%;
+      font-size: 2rem;
+    }
+    i:hover {
+      color: $white-dark-color;
+      cursor: pointer;
+    }
+  }
+}
+
+/*****************************************************************************************************
+* Navbar
+*****************************************************************************************************/
+.navbar-hover-under {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  padding: 0 8rem 0 8rem;
+  top: 0;
+  border-bottom: solid 1px $primary-color;
+  background-color: $primary-color;
+  opacity: 0.9;
+  a {
+    color: $white-color;
+    padding: 0.45rem;
+    text-decoration: none;
+    display: inline;
+    &:hover {
+      color: $white-dark-color;
+      cursor: pointer;
+    }
+    &:hover ~ .underline {
+      transition: all 0.3s ease-in;
+      background-color: $white-dark-color;
+      width: 100%;
+    }
+  }
+  // Searchbox
+  .search {
+    margin: 0.5rem 0 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    max-width: 8rem;
+  }
+  .search-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .search-big {
+      margin: 0.5rem 0 0.5rem 1rem;
+      padding: 0.2rem;
+      border-radius: 0.2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      max-width: 12rem;
+      min-width: 12rem;
+      background-color: $white-light-color;
+      border-top: solid 1px $white-color;
+      border-left: solid 1px $white-color;
+      border-right: solid 2px $white-dark-color;
+      border-bottom: solid 2px $white-dark-color;
+    }
+    .p-dropdown.p-component {
+      border: solid 1px $primary-color;
+      max-width: 6.5rem;
+      margin-left: 0.1rem;
+    }
+
+    .p-dropdown-items.p-dropdown-list.p-component {
+      border: none;
+    }
+
+    .p-dropdown-label.p-inputtext {
+      margin: 0 0 0 0.2rem;
+      padding: 0;
+      color: gray;
+    }
+
+    .p-dropdown.p-component .p-dropdown-trigger {
+      border: solid 2px $white-color;
+      background-color: $primary-color;
+      color: $white-color;
+    }
+  }
+
+  // left side
+  .title {
+    color: $white-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    h1 {
+      margin: 0;
+      padding: 0 0 0 0;
+      font-size: 2rem;
+    }
+  }
+  //Right Side
+  .p-menubar.p-component {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    // options
+    .p-menuitem-link {
+      .span {
+        color: $white-color;
+        &:hover {
+          color: $white-dark-color;
+        }
+      }
+      .p-menuitem-text {
+        font-weight: bold;
+      }
+    }
+    // Separator between left and right
+    .p-menu-separator {
+      display: inline-block;
+    }
+    // Sub menu item
+    .p-submenu-list {
+      background-color: $primary-color;
+    }
+  }
+  /**
+Left and Right Buttons
+*/
+  .btn-left {
+    position: absolute;
+    left: 3rem;
+    top: 0.8rem;
+  }
+  .btn-right {
+    position: absolute;
+    right: 3rem;
+    top: 0.8rem;
+  }
+}
+
+/*****************************************************************************************************
+Page Title
+******************************************************************************************************/
+.page-title {
+  text-align: center;
+  background-color: $primary-color;
+  color: $white-color;
+}
+
+.page-title-fixed {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  background-color: $dark-color;
+  color: $white-color;
+}
+
+.page-title-absolute {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  top: 0;
+  background-color: $primary-color;
+  color: $white-color;
+  padding: 0 0.5rem 0 0.5rem;
+}
+
+/**
+Prime Messages Prime Messages Prime Messages Prime Messages Prime Messages Prime Messages
+*/
+
+.p-messages.p-component {
+  color: whitesmoke;
+  border-radius: 0.2rem;
+}
+
+.p-messages-close-icon.pi.pi-times {
+  color: whitesmoke;
+}
+
+.p-messages.p-component.p-messages-success {
+  background-color: #28a745;
+}
+
+.p-messages.p-component.p-messages-info {
+  background-color: $primary-color;
+}
+
+.p-messages.p-component.p-messages-warn {
+  background-color: #c7ca1f;
+}
+
+.p-messages.p-component.p-messages-error {
+  background-color: #dc3545;
+}
+
+/* Inline */
+
+.p-message.p-component {
+  border-radius: 0.2rem;
+  color: whitesmoke;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.p-message.p-component .p-message-icon.pi.pi-fw {
+  text-align: center;
+}
+
+.p-message.p-component.p-message-success {
+  background-color: #28a745;
+}
+
+.p-message.p-component.p-message-info {
+  background-color: $primary-color;
+}
+
+.p-message.p-component.p-message-warn {
+  background-color: #c7ca1f;
+}
+
+.p-message.p-component.p-message-error {
+  background-color: #dc3545;
+}
+
+@media (max-width: 700px) {
+  .prime-messages .p-messages.p-component {
+    max-width: 20rem;
+    margin: auto;
+  }
+  .prime-messages .p-grid.p-fluid,
+  .prime-messages .p-grid {
+    max-width: 10rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+  .prime-messages .p-grid.p-fluid .p-col-12.p-md-3 {
+    max-width: 10rem;
+    display: block;
+  }
+  .prime-messages .p-grid.p-fluid .p-col-12.p-md-4 {
+    max-width: 10rem;
+    display: block;
+  }
+  .prime-messages .p-button.p-component.p-button-text-icon-left {
+    margin: 0 -0.1rem 0 0;
+  }
+  .prime-messages p {
+    max-width: 20rem;
+    margin: 0 auto 1rem auto;
+  }
+  .prime-messages h3 {
+    text-align: center;
+    max-width: 20rem;
+    margin: 1rem auto 1rem auto;
+  }
+  .prime-messages .message-input {
+    max-width: 10rem;
+    margin: 1rem auto 0 auto;
+  }
+  .prime-messages .message-input-hor {
+    max-width: 15rem;
+    margin: 1rem auto 0 auto;
+  }
+}
+
+/*****************************************************************************************************
+Radio Button 
+*****************************************************************************************************/
+
+.p-radiobutton-box.p-component {
+  border: solid 2px $primary-color;
+}
+
+.p-radiobutton-box.p-component:hover {
+  border: solid 2px $dark-color;
+}
+
+.p-radiobutton-box.p-component.p-highlight {
+  background-color: $primary-color;
+}
+
+.p-radiobutton-box.p-component .p-radiobutton-icon.p-c {
+  color: $primary-color;
+}
+
+/*****************************************************************************************************
+Rating Stars
+******************************************************************************************************/
+.p-rating {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-right: -0.5rem;
+}
+
+.p-rating .p-rating-icon.p-rating-cancel.pi.pi-ban {
+  color: red;
+}
+.p-rating span {
+  color: #ffd700;
+}
+
+.p-rating.p-disabled .p-rating-icon.p-rating-cancel.pi.pi-ban {
+  color: rgb(167, 167, 167);
+}
+
+.p-rating.p-disabled span {
+  color: rgb(167, 167, 167);
+}
+
+/***************************************************************************************************
+Review Section
+***************************************************************************************************/
+
+.review-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .p-rating {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+  }
+  textarea {
+    min-width: 25rem;
+  }
+}
+
+.review-login-sug {
+  font-weight: normal;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  .solid {
+    margin: 0 0.2rem 0 0.2rem;
+    color: $primary-color;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
+
+.product-review-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .p-rating-icon.p-rating-cancel.pi.pi-ban {
+    font-size: 1.5rem;
+  }
+  .p-rating-icon.pi.pi-star {
+    color: gold;
+    font-size: 1.5rem;
+  }
+  .p-rating-icon.pi.pi-star-o {
+    color: gold;
+    font-size: 1.5rem;
+  }
+  .p-rating {
+    margin-bottom: 0.5rem;
+  }
+  textarea {
+    min-width: 25rem;
+  }
+}
+
+.product-review-section-disabled {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .p-rating-icon.p-rating-cancel.pi.pi-ban {
+    font-size: 2rem;
+  }
+  .p-rating-icon.pi.pi-star {
+    color: gold;
+    font-size: 2rem;
+  }
+  .p-rating-icon.pi.pi-star-o {
+    color: gold;
+    font-size: 2rem;
+  }
+  .p-rating {
+    margin-bottom: 0.5rem;
+  }
+  textarea {
+    min-width: 25rem;
+  }
+}
+
+.product-review-section-disabled-sm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .p-rating-icon.p-rating-cancel.pi.pi-ban {
+    font-size: 1.5rem;
+  }
+  .p-rating-icon.pi.pi-star {
+    color: gold;
+    font-size: 1.5rem;
+  }
+  .p-rating-icon.pi.pi-star-o {
+    color: gold;
+    font-size: 1.5rem;
+  }
+  .p-rating {
+    margin-bottom: 0.5rem;
+  }
+  textarea {
+    min-width: 25rem;
+  }
+}
+
+// Report and Reply buttons
+.review-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  i {
+    font-size: 1.7rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  i:first-child {
+    margin-bottom: 0.5rem;
+  }
+  .fas.fa-comment-dots {
+    color: $success-color;
+    &:hover {
+      color: $success-dark-color;
+    }
+  }
+  .fas.fa-exclamation-circle {
+    color: $danger-color;
+    &:hover {
+      color: $danger-dark-color;
+    }
+  }
+}
+
+.review-buttons-hor {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  i {
+    font-size: 1.7rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  i:first-child {
+    margin-right: 0.5rem;
+  }
+  .fas.fa-comment-dots {
+    color: $success-color;
+    &:hover {
+      color: $success-dark-color;
+    }
+  }
+  .fas.fa-exclamation-circle {
+    color: $danger-color;
+    &:hover {
+      color: $danger-dark-color;
+    }
+  }
+}
+
+.review-section-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h3 {
+  }
+  .p-rating {
+    margin: 0 auto 0 auto;
+    font-size: 1.5rem;
+  }
+}
+
+/***************************************************************************************************
+Slide Menu 
+***************************************************************************************************/
+.section-preview {
+  .section-img {
+    max-height: 15rem;
+    max-width: 15rem;
+    object-fit: cover;
+    &:hover {
+      cursor: pointer;
+      border: solid 1px $primary-color;
+    }
+  }
+  i {
+    color: $primary-color;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+  }
+  i:hover {
+    color: $dark-color;
+    cursor: pointer;
+  }
+}
+
+/***************************************************************************************************
+Slide Menu 
+***************************************************************************************************/
+
+/* Main */
+
+.p-slidemenu.p-component {
+  min-height: 13rem;
+  z-index: 2;
+}
+
+.p-slidemenu.p-component .p-slidemenu-wrapper .p-slidemenu-content {
+  min-height: 13rem;
+  overflow: hidden;
+  border: solid 1px $primary-color;
+  border-radius: 0.2rem;
+  background-color: $primary-color;
+}
+
+/* Items */
+
+.p-slidemenu.p-component .p-slidemenu-wrapper .p-slidemenu-content .p-menuitem {
+  margin: 0;
+}
+
+.p-slidemenu.p-component
+  .p-slidemenu-wrapper
+  .p-slidemenu-content
+  .p-menuitem
+  .p-menuitem-link {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.p-slidemenu.p-component
+  .p-slidemenu-wrapper
+  .p-slidemenu-content
+  .p-menuitem
+  .p-menuitem-link
+  span {
+  color: whitesmoke;
+}
+
+/* Separator */
+
+.p-slidemenu.p-component
+  .p-slidemenu-wrapper
+  .p-slidemenu-content
+  .p-menu-separator {
+  border: solid 1px whitesmoke;
+  width: 100%;
+}
+
+/* Back button */
+
+.p-slidemenu.p-component .p-slidemenu-wrapper .p-slidemenu-backward {
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+/**************************************************************************************************************
+Social Buttons
+***************************************************************************************************************/
+.socials {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  i {
+    margin-left: 0.5rem;
+  }
+}
+
+/**************************************************************************************************************
+Social Inputs
+***************************************************************************************************************/
+.social-inputs {
+  .social-input {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/*****************************************************************************************************
+* Section Creation
+*****************************************************************************************************/
+.section-creation {
+  background-color: $white-color;
+  border: solid 2px $dark-color;
+  border-radius: 0.2rem;
+  position: fixed;
+  min-width: 30rem;
+  max-width: 30rem;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+    min-height: 30rem;
+    max-height: 30rem;
+    min-width: 29rem;
+    max-width: 29rem;
+    overflow: auto;
+    padding: 1rem;
+    .form-group-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .fas.fa-trash-alt {
+      font-size: 2rem;
+      color: $danger-color;
+    }
+    .fas.fa-trash-alt:hover {
+      color: $danger-dark-color;
+      cursor: pointer;
+    }
+    .sections-table {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .inner-sm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    min-height: 15rem;
+    max-height: 30rem;
+    min-width: 29rem;
+    max-width: 29rem;
+    overflow: auto;
+    padding: 1rem;
+    .form-group-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  }
+  .form-group p {
+    text-align: center;
+  }
+  .exit {
+    position: absolute;
+    top: 0.4rem;
+    right: 1rem;
+    z-index: 2;
+    i {
+      color: $white-color;
+    }
+    i:hover {
+      cursor: pointer;
+      color: $white-dark-color;
+    }
+  }
+}
+
+// Scrollbar
+.section-creation {
+  .inner::-webkit-scrollbar {
+    width: 1rem;
+  }
+
+  .inner {
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color $white-color;
+  }
+
+  .inner::-webkit-scrollbar-track {
+    background: $white-dark-color;
+    border-radius: 0.2rem;
+  }
+
+  .inner::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 6px;
+    border: 1px solid $white-color;
+  }
+}
+
+/**************************************************************************************************************
+Select Buttons
+***************************************************************************************************************/
+
+.p-selectbutton.p-buttonset.p-component.p-buttonset-3
+  .p-button.p-component.p-button-text-only {
+  border: solid 2px $primary-color;
+  color: $white-color;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.p-selectbutton.p-buttonset.p-component.p-buttonset-3
+  .p-button.p-component.p-button-text-only:last-child {
+  margin-right: 0;
+}
+
+.p-selectbutton.p-buttonset.p-component.p-buttonset-3
+  .p-button.p-component.p-button-text-only.p-highlight {
+  border: solid 2px $dark-color;
+  background-color: $dark-color;
+  color: $white-color;
+  margin-right: 1rem;
+}
+
+/**************************************************************************************************************
+SideBar
+***************************************************************************************************************/
+
+.p-component-overlay.p-sidebar-mask {
+  left: 14rem;
+}
+.p-sidebar.p-component {
+  background-color: $primary-color;
+  color: $white-color;
+  max-width: 14rem;
+  .title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    h1 {
+      font-size: 1.2rem;
+      margin-left: 0.3rem;
+    }
+  }
+  .p-sidebar-close.p-link span {
+    color: $white-color;
+  }
+
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color $white-color;
+
+  &::-webkit-scrollbar {
+    width: 0.4rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $white-dark-color;
+    border-radius: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 6px;
+    border: 1px solid $white-color;
+  }
+}
+
+.side-bar-inner {
+  border: solid 1px black;
+  height: 100%;
+  position: relative;
+}
+
+.p-sidebar.p-component .p-sidebar-close-icon {
+  font-size: 1.1rem;
+}
+
+.p-component-overlay.p-sidebar-mask {
+  margin: 0;
+}
+
+/**************************************************************************************************************
+Sold Out
+***************************************************************************************************************/
+
+.sold-out {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background-color: $danger-color;
+  color: $white-color;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  width: 100%;
+  border-radius: 0.2rem;
+}
+
+/**************************************************************************************************************
+Spinner
+***************************************************************************************************************/
+
+.spinner {
+  position: fixed;
+  z-index: 10000;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/**************************************************************************************************************
+Steps 
+***************************************************************************************************************/
+
+.p-steps.p-component ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.p-steps.p-component .p-menuitem-link {
+  padding: 0;
+}
+
+/** Inactive step */
+
+.p-steps-item .p-steps-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $white-color;
+  color: rgb(179, 179, 179);
+  border: solid 1px rgb(179, 179, 179);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 0.2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.p-steps-item .p-steps-title {
+  font-size: 1rem;
+  color: rgb(179, 179, 179);
+}
+
+/** Active step */
+
+.p-steps-item.p-highlight .p-steps-number {
+  background-color: $primary-color;
+  border: solid 1px $dark-color;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: $white-color;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.p-steps-item.p-highlight .p-steps-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: $white-color;
+}
+
+.p-steps-item.p-state-default::before {
+  color: red;
+  border: solid 1rem red;
+  background-color: red;
+  height: 1rem;
+}
+
+/*************************************************************************************************************
+Steps for page with white background
+**************************************************************************************************************/
+
+.steps-whitebg {
+  .p-steps-item.p-highlight .p-steps-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $primary-color;
+  }
+}
+
+/*************************************************************************************************************
+Sub Page Header
+**************************************************************************************************************/
+
+.sub-page-header {
+  min-width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-bottom: 0.5rem;
+}
+
+/*************************************************************************************************************
+Table 
+**************************************************************************************************************/
+
+.tables .table-container {
+  max-height: 25rem;
+  overflow: auto;
+}
+
+.tables .table-container::-webkit-scrollbar {
+  width: 1rem;
+}
+
+/* Set header to stick to the top of the container. */
+
+.tables thead tr th {
+  position: sticky;
+  top: 0;
+  background: $primary-color;
+  border: solid;
+  border-color: $primary-color;
+}
+
+.tables .table-container {
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color #f4f4f4;
+}
+
+.tables .table-container::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+
+.tables .table-container::-webkit-scrollbar-thumb {
+  background-color: $primary-color;
+  border-radius: 6px;
+  border: 3px solid #f4f4f4;
+}
+
+.tables table {
+  background-color: #f4f4f4;
+  margin-top: 0.5rem;
+}
+
+/* Custom row style for transaction, it wasnt working properly*/
+.custom-row {
+  th {
+    padding: 0.5rem;
+    text-align: center;
+    min-width: 8rem;
+    max-width: 8rem;
+  }
+
+  td {
+    padding: 0.5rem;
+    text-align: center;
+    min-width: 8rem;
+    max-width: 8rem;
+  }
+}
+
+.tables table th {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.tables table td {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.tables tbody tr:nth-child(odd) {
+  background-color: #e2e2e2;
+}
+
+.tables table input {
+  width: 3rem;
+  text-align: center;
+}
+
+.tables table textarea {
+  width: 20rem;
+  height: 15rem;
+  overflow: auto;
+}
+
+/**************************************************************************************************************
+Tabs
+***************************************************************************************************************/
+
+/** Header */
+
+.p-tabview.p-component.p-tabview-top .p-tabview-nav.p-reset {
+  padding: 0;
+}
+
+/** Disabled Tabs */
+
+.p-tabview.p-component.p-tabview-top .p-unselectable-text.p-disabled {
+  border-top-left-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+  border-top: solid 1px rgb(185, 185, 185);
+  border-right: solid 1px rgb(185, 185, 185);
+  border-left: solid 1px rgb(185, 185, 185);
+}
+
+.p-tabview.p-component.p-tabview-top .p-unselectable-text.p-disabled span {
+  color: rgb(185, 185, 185);
+}
+
+/** Active Header */
+
+.p-tabview.p-component.p-tabview-top
+  .p-unselectable-text.p-tabview-selected.p-highlight {
+  background-color: $primary-color;
+  border-top-left-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+}
+
+.p-tabview.p-component.p-tabview-top
+  .p-unselectable-text.p-tabview-selected.p-highlight
+  .p-tabview-left-icon {
+  color: $white-color;
+  font-size: 1.1rem;
+}
+
+.p-tabview.p-component.p-tabview-top
+  .p-unselectable-text.p-tabview-selected.p-highlight
+  .p-tabview-title {
+  color: $white-color;
+}
+
+.p-tabview.p-component.p-tabview-top
+  .p-unselectable-text.p-tabview-selected.p-highlight
+  .p-tabview-right-icon {
+  color: $white-color;
+}
+
+/** Inactive Header */
+
+.p-tabview.p-component.p-tabview-top .p-unselectable-text {
+  border-top-left-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+  border-top: solid 1px $primary-color;
+  border-right: solid 1px $primary-color;
+  //border-bottom: solid 1px $primary-color;
+  border-left: solid 1px $primary-color;
+}
+
+.p-tabview.p-component.p-tabview-top .p-unselectable-text .p-tabview-left-icon {
+  color: $primary-color;
+  font-size: 1.1rem;
+}
+
+.p-tabview.p-component.p-tabview-top .p-unselectable-text .p-tabview-title {
+  color: $primary-color;
+  font-weight: bold;
+}
+
+.p-tabview.p-component.p-tabview-top
+  .p-unselectable-text
+  .p-tabview-right-icon {
+  color: $primary-color;
+}
+
+/** Text */
+
+.p-tabview.p-component.p-tabview-top .p-tabview-panels {
+  border: solid 1px $primary-color;
+  border-bottom-left-radius: 0.2rem;
+  border-bottom-right-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+}
+
+/**************************************************************************************************************
+Tags & Type Table
+***************************************************************************************************************/
+
+.tags-type {
+  display: table;
+  .inner {
+    display: table-row;
+    .title {
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: $primary-color;
+      color: $white-color;
+    }
+    .cell {
+      display: table-cell;
+      text-align: center;
+      border: solid 2px $primary-color;
+      background-color: $white-light-color;
+    }
+    .type-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .type {
+        background-color: $primary-color;
+        color: $white-color;
+        margin: auto;
+        font-size: 1rem;
+        font-weight: bold;
+        padding: 0 0.5rem 0 0.5rem;
+        border-radius: 1rem;
+      }
+    }
+    .tags {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      .tag {
+        font-weight: bold;
+        background-color: $primary-color;
+        padding: 0 0.5rem 0 0.5rem;
+        color: $white-color;
+        border-radius: 1rem;
+        margin-right: 0.2rem;
+      }
+    }
+    .btn.btn-danger {
+      margin: 0.5rem auto 0.5rem auto;
+    }
+  }
+}
+
+/**************************************************************************************************************
+Text Area
+***************************************************************************************************************/
+
+.p-inputtext.p-inputtextarea.p-component.p-inputtextarea-resizable {
+  border: solid 2px $primary-color;
+  border-radius: 0.2rem;
+}
+
+/** Buttons */
+.p-fileupload-buttonbar {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/**************************************************************************************************************
+Upload 
+***************************************************************************************************************/
+
+.p-fileupload.p-component .p-fileupload-content {
+  padding: 0;
+}
+
+.p-fileupload.p-component .p-disabled {
+  background-color: rgb(163, 163, 163);
+  border: solid 2px rgb(163, 163, 163);
+}
+
+.p-fileupload.p-component .p-disabled:hover {
+  background-color: rgb(163, 163, 163);
+  border: solid 2px rgb(163, 163, 163);
+}
+
+/** Uploaded files */
+.p-fileupload-files img {
+  max-height: 5rem;
+  max-width: 5rem;
+  object-fit: cover;
+}
+
+.p-fileupload-row div:nth-child(2) {
+  word-break: break-all;
+  max-width: 5rem;
+}
+
+/** Progress Bar */
+
+.p-fileupload.p-component .p-progressbar.p-component.p-progressbar-determinate {
+  background-color: rgb(163, 163, 163);
+}
+
+.p-fileupload.p-component .p-progressbar-value.p-progressbar-value-animate {
+  background-color: $primary-color;
+}
+
+/** Max file size message */
+
+.p-fileupload.p-component .p-messages {
+  background-color: $danger-color;
+  color: $white-color;
+}
+
+/** Success message */
+.img-success {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 0.5rem;
+  i {
+    margin-left: 0.5rem;
+  }
+}
+
+/** Buttons */
+.p-fileupload-buttonbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .p-button.p-fileupload-choose.p-component.p-button-text-icon-left {
+    font-size: 1rem;
+    padding: 0.1rem;
+  }
+  .p-button.p-component.p-button-text-icon-left {
+    font-size: 1rem;
+    padding: 0.1rem;
+  }
+}
+
+/**************************************************************************************************************
+User Card
+***************************************************************************************************************/
+.user-card {
+  display: flex;
+  flex-direction: column;
+  .pic {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .data {
+    display: flex;
+    flex-direction: horizontal;
+    align-items: center;
+    justify-content: space-between;
+    .sub {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .data-vert {
+    .description {
+      max-width: 18rem;
+    }
+  }
+  .buttons {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .data-field {
+    margin-left: 1rem;
+    max-width: 15rem;
+    word-break: break-all;
+    font-size: 1.5rem;
+  }
+}
+
+/*******************************************************************************************************
+Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile Mobile
+********************************************************************************************************/
+@media (max-width: 700px) {
+  // Hide for Landscape show in portrait, viceversa
+  .show-landscape {
+    @media (max-width: 45rem) {
+      display: inline;
+    }
+    @media (max-width: 22.5rem) {
+      display: none;
+    }
+  }
+  .hide-landscape {
+    @media (max-width: 45rem) {
+      display: none;
+    }
+    @media (max-width: 22.5rem) {
+      display: inline;
+    }
+  }
+
+  /*****************************************************************************************************
+* Accordion
+*****************************************************************************************************/
+
+  /** Closed */
+
+  .p-accordion.p-component.p-reset .p-accordion-header {
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 40rem;
+      min-width: 40rem;
+    }
+    @media (max-width: 22.5rem) {
+      max-width: 22.5rem;
+      min-width: 22.5rem;
+    }
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
+  .p-accordion.p-component.p-reset .p-accordion-tab .p-accordion-header-text {
+    color: $white-color;
+    font-weight: bold;
+  }
+
+  .p-accordion.p-component.p-reset .p-accordion-tab .p-accordion-toggle-icon {
+    color: $dark-color;
+  }
+
+  .p-accordion.p-component.p-reset .p-accordion-content {
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 40rem;
+      min-width: 40rem;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      max-width: 22.5rem;
+      min-width: 22.5rem;
+    }
+    background-color: $white-color;
+    padding: 0;
+  }
+
+  /** Opened */
+
+  .p-accordion.p-component.p-reset .p-accordion-header.p-highlight {
+    background-color: $dark-color;
+  }
+
+  .p-accordion.p-component.p-reset
+    .p-accordion-header.p-highlight
+    .p-accordion-header-text {
+    color: $white-color;
+    font-weight: bold;
+  }
+
+  .p-accordion.p-component.p-reset
+    .p-accordion-header.p-highlight
+    .p-accordion-toggle-icon {
+    color: $white-color;
+  }
+
+  .p-accordion.p-component.p-reset .p-accordion-tab {
+    max-width: 22.5rem;
+    min-width: 22.5rem;
+  }
+
+  /********************************************************************************************************
+Card Review Vertical
+********************************************************************************************************/
+
+  .card-review-vert {
+    .message {
+      margin: 0 0 0.5rem 0;
+    }
+    .btn {
+      margin: 0.5rem 0 0.5rem 0;
+    }
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 18rem;
+      min-width: 18rem;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      min-width: 20rem;
+      max-width: 20rem;
+    }
+  }
+
+  .card-review-vert-border {
+    // Landscape
+    @media (max-width: 45rem) {
+      margin: 0.5rem 0 0 0.5rem;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      margin-top: 0.5rem;
+    }
+  }
+  /***************************************************************************************************
+Carousel 
+***************************************************************************************************/
+  .p-carousel-container {
+    min-width: 19rem;
+    max-width: 19rem;
+  }
+  .p-carousel-content {
+    justify-content: center;
+    align-items: center;
+  }
+  .section-preview {
+    .section-img {
+      max-height: 15rem;
+      max-width: 15rem;
+      object-fit: cover;
+      &:hover {
+        cursor: pointer;
+        border: solid 1px $primary-color;
+      }
+    }
+    i {
+      color: $primary-color;
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+    }
+    i:hover {
+      color: $dark-color;
+      cursor: pointer;
+    }
+  }
+
+  /********************************************************************************************************
+Cart
+********************************************************************************************************/
+  .header-cart {
+    position: absolute;
+    right: 1rem;
+  }
+
+  .purchase-options {
+    border: solid 2px $dark-color;
+    border-radius: 0.2rem;
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .cart-mobile {
+    display: flex;
+    flex-direction: column-reverse;
+    // Landscape
+    @media (max-width: 45rem) {
+      align-items: center;
+    }
+    //Dataview
+    .p-dataview.p-component.p-dataview-list {
+      max-width: 20rem;
+      min-width: 20rem;
+    }
+    .p-dataview-content {
+      max-width: 20rem;
+      margin: 0 1rem 0 1rem;
+      .p-dataview-content .p-grid {
+        display: flex;
+        flex-direction: column;
+        .card-item {
+          border: solid 2px black;
+          justify-content: left;
+          align-self: left;
+        }
+      }
+    }
+    .p-dataview.p-component.p-dataview-grid {
+      max-width: 20rem;
+      min-width: 20rem;
+    }
+    // Right side invoice
+    .cart-invoice {
+      .inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .buttons {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: center;
+        }
+      }
+      .payment-message {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 1rem 0 1rem;
+      }
+    }
+
+    .right-data {
+      margin-left: 1rem;
+      text-align: right;
+      max-width: 6rem;
+      min-width: 6rem;
+    }
+  }
+
+  /********************************************************************************************************
+Chart
+********************************************************************************************************/
+
+  .chart-container {
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 39rem;
+      min-width: 39rem;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      max-width: 22.5rem;
+      min-width: 22.5rem;
+    }
+  }
+  .chartjs-render-monitor {
+    max-width: 100%;
+  }
+
+  .chart-wrapper-center {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    .select-buttons {
+      .p-selectbutton.p-buttonset.p-component.p-buttonset-3 {
+        display: flex;
+        flex-direction: row;
+        .p-button.p-component.p-button-text-only {
+          margin-right: 0.2rem;
+        }
+      }
+    }
+    // Maximize button
+    .far.fa-window-maximize {
+      position: absolute;
+      top: 2rem;
+      right: 1rem;
+      font-size: 1.8rem;
+      color: $primary-color;
+      &:hover {
+        color: $dark-color;
+      }
+    }
+  }
+
+  .buttons-options {
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 40rem;
+      min-width: 40rem;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      max-width: 22.5rem;
+      min-width: 22.5rem;
+    }
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    .btn {
+      max-width: 8rem;
+      min-width: 8rem;
+      margin: 0 0.2rem 0 0.2rem;
+      white-space: nowrap;
+    }
+    input {
+      border-radius: 0.2rem;
+    }
+  }
+
+  .buttons-form-free {
+    .btn {
+      min-width: 8rem;
+    }
+  }
+
+  .chart-search {
+    flex-direction: column;
+    .p-listbox.p-inputtext.p-component {
+      margin-top: 1rem;
+    }
+  }
+
+  /** Container */
+  .container {
+    max-width: $max-width;
+    margin: auto;
+    overflow: hidden;
+    //padding: 0 2rem;
+    margin-top: 3.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /********************************************************************************************************
+Dashboard
+********************************************************************************************************/
+
+  .dashboard {
+    //top
+    .top-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: $white-color;
+      margin: 0 0 0.1rem 0;
+      .sub-page-header {
+        min-width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        padding-bottom: 0.5rem;
+      }
+    }
+    .top-section-user {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: $white-color;
+      margin: 0 0 0.1rem 0;
+      .sub-page-header {
+        min-width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        padding-bottom: 0.5rem;
+      }
+    }
+  }
+
+  .big-items {
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  /********************************************************************************************************
+Data-Mobile
+********************************************************************************************************/
+
+  .data-mobile {
+    margin: auto;
+    max-width: 17rem;
+    min-width: 17rem;
+  }
+
+  /****************************************************************************************************
+Dialog Prime  
+*****************************************************************************************************/
+
+  .p-dialog.p-component {
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 39rem;
+      //min-width: 100%;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      max-width: 22rem;
+      min-width: 100%;
+    }
+    .p-dialog-content {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .p-fileupload-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.5rem;
+    div {
+      min-width: 20rem;
+      max-width: 20rem;
+      text-align: center;
+    }
+  }
+
+  .jumbo-dialog {
+    z-index: 3;
+    // Landscape
+    @media (max-width: 45rem) {
+      max-height: 17rem;
+      min-height: 17rem;
+      max-width: 30rem;
+      min-width: 30rem;
+      .dialog-exit {
+        z-index: 4;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+      }
+      .inner {
+        .text-container {
+          position: relative;
+        }
+        .message {
+          font-size: 2rem;
+        }
+        .message-button {
+          padding: 0;
+        }
+        .btn {
+          font-size: 1.3rem;
+        }
+      }
+      .jumbo-dialog-img {
+        max-height: 17rem;
+        min-height: 17rem;
+      }
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      max-height: 17rem;
+      min-height: 17rem;
+      max-width: 22.5rem;
+      min-width: 22.5rem;
+      .dialog-exit {
+        z-index: 4;
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 1.5rem;
+      }
+      .inner {
+        .text-container {
+          position: relative;
+        }
+        .message {
+          font-size: 2rem;
+        }
+        .message-button {
+          padding: 0;
+        }
+        .btn {
+          font-size: 1.3rem;
+        }
+      }
+      .jumbo-dialog-img {
+        max-height: 17rem;
+        min-height: 17rem;
+      }
+    }
+  }
+
+  /************************************************************************************
+  Display
+  ************************************************************************************/
+
+  /** Hide or Show Elements */
+
+  .hide-sm {
+    display: none;
+  }
+  .show-sm {
+    display: unset;
+  }
+
+  /*****************************************************************************************************
+* Email Text Area
+*****************************************************************************************************/
+
+  .email-text {
+    position: relative;
+    display: inline-block;
+    // Landscape
+    @media (max-width: 45rem) {
+      textarea {
+        min-width: 35rem;
+        max-width: 35rem;
+      }
+    }
+  }
+
+  /********************************************************************************************************
+Cart
+********************************************************************************************************/
+  .header-cart {
+    position: fixed;
+    top: 3rem;
+    right: 0.5rem;
+  }
+
+  /************************************************************************************
+  IMGs
+  ************************************************************************************/
+
+  /** Jumbo */
+  .jumbo-container {
+    max-height: 20rem;
+    min-height: 20rem;
+    .inner {
+      img {
+        max-height: 7rem;
+        max-width: 7rem;
+        object-fit: cover;
+      }
+      .text-container {
+        i {
+          font-size: 1rem;
+          position: absolute;
+          border-radius: 50%;
+          right: -2rem;
+          bottom: 0;
+          padding: 0.5rem;
+          color: $primary-color;
+          border: solid $primary-color 1px;
+          background-color: $white-color;
+          &:hover {
+            cursor: pointer;
+            color: $dark-color;
+          }
+        }
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+      p {
+        display: none;
+        font-size: 1.1rem;
+        max-width: 15rem;
+      }
+    }
+    .jumbo-showcase {
+      max-height: 20rem;
+      min-width: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+    .logo-showcase {
+      max-height: 7rem;
+      max-width: 7rem;
+      position: relative;
+      i {
+        position: absolute;
+        border-radius: 50%;
+        right: 0;
+        bottom: 0;
+        padding: 0.5rem;
+        color: $primary-color;
+        border: solid $primary-color 1px;
+        background-color: $white-color;
+        &:hover {
+          cursor: pointer;
+          color: $dark-color;
+        }
+      }
+    }
+    .edit-button {
+      position: absolute;
+      right: 1rem;
+      bottom: 14rem;
+    }
+  }
+
+  /************************************************************************************
+  Info Section
+  ************************************************************************************/
+  .info-section {
+    .info-section-only {
+      // Landscape
+      @media (max-width: 45rem) {
+        max-width: 40rem;
+        min-width: 40rem;
+        .info-message {
+          padding-left: 0.5rem;
+          font-size: 1.2rem;
+          text-align: left;
+          max-width: 35rem;
+          min-width: 35rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+      // Portrait
+      @media (max-width: 22.5rem) {
+        max-width: 22.5rem;
+        min-width: 22.5rem;
+        .info-message {
+          padding-left: 0.5rem;
+          font-size: 1.3rem;
+          text-align: left;
+          max-width: 22rem;
+          min-width: 22rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+
+    .info-section-reg {
+      // Landscape
+      @media (max-width: 45rem) {
+        max-width: 40rem;
+        min-width: 40rem;
+        .info-message-big {
+          padding-left: 0.5rem;
+          font-size: 1.1rem;
+          text-align: left;
+          max-width: 22rem;
+          min-width: 22rem;
+          margin-right: 0.5rem;
+        }
+        .info-extra {
+          margin-top: 1rem;
+        }
+      }
+      // Portrait
+      @media (max-width: 22.5rem) {
+        display: flex;
+        flex-direction: column;
+        max-width: 22.5rem;
+        min-width: 22.5rem;
+        .fas.fa-exchange-alt {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg);
+          margin: 0.5rem 0 0.5rem 0;
+        }
+        .info-message-big {
+          padding-left: 0.5rem;
+          font-size: 1.3rem;
+          text-align: left;
+          max-width: 22rem;
+          min-width: 22rem;
+          margin-bottom: 0.5rem;
+        }
+        .info-extra {
+          margin-top: 1rem;
+        }
+      }
+    }
+
+    .info-section-rev {
+      // Landscape
+      @media (max-width: 45rem) {
+        max-width: 40rem;
+        min-width: 40rem;
+        .info-message-big {
+          padding-left: 0.5rem;
+          font-size: 1.1rem;
+          text-align: left;
+          max-width: 22rem;
+          min-width: 22rem;
+          margin-left: 0.5rem;
+        }
+        .info-extra {
+          margin-top: 1rem;
+        }
+      }
+      // Portrait
+      @media (max-width: 22.5rem) {
+        display: flex;
+        flex-direction: column-reverse;
+        max-width: 22.5rem;
+        min-width: 22.5rem;
+        .fas.fa-exchange-alt {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg);
+          margin: 0.5rem 0 0.5rem 0;
+        }
+        .info-message-big {
+          padding-left: 0.5rem;
+          font-size: 1.3rem;
+          text-align: left;
+          max-width: 22rem;
+          min-width: 22rem;
+          margin-top: 0.5rem;
+        }
+        .info-extra {
+          margin-top: 1rem;
+        }
+      }
+    }
+    .move-options {
+      border: solid 1px $primary-color;
+      background-color: $white-color;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+      border-bottom-left-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+    }
+  }
+
+  /*****************************************************************************************************
+* Item Creation
+*****************************************************************************************************/
+  .item-creation {
+    @media (max-width: 45rem) {
+      min-height: 18rem;
+      max-height: 18rem;
+      left: 50%;
+      top: 58%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  /************************************************************************************
+  Landing
+  ************************************************************************************/
+  .landing {
+    // Landscape
+    @media (max-width: 45rem) {
+      .left.bg-primary {
+        display: none;
+      }
+      .right {
+        overflow-y: hidden;
+        .inner {
+          .logo {
+            max-width: 5rem;
+          }
+          .large {
+            font-size: 2rem;
+          }
+          .lead.my-1 {
+            font-size: 1.2rem;
+            margin: 0 0 0 0;
+          }
+        }
+      }
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      .left.bg-primary {
+        display: none;
+      }
+      .right {
+        overflow-y: hidden;
+        .inner {
+          .logo {
+            margin-top: 2rem;
+          }
+          form {
+            min-width: 100%;
+            p {
+              font-size: 1.2rem;
+              margin: 0 0 2rem 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /*****************************************************************************************************
+* Lightbox
+*****************************************************************************************************/
+  .light-box {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    .inner {
+      position: relative;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 30rem;
+      max-height: 30rem;
+      i {
+        position: absolute;
+        top: -2.5rem;
+        right: 1rem;
+        color: $white-color;
+        border-radius: 50%;
+        font-size: 2rem;
+      }
+      i:hover {
+        color: $white-dark-color;
+        cursor: pointer;
+      }
+    }
+  }
+
+  /*****************************************************************************************************
+* Navbar
+*****************************************************************************************************/
+  .navbar-hover-under {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    position: fixed;
+    padding: 0;
+    .title {
+      h1,
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  /***************************************************************************************************
+Review Section
+***************************************************************************************************/
+
+  .review-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .p-rating {
+      margin: 0.5rem 0 0.5rem 0;
+      font-size: 1.5rem;
+    }
+    textarea {
+      min-width: 20rem;
+    }
+  }
+
+  .product-review-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .p-rating-icon.p-rating-cancel.pi.pi-ban {
+      font-size: 1.5rem;
+    }
+    .p-rating-icon.pi.pi-star {
+      color: gold;
+      font-size: 1.5rem;
+    }
+    .p-rating-icon.pi.pi-star-o {
+      color: gold;
+      font-size: 1.5rem;
+    }
+    .p-rating {
+      margin-bottom: 0.5rem;
+    }
+    textarea {
+      min-width: 20rem;
+    }
+  }
+
+  /*****************************************************************************************************
+* Section Creation
+*****************************************************************************************************/
+  .section-creation {
+    min-width: 22rem;
+    max-width: 22rem;
+    // Landscape
+    @media (max-width: 45rem) {
+      min-height: 20rem;
+      max-height: 20rem;
+    }
+    .inner {
+      @media (max-width: 45rem) {
+        min-height: 16.5rem;
+        max-height: 16.5rem;
+      }
+      min-width: 21.5rem;
+      max-width: 21.5rem;
+      .form-group-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+      .fas.fa-trash-alt {
+        font-size: 2rem;
+        color: $danger-color;
+      }
+      .fas.fa-trash-alt:hover {
+        color: $danger-dark-color;
+        cursor: pointer;
+      }
+      .sections-table {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .inner-sm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 3rem;
+      min-height: 15rem;
+      max-height: 30rem;
+      min-width: 29rem;
+      max-width: 29rem;
+      overflow: auto;
+      padding: 1rem;
+      .form-group-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+    }
+    .form-group p {
+      text-align: center;
+    }
+    .exit {
+      position: absolute;
+      top: 0.4rem;
+      right: 1rem;
+      z-index: 2;
+      i {
+        color: $white-color;
+      }
+      i:hover {
+        cursor: pointer;
+        color: $white-dark-color;
+      }
+    }
+  }
+
+  /***************************************************************************************************
+Slide Menu 
+***************************************************************************************************/
+
+  /* Main */
+  .p-slidemenu.p-component {
+    font-size: 1.5rem;
+    min-height: 16.5rem;
+    .p-slidemenu-rootlist.p-active-submenu {
+      min-height: 16.5rem;
+    }
+  }
+
+  .p-slidemenu.p-component .p-slidemenu-wrapper .p-slidemenu-content {
+    min-height: 16.5rem;
+  }
+
+  .p-slidemenu-rootlist.p-active-submenu {
+    min-width: 14rem;
+    padding-right: 1rem;
+    background-color: $primary-color;
+  }
+
+  /* Items */
+
+  .p-slidemenu.p-component
+    .p-slidemenu-wrapper
+    .p-slidemenu-content
+    .p-menuitem {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* Back button */
+
+  .p-slidemenu.p-component .p-slidemenu-wrapper .p-slidemenu-backward {
+    position: absolute;
+    bottom: -2rem;
+  }
+
+  .shop-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 1rem;
+  }
+
+  /**************************************************************************************************************
+SideBar
+***************************************************************************************************************/
+
+  .p-sidebar.p-component {
+    padding: 0.5rem 0 0 0;
+    max-width: 14.5rem;
+    margin-top: 2.6rem;
+    .title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .p-sidebar.p-component .p-sidebar-close-icon {
+    font-size: 2rem;
+  }
+  // Mask for toggle
+  .p-component-overlay.p-sidebar-mask {
+    margin: 0;
+    width: 8rem;
+    left: 0;
+  }
+
+  .side-bar-right .fas.fa-bars.p-c.p-button-icon-left {
+    font-size: 1.25rem;
+  }
+
+  // burger
+  .mobile-bars .p-button.p-component.p-button-icon-only {
+    border: none;
+  }
+
+  /**************************************************************************************************************
+Tabs
+***************************************************************************************************************/
+
+  /** Header */
+
+  .p-tabview.p-component.p-tabview-top .p-tabview-nav.p-reset {
+    padding: 0;
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 39.5rem;
+      min-width: 39.5rem;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      max-width: 22.5rem;
+      min-width: 22.5rem;
+    }
+  }
+
+  /** Active Header */
+
+  .p-tabview.p-component.p-tabview-top
+    .p-unselectable-text.p-tabview-selected.p-highlight
+    .p-tabview-left-icon {
+    font-size: 1rem;
+  }
+
+  .p-tabview.p-component.p-tabview-top
+    .p-unselectable-text.p-tabview-selected.p-highlight
+    .p-tabview-title {
+    font-size: 1rem;
+  }
+
+  .p-tabview.p-component.p-tabview-top
+    .p-unselectable-text
+    .p-tabview-left-icon {
+    font-size: 1rem;
+  }
+
+  /** Body */
+
+  .p-tabview.p-component.p-tabview-top .p-tabview-panels {
+    border-top-right-radius: 0;
+    // Landscape
+    @media (max-width: 45rem) {
+      max-width: 39.5rem;
+      min-width: 39.5rem;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      max-width: 22.5rem;
+      min-width: 22.5rem;
+    }
+  }
+
+  /**************************************************************************************************************
+Transaction
+***************************************************************************************************************/
+
+  .container .dashboard .cart {
+    display: flex;
+    flex-direction: column-reverse;
+    .status-hor div {
+      font-size: 1rem;
+    }
+
+    .inner {
+      // Landscape
+      @media (max-width: 45rem) {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      // Portrait
+      @media (max-width: 22.5rem) {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    .p-dataview.p-component.p-dataview-grid {
+      margin-top: 0.5rem;
+      // Landscape
+      @media (max-width: 45rem) {
+        max-width: 39.5rem;
+        min-width: 39.5rem;
+      }
+      // Portrait
+      @media (max-width: 22.5rem) {
+        max-width: 22.5rem;
+        min-width: 22.5rem;
+      }
+    }
+  }
+  /*******************************************************************************************************
+   Flex-grid 
+   *******************************************************************************************************/
+  .grid {
+    max-width: 22rem;
+  }
+  .grid .col-12.sm-1 {
+    width: 8.33%;
+  }
+  .grid .col-12.sm-2 {
+    width: 16.66%;
+  }
+  .grid .col-12.sm-3 {
+    width: 25%;
+  }
+  .grid .col-12.sm-4 {
+    width: 33.33%;
+  }
+  .grid .col-12.sm-5 {
+    width: 41.66%;
+  }
+  .grid .col-12.sm-6 {
+    width: 50%;
+  }
+  .grid .col-12.sm-7 {
+    width: 58.33%;
+  }
+  .grid .col-12.sm-8 {
+    width: 66.66%;
+  }
+  .grid .col-12.sm-9 {
+    width: 75%;
+  }
+  .grid .col-12.sm-10 {
+    width: 83.33%;
+  }
+  .grid .col-12.sm-11 {
+    width: 91.66%;
+  }
+  .grid .col-12.sm-12 {
+    width: 100%;
+  }
+
+  /**************************************************************************************************************
+Upload Upload Upload Upload Upload Upload Upload Upload Upload Upload Upload Upload Upload Upload
+***************************************************************************************************************/
+
+  .p-fileupload.p-component .p-fileupload-content {
+    padding: 0;
+  }
+
+  .p-fileupload.p-component .p-disabled {
+    background-color: rgb(163, 163, 163);
+    border: solid 2px rgb(163, 163, 163);
+  }
+
+  .p-fileupload.p-component .p-disabled:hover {
+    background-color: rgb(163, 163, 163);
+    border: solid 2px rgb(163, 163, 163);
+  }
+
+  /** Uploaded files */
+  .p-fileupload-files img {
+    max-height: 5rem;
+    max-width: 5rem;
+    object-fit: cover;
+  }
+
+  .p-fileupload-row div:nth-child(2) {
+    word-break: break-all;
+    max-width: 5rem;
+  }
+
+  /** Max file size message */
+
+  .p-fileupload.p-component .p-messages {
+    background-color: $danger-color;
+    color: $white-color;
+  }
+
+  /** Success message */
+  .img-success {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 0.5rem;
+    i {
+      margin-left: 0.5rem;
+    }
+  }
+
+  /** Buttons */
+  .p-fileupload-buttonbar {
+    .p-button.p-fileupload-choose.p-component.p-button-text-icon-left {
+      min-width: 7rem;
+    }
+  }
+
+  /** Progress Bar */
+  .p-fileupload.p-component
+    .p-progressbar.p-component.p-progressbar-determinate {
+    width: 20rem;
+    background-color: rgb(163, 163, 163);
+  }
+  .p-fileupload.p-component .p-progressbar-value.p-progressbar-value-animate {
+    width: 20rem;
+    background-color: $primary-color;
+  }
+
+  /**************************************************************************************************************
+User Card
+***************************************************************************************************************/
+  .user-card {
+    min-width: 20rem;
+  }
+}

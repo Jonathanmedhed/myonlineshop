@@ -1,0 +1,29 @@
+@import 'config';
+
+.form {
+  &-group {
+    margin: 1.2rem 0;
+  }
+  &-group:first-child {
+    margin: 0 0 1.2rem 0 ;
+  }
+  &-text {
+    display: block; //next line
+    margin-top: 0.3rem;
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: left;
+  }
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='date'],
+  select,
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    border-radius: 0.2rem;
+  }
+}
