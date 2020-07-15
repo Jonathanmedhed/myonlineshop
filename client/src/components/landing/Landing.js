@@ -19,8 +19,8 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 	};
 	// Form Values
 	const [formData, setFormData] = useState({
-		email: 'Testuser@gmail.com',
-		password: 'Pass1234!',
+		email: '',
+		password: '',
 	});
 	// Form Values Variables
 	const { email, password } = formData;
@@ -70,6 +70,7 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 							<div className="form-group">
 								<label className="form-text">Email</label>
 								<input
+									placeholder="TestUser@gmail.com"
 									className="border-dark"
 									type="email"
 									name="email"
@@ -80,6 +81,7 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 							<div className="form-group">
 								<label className="form-text">Password</label>
 								<input
+									placeholder="Pass1234!"
 									className="border-dark"
 									type="password"
 									name="password"
