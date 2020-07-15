@@ -2393,7 +2393,6 @@ Input Switch
   }
   //Right Side
   .p-menubar.p-component {
-    border: solid 2px red;
     padding: 0;
     display: flex;
     align-items: center;
@@ -2609,7 +2608,7 @@ List Item with IMG
 .navbar-hover-under {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   position: fixed;
   z-index: 100;
   width: 100%;
@@ -2618,6 +2617,11 @@ List Item with IMG
   border-bottom: solid 1px $primary-color;
   background-color: $primary-color;
   opacity: 0.9;
+  .left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
   a {
     color: $white-color;
     padding: 0.45rem;

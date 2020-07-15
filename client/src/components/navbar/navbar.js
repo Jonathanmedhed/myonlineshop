@@ -32,39 +32,41 @@ const Navbar = ({
 	return (
 		<nav className="navbar-hover-under">
 			{/** Left Side Bar */}
-			<div className="hide-sm">
-				<SideBarComp
-					isAuthenticated={isAuthenticated}
-					type={type}
-					history={history}
-					view={view}
-					direction={'left'}
-					products={products}
-					shops={shops}
-					selectOption={selectOption}
-					selectProduct={selectProduct}
-					isAuthenticated={isAuthenticated}
-					loading={loading}
-					logout={logout}
-					toggleCreateShop={toggleCreateShop}
-					hasProductSection={hasProductSection}
-					unFollow={unFollow}
-					follow={follow}
-					isFollower={isFollower}
-					user={user}
-					cartContent={cartContent}
-					setShowCart={setShowCart}
-					setProduct={setProduct}
-					shop={shop}
-				/>
-			</div>
-			<div className="title">
-				<Link to="/">
-					<i className="fas fa-code fa-2x"></i>
-				</Link>
-				<h1>
-					<Link to="/">MyOnlineShop</Link>
-				</h1>
+			<div className="left">
+				<div className="hide-sm">
+					<SideBarComp
+						isAuthenticated={isAuthenticated}
+						type={type}
+						history={history}
+						view={view}
+						direction={'left'}
+						products={products}
+						shops={shops}
+						selectOption={selectOption}
+						selectProduct={selectProduct}
+						isAuthenticated={isAuthenticated}
+						loading={loading}
+						logout={logout}
+						toggleCreateShop={toggleCreateShop}
+						hasProductSection={hasProductSection}
+						unFollow={unFollow}
+						follow={follow}
+						isFollower={isFollower}
+						user={user}
+						cartContent={cartContent}
+						setShowCart={setShowCart}
+						setProduct={setProduct}
+						shop={shop}
+					/>
+				</div>
+				<div className="title">
+					<Link to="/">
+						<i className="fas fa-code fa-2x"></i>
+					</Link>
+					<h1>
+						<Link to="/">MyOnlineShop</Link>
+					</h1>
+				</div>
 			</div>
 			{/** Searchbox */}
 			<div className="hide">

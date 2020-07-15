@@ -19,8 +19,8 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 	};
 	// Form Values
 	const [formData, setFormData] = useState({
-		email: '',
-		password: '',
+		email: 'Testuser@gmail.com',
+		password: 'Pass1234!',
 	});
 	// Form Values Variables
 	const { email, password } = formData;
