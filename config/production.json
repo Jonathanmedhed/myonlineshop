@@ -1,4 +1,4 @@
 {
-	"mongoURI": "mongodb+srv://Jonathanmedhed:Pass1234!@cluster0-hrnlw.mongodb.net/Cluster0?retryWrites=true&w=majority",
+	"mongoURI": "mongodb://Jonathanmedhed:Pass1234!@cluster0-shard-00-00-hrnlw.mongodb.net:27017,cluster0-shard-00-01-hrnlw.mongodb.net:27017,cluster0-shard-00-02-hrnlw.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
 	"jwtSecret": "mysecrettoken"
-}
+  }
