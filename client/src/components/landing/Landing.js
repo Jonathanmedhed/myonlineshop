@@ -77,6 +77,7 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 									value={email}
 									onChange={(e) => onChange(e)}
 								></input>
+								<div>TestUser@Gmail.com</div>
 							</div>
 							<div className="form-group">
 								<label className="form-text">Password</label>
@@ -89,6 +90,7 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 									onChange={(e) => onChange(e)}
 									minLength="6"
 								></input>
+								<div>Pass1234!</div>
 							</div>
 							<div className="form-group">
 								<input type="submit" value="Login" className="btn btn-dark" />

@@ -82,6 +82,7 @@ const Login = ({ setSubAction, setAlert, login, isAuthenticated, quickLogin, tog
 					onChange={(e) => onChange(e)}
 					className="border-dark"
 				></input>
+				<div>TestUser@Gmail.com</div>
 			</div>
 			<div className="form-group">
 				<label className="form-text">Password</label>
@@ -93,6 +94,7 @@ const Login = ({ setSubAction, setAlert, login, isAuthenticated, quickLogin, tog
 					minLength="6"
 					className="border-dark"
 				></input>
+				<div>Pass1234!</div>
 			</div>
 			<div className="form-group">
 				<div onClick={() => checkInput()} className="btn btn-primary">
