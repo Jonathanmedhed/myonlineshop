@@ -322,10 +322,12 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 	// Set current product for chart
 	const setCurrentChartProduct = async (product) => {
 		if (product) {
+			setSubmition(true);
 			if (transactions) {
 				setProductsInTransactions(transProductsQtyById(transactions, product._id));
 			}
 			setChartProduct(product);
+			setSubmition(false);
 		}
 	};
 

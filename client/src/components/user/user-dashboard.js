@@ -199,12 +199,14 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	// Set current product for chart
 	const setCurrentProduct = async (product) => {
-		setSubmition(true);
-		if (transactionsSold) {
-			setProductsInTransactions(transProductsQtyById(transactionsSold, product._id));
+		if (product) {
+			setSubmition(true);
+			if (transactionsSold) {
+				setProductsInTransactions(transProductsQtyById(transactionsSold, product._id));
+			}
+			setProduct(product);
+			setSubmition(false);
 		}
-		setProduct(product);
-		setSubmition(false);
 	};
 
 	// Set current product to show on top
@@ -1426,7 +1428,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 											)}
 										</TabPanel>
 										<TabPanel header="Products" leftIcon="fas fa-shopping-basket">
-											{productsInTransactions.length > 0 ? (
+											{products.length > 0 ? (
 												<div className="chart-search">
 													<div className="vertical">
 														<div className="buttons-form-free mb-1">
