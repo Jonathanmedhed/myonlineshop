@@ -76,7 +76,7 @@ export const loadUser = () => async (dispatch) => {
  * @param {*} email
  * @param {*} password
  */
-export const register = (name, email, password) => async (dispatch) => {
+export const register = ({ name, email, password }) => async (dispatch) => {
 	// headers config
 	const config = {
 		headers: {

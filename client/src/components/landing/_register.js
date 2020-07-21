@@ -90,6 +90,9 @@ const Register = ({
 			return result;
 			// If last step, submit form
 		} else if (step === steps.length - 1) {
+			console.log(name);
+			console.log(email);
+			console.log(password);
 			const result = await register({ name, email, password });
 			if (result) {
 				if (setAuthUser) {
