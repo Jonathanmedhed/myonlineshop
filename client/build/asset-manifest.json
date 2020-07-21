@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.72eeeb57.chunk.css",
-    "main.js": "/static/js/main.097a188e.chunk.js",
-    "main.js.map": "/static/js/main.097a188e.chunk.js.map",
+    "main.js": "/static/js/main.515cf1e5.chunk.js",
+    "main.js.map": "/static/js/main.515cf1e5.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.98a2b520.js",
     "runtime-main.js.map": "/static/js/runtime-main.98a2b520.js.map",
     "static/css/2.b60e031d.chunk.css": "/static/css/2.b60e031d.chunk.css",
-    "static/js/2.95999a28.chunk.js": "/static/js/2.95999a28.chunk.js",
-    "static/js/2.95999a28.chunk.js.map": "/static/js/2.95999a28.chunk.js.map",
+    "static/js/2.42105126.chunk.js": "/static/js/2.42105126.chunk.js",
+    "static/js/2.42105126.chunk.js.map": "/static/js/2.42105126.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.9391e1919d3445f022841eeba2d80b6f.js": "/precache-manifest.9391e1919d3445f022841eeba2d80b6f.js",
+    "precache-manifest.38b946e4deb34951e602090f7315b6a5.js": "/precache-manifest.38b946e4deb34951e602090f7315b6a5.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.b60e031d.chunk.css.map": "/static/css/2.b60e031d.chunk.css.map",
     "static/css/main.72eeeb57.chunk.css.map": "/static/css/main.72eeeb57.chunk.css.map",
-    "static/js/2.95999a28.chunk.js.LICENSE.txt": "/static/js/2.95999a28.chunk.js.LICENSE.txt",
+    "static/js/2.42105126.chunk.js.LICENSE.txt": "/static/js/2.42105126.chunk.js.LICENSE.txt",
     "static/media/IMAGE-1592922774475.jpg": "/static/media/IMAGE-1592922774475.dd6b5cde.jpg",
     "static/media/IMAGE-1594173734746.jpg": "/static/media/IMAGE-1594173734746.6e3d071a.jpg",
     "static/media/IMAGE-1594173734809.jpg": "/static/media/IMAGE-1594173734809.6e3d071a.jpg",
@@ -25,6 +25,10 @@
     "static/media/IMAGE-1594749612295.jpg": "/static/media/IMAGE-1594749612295.6e3d071a.jpg",
     "static/media/IMAGE-1594749827104.jpg": "/static/media/IMAGE-1594749827104.6e3d071a.jpg",
     "static/media/IMAGE-1594754572813.jpg": "/static/media/IMAGE-1594754572813.6e3d071a.jpg",
+    "static/media/IMAGE-1595349574730.png": "/static/media/IMAGE-1595349574730.fac1a219.png",
+    "static/media/IMAGE-1595349642390.jpg": "/static/media/IMAGE-1595349642390.6e3d071a.jpg",
+    "static/media/IMAGE-1595350568455.jpg": "/static/media/IMAGE-1595350568455.6e3d071a.jpg",
+    "static/media/IMAGE-1595350621532.jpg": "/static/media/IMAGE-1595350621532.6e3d071a.jpg",
     "static/media/Jaguar.png": "/static/media/Jaguar.8fa57954.png",
     "static/media/VW.png": "/static/media/VW.b0af25a4.png",
     "static/media/carousel-example.gif": "/static/media/carousel-example.d1b965e3.gif",
@@ -55,8 +59,8 @@
   "entrypoints": [
     "static/js/runtime-main.98a2b520.js",
     "static/css/2.b60e031d.chunk.css",
-    "static/js/2.95999a28.chunk.js",
+    "static/js/2.42105126.chunk.js",
     "static/css/main.72eeeb57.chunk.css",
-    "static/js/main.097a188e.chunk.js"
+    "static/js/main.515cf1e5.chunk.js"
   ]
 }
