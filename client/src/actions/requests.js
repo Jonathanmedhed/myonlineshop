@@ -20,6 +20,10 @@ const configMulti = {
 
 /*************************************** User Route Related ***************************************/
 
+/**
+ * Delete user's product
+ * @param {*} id
+ */
 export const deleteUserProduct = async (id) => {
 	const res = await axios.delete(`/api/users/product/${id}`);
 	return res;
@@ -27,16 +31,29 @@ export const deleteUserProduct = async (id) => {
 
 /*************************************** Shop Route Related ***************************************/
 
+/**
+ * Delete shop
+ * @param {*} id
+ */
 export const deleteShop = async (id) => {
 	const res = await axios.delete(`/api/shops/${id}`);
 	return res;
 };
 
+/**
+ * Delete product from a shop
+ * @param {*} id
+ */
 export const deleteShopProduct = async (id) => {
 	const res = await axios.delete(`/api/shops/product/${id}`);
 	return res;
 };
 
+/**
+ * Delete section from a shop
+ * @param {*} shop_id
+ * @param {*} section_id
+ */
 export const deleteSection = async (shop_id, section_id) => {
 	const res = await axios.delete(`/api/shops/section/${shop_id}/${section_id}`);
 	return res;
@@ -44,6 +61,11 @@ export const deleteSection = async (shop_id, section_id) => {
 
 /*************************************** Product Route Related ***************************************/
 
+/**
+ * Delete product's section
+ * @param {*} product_id
+ * @param {*} section_id
+ */
 export const deleteProductSection = async (product_id, section_id) => {
 	const res = await axios.delete(`/api/products/section/${product_id}/${section_id}`);
 	return res;
@@ -51,13 +73,19 @@ export const deleteProductSection = async (product_id, section_id) => {
 
 /*************************************** Transaction Route Related ***************************************/
 
+/**
+ * Delete a transaction
+ * @param {*} id
+ */
 export const deleteTransaction = async (id) => {
 	const res = await axios.delete(`/api/transactions/${id}`);
 	return res;
 };
 
 /*************************************** Delete Route Related ***************************************/
-
+/**
+ * Delete user account
+ */
 export const deleteUser = async () => {
 	const res = await axios.delete(`/api/users/`);
 	return res;

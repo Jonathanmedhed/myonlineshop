@@ -48,7 +48,7 @@ const SlideComp = ({
 				label: shop.name,
 				icon: 'fas fa-caret-right',
 				command: (event) => {
-					history.replace(`/shop/${shop._id}`);
+					history.replace(`/shop/${shop.name}`);
 				},
 			});
 		});

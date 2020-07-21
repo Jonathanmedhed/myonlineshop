@@ -6,6 +6,7 @@ const UserData = ({ user, isOwner, shops, products, feedback, noFeedback }) => {
 	return (
 		<Fragment>
 			<div className="user-card">
+				{/** Dont show feedback on mobile */}
 				{!noFeedback && (
 					<div className="data">
 						<div className="bold">Feedback:</div>
@@ -14,10 +15,12 @@ const UserData = ({ user, isOwner, shops, products, feedback, noFeedback }) => {
 						</div>
 					</div>
 				)}
+				{/** Active products count */}
 				<div className="data">
 					<div className="bold">{isOwner ? 'Active Shops' : 'Shops'} </div>
 					<div>{activeItems(shops, true)}</div>
 				</div>
+				{/** If not owner, show items on sale, sold and purchased */}
 				{!isOwner ? (
 					<Fragment>
 						<div className="data">
@@ -35,6 +38,7 @@ const UserData = ({ user, isOwner, shops, products, feedback, noFeedback }) => {
 					</Fragment>
 				) : (
 					<Fragment>
+						{/** If owner, show inactive shops, active/inactive products */}
 						<div className="data">
 							<div className="bold">Inactive Shops:</div>
 							<div>{activeItems(shops, false)}</div>

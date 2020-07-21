@@ -55,6 +55,7 @@ const ProductDashboard = ({
 	toggleLogin,
 	setProducts,
 	setSubmition,
+	setCurrentProduct,
 }) => {
 	// show report product
 	const [showReportProduct, setShowReportProduct] = useState(false);
@@ -96,16 +97,18 @@ const ProductDashboard = ({
 	// Other Products
 	const [otherProducts, setOtherProducts] = useState([]);
 
+	// Edit product field
 	const selectEdit = (field) => {
 		setEditField(field);
 		setEdit(true);
 	};
 
+	// Show add section dialog
 	const showSectionDialog = (option) => {
 		setSectionCreation(option);
 		setEditSection(option);
 	};
-	// Feedback
+	// Feedback input data
 	const [formData, setFormData] = useState({
 		comment: '',
 		stars: 5,
@@ -119,6 +122,7 @@ const ProductDashboard = ({
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
+	// Give feedback to product and update state
 	const onRate = async () => {
 		const feedBackGiven = await rateProduct(formData, product._id);
 		if (feedBackGiven.status === 200) {
@@ -129,6 +133,7 @@ const ProductDashboard = ({
 		}
 	};
 
+	// Delete a product and update state
 	const onDeleteProduct = async () => {
 		setSubmition(true);
 		const productToDelete = await deleteShopProduct(product._id);
@@ -153,6 +158,7 @@ const ProductDashboard = ({
 		setShowReportFeedback(true);
 	};
 
+	// Close reply to and report feedback
 	const hideFeedbackDialog = () => {
 		setShowFeedback(false);
 		setShowReportFeedback(false);
@@ -216,6 +222,7 @@ const ProductDashboard = ({
 						visible={showFeedback || showReportFeedback || showReportProduct}
 						onHide={() => hideFeedbackDialog()}
 					>
+						{/** Feedback component */}
 						{showFeedback && (
 							<FeedbackComp
 								product={product}
@@ -225,6 +232,7 @@ const ProductDashboard = ({
 								setAlert={setAlert}
 							/>
 						)}
+						{/** Report component (feedback) */}
 						{showReportFeedback && (
 							<Report
 								product={product}
@@ -235,6 +243,7 @@ const ProductDashboard = ({
 								close={setShowReportFeedback}
 							/>
 						)}
+						{/** Report component (product) */}
 						{showReportProduct && (
 							<Report
 								product={product}
@@ -333,6 +342,7 @@ const ProductDashboard = ({
 									/>
 								</div>
 							</div>
+							{/** Product sections for visitor */}
 							{!isOwner && (
 								<div>
 									{sections &&
@@ -350,15 +360,15 @@ const ProductDashboard = ({
 													setSectionToEdit={setSectionToEdit}
 													setSections={setSections}
 													setEdit={setEditSection}
+													setCurrentProduct={setCurrentProduct}
 												/>
 											))}
 								</div>
 							)}
 						</Fragment>
-						{/** Accordion */}
 						{isOwner ? (
 							<Fragment>
-								{/** Tags and Type */}
+								{/** Tags and Type and their edit buttons*/}
 								<table className="tags-type">
 									<tr className="inner">
 										<th className="title">Tags</th>
@@ -388,7 +398,9 @@ const ProductDashboard = ({
 										</td>
 									</tr>
 								</table>
+								{/** Accordion for Owner*/}
 								<Accordion>
+									{/** Product page content */}
 									<AccordionTab header="Page Content">
 										<button onClick={() => setSectionCreation(true)} className="btn btn-primary">
 											Add Section
@@ -409,10 +421,14 @@ const ProductDashboard = ({
 															setSectionToEdit={setSectionToEdit}
 															setSections={setSections}
 															setEdit={setEditSection}
+															setCurrentProduct={setCurrentProduct}
 														/>
 													))}
 										</Fragment>
 									</AccordionTab>
+									{/**
+									 * Statistics
+									 * */}
 									<AccordionTab header="Statistics">
 										<div>
 											<TabView
@@ -422,6 +438,7 @@ const ProductDashboard = ({
 												<TabPanel header="Product Data" leftIcon="fas fa-shopping-basket">
 													<div className="chart-search">
 														<div className="vertical">
+															{/** Chart Options */}
 															<div className="buttons-form-free mb-1">
 																<button
 																	onClick={() => setProductChartOption('Sold Items')}
@@ -444,6 +461,7 @@ const ProductDashboard = ({
 																	Visits
 																</button>
 															</div>
+															{/** Chart */}
 															<ChartComp
 																data={
 																	productChartOption === 'Sold Items'
@@ -464,6 +482,9 @@ const ProductDashboard = ({
 											</TabView>
 										</div>
 									</AccordionTab>
+									{/**
+									 * Feedback
+									 */}
 									<AccordionTab header="Feedback">
 										{/**Review List */}
 										<div className="accord-list">
@@ -484,6 +505,9 @@ const ProductDashboard = ({
 											</div>
 										</div>
 									</AccordionTab>
+									{/**
+									 * Settings
+									 */}
 									<AccordionTab header="Settings">
 										<div className="big-items">
 											{/**
@@ -510,8 +534,12 @@ const ProductDashboard = ({
 							</Fragment>
 						) : (
 							<Accordion>
+								{/**
+								 * Accordion for visitor
+								 */}
 								<AccordionTab header="Product Feedback">
 									<div className="accord-list">
+										{/** Textbox for new feedback */}
 										{!isOwner && isAuthenticated && (
 											<div className="product-review-section">
 												<Rating
@@ -533,6 +561,9 @@ const ProductDashboard = ({
 										<div className="review-section">
 											{!isAuthenticated && (
 												<div className="mb-1">
+													{/**
+													 * Login and register options
+													 */}
 													<div className="review-login-sug">
 														<div onClick={() => toggleLogin(true)} className="solid">
 															Login
@@ -545,6 +576,7 @@ const ProductDashboard = ({
 													</div>
 												</div>
 											)}
+											{/** Feedback list */}
 											{feedback && feedback.length > 0 ? (
 												<DataViewComp
 													items={feedback}

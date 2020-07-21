@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import List from '../navbar/_menu-list';
-import MobileMenu from '../navbar/_mobile-menu';
 
 const JumboHeader = ({ item, setOption, bodyRef, view }) => {
 	return (
@@ -13,7 +12,6 @@ const JumboHeader = ({ item, setOption, bodyRef, view }) => {
 					</h1>
 				</div>
 				<List setOption={setOption} bodyRef={bodyRef} jumbo={true} view={view} item={item} />
-				<MobileMenu setOption={setOption} bodyRef={bodyRef} />
 			</div>
 		</Fragment>
 	);

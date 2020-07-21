@@ -14,20 +14,17 @@ import Table from '../partials/table';
 import { InputTextarea } from 'primereact/inputtextarea';
 
 const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert, shop, user, history }) => {
-	// Review email
+	// Shop order 'review email' dialog
 	const [reviewEmail, setReviewEmail] = useState(false);
-	// Payment Attempt
+	// To show loading when attempting to order/pay
 	const [paymentAttempt, setPaymentAttempt] = useState(false);
-	// Payment State
+	// To show data when transaction is completed
 	const [paymentDone, setPaymentDone] = useState(false);
-	// Transaction View
-	const [transactionView, setTransactionView] = useState(false);
 	// Transaction Result Content
 	const [transactionContent, setTransactionContent] = useState([]);
 	// Calculate Total and Tax
 	let net_total = 0;
 	let taxes = 0;
-
 	if (cartContent) {
 		cartContent.forEach((item) => {
 			net_total = net_total + item.price * item.quantity;
@@ -35,7 +32,7 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 		taxes = net_total * 0.15;
 		net_total = net_total * 1.15;
 	}
-
+	// Cart Data
 	let [formData, setFormData] = useState({
 		products: cartContent ? cartContent : [],
 		tax: cartContent ? taxes : 0,
@@ -44,7 +41,7 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 	});
 
 	// Form Values Variables
-	const { paid, products, tax, total, emailToSend } = formData;
+	const { emailToSend } = formData;
 
 	// Asign values on change
 	const onChange = (e) => {
@@ -95,11 +92,8 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 
 	return (
 		<Fragment>
-			{
-				cartContent.length === 0 &&
-					transactionContent.length === 0 &&
-					setShowCart(false) /** Return home is cart is empty */
-			}
+			{/** Close cart if empty */}
+			{cartContent.length === 0 && transactionContent.length === 0 && setShowCart(false)}
 			{/**
 			 * Review order email
 			 */}
@@ -107,6 +101,7 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 				<h1 className="text-center mb-half">Order Message</h1>
 				<div className="email-text">
 					<div class="pull-tab"></div>
+					{/** Message Content */}
 					<InputTextarea
 						autoResize={false}
 						name="emailToSend"
@@ -119,9 +114,15 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 				<div className="form-group">
 					<div className="buttons-form">
 						<Fragment>
+							{/**
+							 Create transaction/order
+							 */}
 							<button onClick={() => createTrans()} className="btn btn-success">
 								Send
 							</button>
+							{/**
+							  Close dialog
+							 */}
 							<button onClick={() => setReviewEmail(false)} className="btn btn-danger">
 								Cancel
 							</button>
@@ -130,18 +131,18 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 				</div>
 			</Dialog>
 			<div className="p-1">
+				{/** Show loading on submitions */}
 				{paymentAttempt && <PrimeSpinner />}
-				{/** Change title depending on data */}
 				<Alert />
 				<div className="dashboard">
 					{/** List of products with pic and stuff*/}
 					<div className="hide-sm">
 						<div className="cart">
+							{/** Editable list of products in cart */}
 							{!paymentDone && (
 								<DataViewComp
 									items={cartContent}
 									type="products-checkout"
-									transactionView={transactionView}
 									removeItem={removeFromCart}
 								/>
 							)}
@@ -155,6 +156,7 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 											<strong>{shop.name}</strong> will contact you shortly to arrange{' '}
 											<strong>payment</strong> and <strong>delivery</strong> of the products.
 										</div>
+										{/** Redirecto to user profile */}
 										<div onClick={() => history.replace('/user')} className="btn btn-success mt-1">
 											Check Orders
 										</div>
@@ -163,16 +165,16 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 								{/** Product and Amount to pay breakdown */}
 								<h1 className="page-title mt-1">Payment Breakdown</h1>
 								<div className="inner">
+									{/** Transaction content table */}
 									<Table
 										data={'products'}
 										list={paymentDone ? transactionContent : cartContent}
 										headers={['Name', 'Price', 'Quantity', 'Total']}
 										wOptions={!paymentDone && true}
 										wSearch={false}
-										transactionView={transactionView}
 										selectItem={removeFromCart}
 									/>
-									{(!paymentDone || transactionView) && (
+									{!paymentDone && (
 										<div className="buttons-form-free-center mt-1">
 											<button onClick={() => setShowCart(false)} className="btn btn-danger">
 												Cancel
@@ -180,6 +182,7 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 											{/** 
 										<button className="btn btn-caution">Save</button>
 										*/}
+											{/** Show 'Processing...' when other placed */}
 											{!paymentAttempt ? (
 												<button
 													onClick={() => setReviewEmail(true)}
@@ -196,13 +199,14 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 							</div>
 						</div>
 					</div>
+					{/** Mobile */}
 					<div className="show-sm">
 						<div className="cart-mobile">
+							{/** Editable list of products in cart */}
 							{!paymentDone && (
 								<DataViewComp
 									items={cartContent}
 									type="products-checkout"
-									transactionView={transactionView}
 									removeItem={removeFromCart}
 								/>
 							)}
@@ -219,6 +223,7 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 													<strong>payment</strong> and <strong>delivery</strong> of the
 													products.
 												</div>
+												{/** Redirecto to user profile */}
 												<div
 													onClick={() => history.replace('/user')}
 													className="btn btn-success mt-1"
@@ -232,21 +237,22 @@ const Cart = ({ cartContent, setCartContent, setShowCart, currentUser, setAlert,
 								{/** Product and Amount to pay breakdown */}
 								<h1 className="page-title mt-1">Payment Breakdown</h1>
 								<div className="inner">
+									{/** Transaction content table */}
 									<Table
 										data={'products-mobile'}
 										list={paymentDone ? transactionContent : cartContent}
 										headers={['Name', 'Price x Quantity', 'Total']}
 										wOptions={!paymentDone && true}
 										wSearch={false}
-										transactionView={transactionView}
 										selectItem={removeFromCart}
 									/>
-									{(!paymentDone || transactionView) && (
+									{!paymentDone && (
 										<div className="buttons-form-free-center my-1">
 											<button className="btn btn-danger">Cancel</button>
 											{/** 
 										<button className="btn btn-caution">Save</button>
 										*/}
+											{/** Show 'Processing...' when other placed */}
 											{!paymentAttempt ? (
 												<button
 													onClick={() => setReviewEmail(true)}

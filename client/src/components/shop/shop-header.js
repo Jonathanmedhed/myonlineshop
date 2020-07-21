@@ -10,6 +10,7 @@ const ShopHeader = ({
 	hasProductSection,
 	history,
 	isOwner,
+	logout,
 	setOption,
 	shop,
 	showCreateSection,
@@ -24,7 +25,9 @@ const ShopHeader = ({
 	view,
 	products,
 }) => {
+	// Items for the navbar/sidebar
 	let items =
+		// items for shop owner
 		user && user._id === shop.user && isOwner
 			? [
 					{
@@ -97,6 +100,7 @@ const ShopHeader = ({
 					},
 			  ]
 			: [
+					// items for visitor
 					!isFollower && user
 						? {
 								label: 'Follow Us',
@@ -129,6 +133,7 @@ const ShopHeader = ({
 					},
 			  ];
 
+	// Open shopping cart
 	const openCart = () => {
 		setShowCart(true);
 		setProduct(null);
@@ -137,6 +142,7 @@ const ShopHeader = ({
 		<Fragment>
 			<div className="jumbo-header">
 				<div className="title">
+					{/** shop logo */}
 					{shop.pic_logo !== 'none' && (
 						<img
 							className="small-icon"
@@ -148,16 +154,20 @@ const ShopHeader = ({
 							alt=""
 						></img>
 					)}
+					{/** Shop name */}
 					<h1 onClick={() => goBack()}>{shop.name}</h1>
 				</div>
+				{/** Navbar options for desktop */}
 				<div className="hide-sm">
 					<Menubar model={items}></Menubar>
 				</div>
+				{/** Searchbox and cart */}
 				<div className="hide-sm">
 					{!isOwner && (
 						<div className="horizontal">
 							<input placeholder="search..." className="search-big" type="text"></input>
 							<div className="header-cart">
+								{/** Empty cart black, otherwise white */}
 								{cartContent.length > 0 ? (
 									<div onClick={() => openCart()} className="full-cart">
 										<i class="fas fa-shopping-cart"></i>
@@ -191,9 +201,11 @@ const ShopHeader = ({
 							cartContent={cartContent}
 							setShowCart={setShowCart}
 							setProduct={setProduct}
+							logout={logout}
 						/>
 					</div>
 				</div>
+				{/** Shopping cart button */}
 				{!isOwner && (
 					<div className="header-cart">
 						{cartContent.length > 0 ? (

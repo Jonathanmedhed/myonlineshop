@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Rating } from 'primereact/rating';
 
 // Funcions
-import { calculateRating, activeItems, getAmount } from '../../actions/utilities';
+import { calculateRating } from '../../actions/utilities';
 
 // Components
 import { InputNumber } from 'primereact/inputnumber';
@@ -28,13 +28,17 @@ const ProductData = ({
 	soldOutProduct,
 	setShowReportProduct,
 }) => {
+	// Show set as sold out button
 	const [showSoldOut, setShowSoldOut] = useState(false);
+
+	// To show something on successful actions
 	const [success, setSuccess] = useState(false);
 
 	// Change Shop Values States
 	const [edit, setEdit] = useState(false);
 	const [editField, setEditField] = useState(null);
 
+	// Edit a field
 	const selectEdit = (field) => {
 		setEditField(field);
 		setEdit(true);
@@ -63,6 +67,7 @@ const ProductData = ({
 		<Fragment>
 			<Dialog header={showSoldOut && 'Sold Out'} visible={showSoldOut} onHide={() => setShowSoldOut(false)}>
 				<div className="message-button-sm">
+					{/** Sold out confirmation */}
 					{!success && (
 						<Fragment>
 							<div className="message">{product.name + ' sold out?'}</div>
@@ -76,6 +81,7 @@ const ProductData = ({
 							</div>
 						</Fragment>
 					)}
+					{/** Sold out success message */}
 					{success === true && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -105,11 +111,13 @@ const ProductData = ({
 					setProducts={setProducts}
 				/>
 			)}
+			{/** Product Data */}
 			<div className="user-card">
 				<div className="data">
 					<div className="bold">Name:</div>
 					<div className="data-field">
 						{product.name}
+						{/** Edit button if owner */}
 						{isOwner && <i onClick={() => selectEdit('Name')} className="far fa-edit"></i>}
 					</div>
 				</div>
@@ -117,6 +125,7 @@ const ProductData = ({
 					<div className="bold">Price:</div>
 					<div className="data-field">
 						$ {product.price}
+						{/** Edit button if owner */}
 						{isOwner && <i onClick={() => selectEdit('Price')} className="far fa-edit"></i>}
 					</div>
 				</div>
@@ -132,6 +141,7 @@ const ProductData = ({
 					<div className="bold">Quantity Left:</div>
 					<div className="data-field">
 						{product.quantity}
+						{/** Edit button if owner */}
 						{isOwner && <i onClick={() => selectEdit('Quantity')} className="far fa-edit"></i>}
 					</div>
 				</div>
@@ -140,9 +150,11 @@ const ProductData = ({
 						<div className="bold">Description:</div>
 						<div className="description">
 							{product.description}
+							{/** Edit button if owner */}
 							{isOwner && <i onClick={() => selectEdit('Description')} className="far fa-edit"></i>}
 						</div>
 					</div>
+					{/** Button to set as sold out */}
 					{product.quantity > 0 && isOwner && (
 						<div className="data m-auto">
 							<div onClick={() => setShowSoldOut(true)} className="btn btn-danger">

@@ -39,7 +39,7 @@ const Register = ({
 		checkInput();
 	};
 
-	// Check input
+	// Check input and register if no errors
 	const checkInput = async () => {
 		let result = false;
 		let re = /\S+@\S+\.\S+/;
@@ -103,6 +103,7 @@ const Register = ({
 		}
 	};
 
+	// Registration steps
 	const [step, setStep] = useState(0);
 	const steps = [
 		{
@@ -118,12 +119,13 @@ const Register = ({
 			label: 'Confirmation',
 		},
 	];
-	// Move user to dashboard if authenticated
 
+	// Move user to dashboard if authenticate and in landing
 	if (isAuthenticated && !quickRegister) {
 		return <Redirect to="user" />;
 	}
 
+	// Swap between login and register option
 	const swapOption = () => {
 		toggleLogin(true);
 		toggle(false);
@@ -133,6 +135,7 @@ const Register = ({
 		<div className="right">
 			<div className="dark-overlay">
 				<div className="inner">
+					{/** Show Logo in large mode */}
 					{!quickRegister && (
 						<Fragment>
 							<div className="hide-landscape">
@@ -145,8 +148,9 @@ const Register = ({
 							)}
 						</Fragment>
 					)}
-					{/** Alert Message for Login */}
+					{/** Alert Message*/}
 					<Alert />
+					{/** If login sub action show login, else register */}
 					{subAction === 'login-mobile' ? (
 						<Login subAction={subAction} setSubAction={setSubAction} />
 					) : (
@@ -253,6 +257,7 @@ const Register = ({
 								)}
 							</div>
 							<div className="hide-landscape">
+								{/** Hide steps for quick registration */}
 								{quickRegister ? (
 									<div className="dialog-steps">
 										<StepsComp steps={steps} setStep={setStep} step={step} />
@@ -261,20 +266,9 @@ const Register = ({
 									<StepsComp steps={steps} setStep={setStep} step={step} />
 								)}
 							</div>
+							{/** Login or Register options */}
 							<div className="form-group">
-								<p className="hide-sm">
-									Already have an account?{' '}
-									{quickRegister ? (
-										<p onClick={() => swapOption()} className="text-dark bold">
-											Sign In
-										</p>
-									) : (
-										<p onClick={() => setAction('login')} className="text-dark bold">
-											Sign In
-										</p>
-									)}
-								</p>
-								<p className="show-sm">
+								<p>
 									Already have an account?{' '}
 									{quickRegister ? (
 										<p onClick={() => swapOption()} className="text-dark bold">

@@ -4,10 +4,12 @@ import CardVer from '../partials/card-vert';
 import { RadioButton } from 'primereact/radiobutton';
 
 const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, value, setCurrentProduct }) => {
+	/** Open a selected image(sections carousel) */
 	const selectImg = (img) => {
 		setImg(img);
 		showImg(true);
 	};
+	/** Not working */
 	const responsiveSettings = [
 		{
 			breakpoint: '1024px',
@@ -29,11 +31,13 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 	let itemTemplate = (item) => {
 		return <CardVer item={item} type={type} setCurrentProduct={setCurrentProduct} />;
 	};
-
+	/** 
 	let itemTemplateMobile = (item) => {
 		return <CardVer item={item} type={type} setCurrentProduct={setCurrentProduct} />;
 	};
+	*/
 
+	/** Template for section card */
 	let sectionTemplate = (item) => {
 		return (
 			<div className="section-preview">
@@ -58,6 +62,7 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 		);
 	};
 
+	/** Template for product card */
 	let imgTemplate = (item) => {
 		return (
 			<Fragment>
@@ -83,6 +88,7 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 		);
 	};
 
+	/** Template for product card(mobile)*/
 	let imgTemplateMobile = (item) => {
 		return (
 			<Fragment>
@@ -108,6 +114,7 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 		);
 	};
 
+	/** Headers */
 	const customHeader =
 		type === 'img' ? (
 			<h2 className="page-title mt-1">Product</h2>
@@ -117,6 +124,7 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 
 	return (
 		<Fragment>
+			{/** Sections carousel */}
 			{type === 'sections' && (
 				<div className="carousel-container">
 					<div className={type === 'img' && 'img-carousel-cont'}>
@@ -133,6 +141,7 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 					</div>
 				</div>
 			)}
+			{/** Products carousel */}
 			{(type === 'products' || type === 'img') && (
 				<Fragment>
 					{items && items.length > 0 ? (
@@ -152,7 +161,9 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 									></Carousel>
 								</div>
 							</div>
+							{/** Mobile */}
 							<div className="show-sm">
+								{/** Mobile Normal */}
 								<div className="hide-landscape">
 									<Carousel
 										circular={true}
@@ -161,10 +172,11 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 										itemTemplate={type === 'img' ? imgTemplateMobile : imgTemplateMobile}
 										numVisible={1}
 										numScroll={1}
-										header={customHeader}
+										//header={customHeader}
 										responsive={responsiveSettings}
 									></Carousel>
 								</div>
+								{/** Mobile Landscape */}
 								<div className="show-landscape">
 									<Carousel
 										circular={true}
@@ -173,7 +185,7 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 										itemTemplate={type === 'img' ? imgTemplateMobile : imgTemplateMobile}
 										numVisible={1}
 										numScroll={1}
-										header={customHeader}
+										//header={customHeader}
 										responsive={responsiveSettings}
 									></Carousel>
 								</div>

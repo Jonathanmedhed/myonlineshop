@@ -128,6 +128,7 @@ const DialogPrime = ({
 	//Submit data
 	const onSubmit = async (e) => {
 		e.preventDefault();
+		// Show spinner
 		setSubmition(true);
 		// remove email and name from form if not being edited(prevent error)
 		if (!changeEmail) {
@@ -136,7 +137,9 @@ const DialogPrime = ({
 			formData.name = null;
 		}
 		if (!success) {
+			// Edit email
 			if (changeEmail && !checkEmail()) {
+				// User email
 				if (user) {
 					const res = await editUser(formData);
 					if (res.status === 200 && res.data !== 'Email already in use') {
@@ -149,6 +152,7 @@ const DialogPrime = ({
 						setAlert('Modification Failed', 'error');
 					}
 				}
+				// Shop email
 				if (shop) {
 					const res = await editShop(formData, shop._id);
 					if (res.status === 200 && res.data !== 'Shop email already in use') {
@@ -162,6 +166,7 @@ const DialogPrime = ({
 					}
 				}
 			}
+			// Edit location
 			if (changeLocation && !checkLocation()) {
 				const res = await editUser(formData);
 				if (res.status === 200) {
@@ -172,6 +177,7 @@ const DialogPrime = ({
 					setAlert('Modification Failed', 'error');
 				}
 			}
+			// Edit name
 			if (changeName && !checkName()) {
 				const res = await editUser(formData);
 				if (res.status === 200) {
@@ -182,6 +188,7 @@ const DialogPrime = ({
 					setAlert('Modification Failed', 'error');
 				}
 			}
+			// Edit Password
 			if (changePassword && !checkPassword()) {
 				const res = await editUser(formData);
 				if (res.status === 200) {
@@ -192,6 +199,7 @@ const DialogPrime = ({
 					setAlert('Modification Failed', 'error');
 				}
 			}
+			// Edit social data
 			if (
 				(changeFacebook ||
 					changeInstagram ||
@@ -201,6 +209,7 @@ const DialogPrime = ({
 					changePhone) &&
 				!checkSocial()
 			) {
+				// User social
 				if (user) {
 					const res = await editUser(formData);
 					if (res.status === 200) {
@@ -211,6 +220,7 @@ const DialogPrime = ({
 						setAlert('Modification Failed', 'error');
 					}
 				}
+				// Shop social
 				if (shop) {
 					const res = await editShop(formData, shop._id);
 					if (res.status === 200) {
@@ -222,22 +232,25 @@ const DialogPrime = ({
 					}
 				}
 			}
+			// Delect section dialog
 			if (deleteSection) {
 				const res = await deleteSection(section.shop, section._id);
 				setUpdatedItems(res.data);
 				setAlert('Section Removed!', 'success');
 				setSuccess(true);
 			}
+			// Cart items added dialog
 			if (itemAdded) {
 				setShowCart(true);
 				setItemAdded(false);
 				setProduct(null);
 			}
 		}
+		// Hide Spinner
 		setSubmition(false);
 	};
 
-	// Check Email
+	// Check if Email is valid
 	const checkEmail = () => {
 		let re = /\S+@\S+\.\S+/;
 		let result = false;
@@ -363,7 +376,7 @@ const DialogPrime = ({
 		return result;
 	};
 
-	// Set Display
+	// Set Display option
 	let display = null;
 	if (changeName) {
 		display = changeName;
@@ -408,7 +421,7 @@ const DialogPrime = ({
 		display = selectSocial;
 	}
 
-	// Set onHide
+	// Set onHide dialog
 	let onHide = () => {
 		if (changeName) {
 			setChangeName(false);
@@ -512,9 +525,11 @@ const DialogPrime = ({
 				}}
 				onHide={() => onHide()}
 			>
+				{/** Spinner */}
 				{submition && <PrimeSpinner />}
 				<form onSubmit={(e) => onSubmit(e)} className="form">
 					<Alert />
+					{/** Change email inputs */}
 					{changeEmail && (
 						<Fragment>
 							<div className="form-group">
@@ -541,6 +556,7 @@ const DialogPrime = ({
 							</div>
 						</Fragment>
 					)}
+					{/** Change location inputs */}
 					{changeLocation && (
 						<Fragment>
 							<div className="form-group">
@@ -555,6 +571,7 @@ const DialogPrime = ({
 							</div>
 						</Fragment>
 					)}
+					{/** Change name inputs */}
 					{changeName && (
 						<Fragment>
 							<div className="form-group">
@@ -570,6 +587,7 @@ const DialogPrime = ({
 							</div>
 						</Fragment>
 					)}
+					{/** Change password inputs */}
 					{changePassword === true && (
 						<Fragment>
 							<div className="form-group">
@@ -596,6 +614,7 @@ const DialogPrime = ({
 							</div>
 						</Fragment>
 					)}
+					{/** Change picture inputs */}
 					{changePicture && (
 						<UploadComp
 							setAlert={setAlert}
@@ -604,6 +623,7 @@ const DialogPrime = ({
 							multiple={false}
 						/>
 					)}
+					{/** Change social inputs */}
 					{(changeFacebook ||
 						changeInstagram ||
 						changeLinkedin ||
@@ -770,11 +790,13 @@ const DialogPrime = ({
 							Delete Section? {<div className="text-danger">{section.title}</div>}
 						</h1>
 					)}
+					{/** Section deleted message */}
 					{deleteSection && success && (
 						<h1 className="text-center mt-1">
 							{<div className="text-danger">{section.title}</div>} Section Deleted!
 						</h1>
 					)}
+					{/** Submit buttons */}
 					{!changePicture ? (
 						<div className="form-group">
 							<div className="buttons-form">
@@ -810,6 +832,7 @@ const DialogPrime = ({
 							</div>
 						</div>
 					) : (
+						// Show Exit button on success
 						success && (
 							<div className="form-group">
 								<div className="buttons-form">

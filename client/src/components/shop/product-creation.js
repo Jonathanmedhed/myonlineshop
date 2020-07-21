@@ -21,8 +21,11 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 	const [createdItem, setCreatedItem] = useState(null);
 	/** Product pics */
 	const [productPics, setProductPics] = useState([]);
+	/** Selected product type (Asign to form on submit) */
 	const [selectedType, setSelectedType] = useState('');
+	/** Selected product tags (Asign to form on submit) */
 	const [selectedTags, setSelectedTags] = useState([]);
+	/** Form data */
 	const [formData, setFormData] = useState({
 		email: '',
 		email2: '',
@@ -45,12 +48,15 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 	// Form submition
 	const onSubmit = async () => {
 		setSubmition(true);
+		// Asign selected type to form
 		if (selectedType) {
 			formData.type = selectedType;
 		}
+		// Asign selected tags to form
 		if (selectedTags) {
 			formData.tags = selectedTags;
 		}
+		// Asign selected pics to form
 		if (productPics) {
 			formData.pics = productPics;
 		}
@@ -58,8 +64,11 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 		if (res.status === 200 && res.data !== 'Product name already in use') {
 			setAlert('Product Created', 'success');
 			setSuccess(true);
+			// Set the new created product
 			setCreatedItem(res.data.products[res.data.products.length - 1]);
+			// Update shop products
 			setProducts(res.data.products);
+			// Update shop sections
 			setSections(res.data.sections);
 		} else if (res.status === 200 && res.data === 'Product name already in use') {
 			setAlert('Product name already in use', 'error');
@@ -138,7 +147,7 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 				<div className="form">
 					<Alert />
 					{/**
-					 * Product Steps
+					 * Product Creation Steps
 					 *
 					 */}
 					{step === 0 && (
@@ -201,6 +210,9 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 							</div>
 						</Fragment>
 					)*/}
+					{/**
+					 *  Product data confirmation
+					 */}
 					{!success && step === steps.length - 1 && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -227,6 +239,7 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 							</div>
 						</Fragment>
 					)}
+					{/** Success message */}
 					{success === true && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -234,9 +247,11 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 									<i className="fas fa-check-square fa-4x text-success"></i>
 									<h1>Product Created!</h1>
 									<div className="buttons-form mt-1">
+										{/** Add pictures created product */}
 										<button onClick={() => openProduct()} className="btn btn-success">
 											Add Pictures
 										</button>
+										{/** Close dialog */}
 										<button className="btn btn-danger" onClick={() => toggle(false)}>
 											Continue Later
 										</button>
@@ -245,6 +260,7 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 							</div>
 						</Fragment>
 					)}
+					{/** Steps, hide on success */}
 					{!success && (
 						<Fragment>
 							<div className="form-group-buttons">

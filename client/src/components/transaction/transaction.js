@@ -40,9 +40,11 @@ const TransactionView = ({ toggle, transaction, openProduct, orderView }) => {
 										transactionView={true}
 									/>
 								</div>
+								{/** Status */}
 								<div className="status-cont">
 									<h1 className="page-title my-1">Status</h1>
 									<div className="horizontal">
+										{/** Order Status */}
 										{orderView && (
 											<div className="vertical">
 												<div className="status-hor-sm">
@@ -83,6 +85,7 @@ const TransactionView = ({ toggle, transaction, openProduct, orderView }) => {
 												</div>
 											</div>
 										)}
+										{/** Order and Transaction Status */}
 										<div className="vertical">
 											<div className={orderView ? 'status-hor-sm' : 'status-hor'}>
 												<div className="bold">Paid</div>

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 // Components
 import Alert from '../alerts/alert';
-import Cart from '../cart/cart';
 import ProductDashboard from '../product/product-dashboard';
 import TransactionView from '../transaction/transaction';
 // Functions
@@ -168,6 +167,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 	const [isOwner, setIsOwner] = useState(false);
 	const [visitor, setVisitor] = useState(false);
 
+	// Form data for feedback
 	const [formData, setFormData] = useState({
 		comment: '',
 		stars: 5,
@@ -181,36 +181,51 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
+	// On user feedback
 	const onRate = async () => {
 		const feedBackGiven = await rateUser(formData, currentUser._id);
-		if (feedBackGiven) {
+		if (feedBackGiven.status === 200) {
 			setFeedback(feedBackGiven.data);
+			setAlert('Feedback posted!', 'success');
+		} else {
+			setAlert('Feedback posting failed!', 'error');
 		}
 	};
 
 	// Set current shop for chart
 	const setCurrentShop = async (shop) => {
+		// show spinner
 		setSubmition(true);
+		// get shop transations
 		const transactions = await getShopTransactions(shop._id);
-		shop.transactions = transactions.data;
-		setShop(shop);
+		console.log(transactions.status);
+		if (transactions.status === 200) {
+			shop.transactions = transactions.data;
+			setShop(shop);
+		}
+		// hide spinner
 		setSubmition(false);
 	};
 
 	// Set current product for chart
 	const setCurrentProduct = async (product) => {
 		if (product) {
+			// show spinner
 			setSubmition(true);
+			// set products transactions
 			if (transactionsSold) {
 				setProductsInTransactions(transProductsQtyById(transactionsSold, product._id));
 			}
+			// set product
 			setProduct(product);
+			// hide spinner
 			setSubmition(false);
 		}
 	};
 
-	// Set current product to show on top
+	// Set current product to show on dialog
 	const setCurrentProductToShow = async (id) => {
+		// show spinner
 		setProductSelected(true);
 		if (productToShow) {
 			setProductToShow(null);
@@ -221,6 +236,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		}
 		setProductToShow(product.data);
 		//window.scrollTo(0, topRef.current.offsetTop);
+		// hide spinner
 		setProductSelected(false);
 	};
 
@@ -229,21 +245,33 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 	 */
 	const setProductToDelete = async (id) => {
 		setSuccess(false);
+		// show spinner
 		setProductSelected(true);
+		// get product
 		const result = await getProduct(id);
-		setCurrentProductToDelete(result.data);
+		if (result.status === 200) {
+			setCurrentProductToDelete(result.data);
+			setShowProductDeletion(true);
+		} else {
+			setAlert('Product not found', 'error');
+		}
+		// Hide spinner
 		setProductSelected(false);
-		setShowProductDeletion(true);
 	};
 
+	// Select product to delete
 	const productDelete = async (id) => {
+		// show spinner
 		setSubmition(true);
 		const result = await deleteUserProduct(id);
 		if (result.status === 200) {
 			setSuccess(true);
 			setProducts(result.data);
 			setAlert('Product Deleted', 'success');
+		} else {
+			setAlert('deletion Failed', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
@@ -252,14 +280,23 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 	 */
 	const setShopToDelete = async (id) => {
 		setSuccess(false);
+		// Show spinner
 		setShopSelected(true);
+		// Get and set current shop to delete
 		const result = await getShop(id);
-		setCurrentShopToDelete(result.data);
+		if (result.status === 200) {
+			setCurrentShopToDelete(result.data);
+		} else {
+			setAlert('Shop not found', 'error');
+		}
+		// Hide spinner
 		setShopSelected(false);
 		setShowShopDeletion(true);
 	};
 
+	// Delete a shop
 	const shopDelete = async (id) => {
+		// show spinner
 		setSubmition(true);
 		const result = await deleteShop(id);
 		if (result.status === 200) {
@@ -268,36 +305,59 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 			if (products.status === 200) {
 				setProducts(products.data);
 				setAlert('Products Updated', 'success');
+			} else {
+				setAlert('Products update failed', 'error');
 			}
 			// Update Shops
 			setShops(result.data);
 			setAlert('Shop Deleted', 'success');
 			setSubmition(false);
+			// hide spinner
 			setSuccess(true);
+		} else {
+			setAlert('Deletion Failed!', 'error');
+			// hide spinner
+			setSubmition(false);
 		}
 	};
 
+	// Show sale transaction
 	const setCurrentTransactionSold = async (id) => {
+		// show spinner
 		setSubmition(true);
 		const result = await getTransaction(id);
-		setTransactionToShowSold(result.data);
+		if (result.status === 200) {
+			setTransactionToShowSold(result.data);
+		} else {
+			setAlert('Selection failed', 'error');
+		}
+		// hide spinner
 		setSubmition(false);
 	};
 
+	// Show purchase transaction
 	const setCurrentTransactionBought = async (id) => {
+		// show spinner
 		setSubmition(true);
 		const result = await getTransaction(id);
-		setTransactionToShowBought(result.data);
+		if (result.status === 200) {
+			setTransactionToShowBought(result.data);
+		} else {
+			setAlert('Selection failed', 'error');
+		}
+		// hide spinner
 		setSubmition(false);
 	};
 
+	// Set tab index of charts
 	const setTabIndex = (index) => {
 		setActiveIndex(index);
 		return true;
 	};
 
-	// Action after header option selection
+	// Action after header option selection (move window to choice selected)
 	const setHeaderOption = async (option) => {
+		// show spinner
 		setSubmition(true);
 		switch (option) {
 			case 'statistics':
@@ -339,6 +399,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 			default:
 				break;
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
@@ -393,6 +454,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		*/
 	};
 
+	// Hide order/feedback/report dialogs
 	const hideOrderDialog = () => {
 		setApprove(false);
 		setDeleteAccount(false);
@@ -409,7 +471,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	// Approve order or reverse approval
 	const approveOrder = async (reverse) => {
+		// show spinner
 		setSubmition(true);
+		// clear form fields
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.delivered = null;
@@ -456,12 +520,15 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		} else {
 			setAlert('Approval Failed!', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
 	// Set order as ready or reverse ready
 	const readyOrder = async (option, reverse) => {
+		// show spinner
 		setSubmition(true);
+		// clear form data
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.delivered = null;
@@ -512,12 +579,15 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		} else {
 			setAlert('Modification Failed!', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
 	// Set order as delivered
 	const deliveredOrder = async (reverse) => {
+		// show spinner
 		setSubmition(true);
+		// clear form data
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.paid = null;
@@ -562,12 +632,15 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		} else {
 			setAlert('Modification Failed!', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
 	// Set order as paid
 	const paidOrder = async (option) => {
+		// show spinner
 		setSubmition(true);
+		// clear data
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.delivered = null;
@@ -604,6 +677,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		} else {
 			setAlert('Modification Failed!', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
@@ -629,19 +703,24 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		}
 	};
 
-	// open 'delete account' dialog
+	// delete account and logout
 	const deleteAccountFunc = async () => {
 		const user = await deleteUser();
 		if (user.status === 200) {
 			logout();
 			history.replace('/');
+		} else {
+			setAlert('Deletion Failed', 'error');
 		}
 	};
 
 	// open 'delete order' dialog
 	const deleteOrder = (order, type) => {
+		// select order to delete
 		setCurrentOrderDialog(order);
+		// open dialog
 		setOrderDeletion(true);
+		// Set the type of the order
 		switch (type) {
 			case 'orders-shop-approve':
 				setOrderType('orders-shop-approve');
@@ -660,8 +739,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		}
 	};
 
-	// Approve order or reverse approval
+	// Delete and order and update order lists
 	const deleteOrderFunction = async (option) => {
+		// show spinner
 		setSubmition(true);
 		// Edit Order
 		const orderToDelete = await deleteTransaction(currentOrderDialog._id);
@@ -762,6 +842,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		} else {
 			setAlert('Deletion Failed', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
@@ -779,58 +860,85 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	useEffect(() => {
 		const fetchData = async () => {
+			// if params
 			if (match.params.id) {
+				if (!match.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+					history.replace('/');
+					setAlert('Invalid user id', 'error');
+				}
 				let user = await getUserById(match.params.id);
-				setFeedback(user.data.feedback);
-				setProducts(user.data.products);
-				setShops(user.data.shops_owned);
-				try {
-					let visitor = await getCurrentUser();
-					if (visitor && visitor._id === user._id) {
-						setIsOwner(false);
-					}
-					if (visitor) {
-						setVisitor(visitor.data);
-					}
-				} catch (error) {}
-				setCurrentUser(user.data);
+				if (user.status === 200) {
+					// set state feedback
+					setFeedback(user.data.feedback);
+					// set state products
+					setProducts(user.data.products);
+					// set state shops
+					setShops(user.data.shops_owned);
+					// Check if viewer is a visitor or owner
+					try {
+						let visitor = await getCurrentUser();
+						if (visitor && visitor._id === user._id) {
+							setIsOwner(false);
+						}
+						if (visitor) {
+							setVisitor(visitor.data);
+						}
+					} catch (error) {}
+					// Set current user data(Profile)
+					setCurrentUser(user.data);
+				} else {
+					/**
+					 *
+					 *  SHOW 404
+					 */
+					history.replace('/');
+					setAlert('User not found', 'error');
+				}
 			} else {
 				const userFeedback = await getFeedback();
 				setFeedback(userFeedback.data);
 				let user = await getCurrentUser();
-				let userObject = user.data;
-				setFeedback(user.data.feedback);
-				setProducts(user.data.products);
-				setShops(user.data.shops_owned);
-				// Set Orders Purchase
-				setOrdersApprovePurchase(getOrders(user.data.transactions_purchase).toApprove);
-				setOrdersPreparePurchase(getOrders(user.data.transactions_purchase).toPrepare);
-				setOrdersReadyPurchase(getOrders(user.data.transactions_purchase).ready);
-				setOrdersDeliveredPurchase(getOrders(user.data.transactions_purchase).delivered);
-				// Set Transactions Purchase
-				setTransactionsBought(getOrders(user.data.transactions_purchase).paid);
-				// Set Orders Sale
-				setOrdersApproveSale(getOrders(user.data.transactions_sale).toApprove);
-				setOrdersPrepareSale(getOrders(user.data.transactions_sale).toPrepare);
-				setOrdersReadySale(getOrders(user.data.transactions_sale).ready);
-				setOrdersDeliveredSale(getOrders(user.data.transactions_sale).delivered);
-				// Set Transactions Sale
-				setTransactionsSold(getOrders(user.data.transactions_sale).paid);
-				setIsOwner(true);
-				setPurchasedProducts(transProductsQty(user.data.transactions_purchase));
-				setSoldProducts(transProductsQty(user.data.transactions_sale));
-				//Set shop for chart
-				if (user.data.shops_owned.length > 0) {
-					setCurrentShop(user.data.shops_owned[0]);
+				if (user.status === 200) {
+					let userObject = user.data;
+					// set state feedback
+					setFeedback(user.data.feedback);
+					// set state products
+					setProducts(user.data.products);
+					// set state shops
+					setShops(user.data.shops_owned);
+					// Set Orders Purchase
+					setOrdersApprovePurchase(getOrders(user.data.transactions_purchase).toApprove);
+					setOrdersPreparePurchase(getOrders(user.data.transactions_purchase).toPrepare);
+					setOrdersReadyPurchase(getOrders(user.data.transactions_purchase).ready);
+					setOrdersDeliveredPurchase(getOrders(user.data.transactions_purchase).delivered);
+					// Set Transactions Purchase
+					setTransactionsBought(getOrders(user.data.transactions_purchase).paid);
+					// Set Orders Sale
+					setOrdersApproveSale(getOrders(user.data.transactions_sale).toApprove);
+					setOrdersPrepareSale(getOrders(user.data.transactions_sale).toPrepare);
+					setOrdersReadySale(getOrders(user.data.transactions_sale).ready);
+					setOrdersDeliveredSale(getOrders(user.data.transactions_sale).delivered);
+					// Set Transactions Sale
+					setTransactionsSold(getOrders(user.data.transactions_sale).paid);
+					setIsOwner(true);
+					setPurchasedProducts(transProductsQty(user.data.transactions_purchase));
+					setSoldProducts(transProductsQty(user.data.transactions_sale));
+					//Set shop for chart
+					if (user.data.shops_owned.length > 0) {
+						setCurrentShop(user.data.shops_owned[0]);
+					}
+					//Set products for chart
+					if (user.data.products.length > 0 && user.data.transactions_sale.length > 0) {
+						setProduct(user.data.products[0]);
+						setProductsInTransactions(
+							transProductsQtyById(user.data.transactions_sale, user.data.products[0]._id)
+						);
+					}
+					setCurrentUser(userObject);
+				} else {
+					history.replace('/');
+					setAlert('User not found', 'error');
 				}
-				//Set products for chart
-				if (user.data.products.length > 0 && user.data.transactions_sale.length > 0) {
-					setProduct(user.data.products[0]);
-					setProductsInTransactions(
-						transProductsQtyById(user.data.transactions_sale, user.data.products[0]._id)
-					);
-				}
-				setCurrentUser(userObject);
 			}
 		};
 		fetchData();
@@ -840,6 +948,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		<PrimeSpinner />
 	) : (
 		<Fragment>
+			{/** Navbar */}
 			<Navbar
 				view={
 					shops.length > 0 && isOwner
@@ -900,6 +1009,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 					}
 					onHide={() => hideOrderDialog()}
 				>
+					{/** Approve order options */}
 					{approve && (
 						<div className="message-button-sm">
 							<div className="message">Approve Order?</div>
@@ -913,6 +1023,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Delete account options */}
 					{deleteAccount && (
 						<div className="message-button-sm">
 							<div className="message">Delete your account?</div>
@@ -926,6 +1037,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Prepare for delivery order options */}
 					{preparedDeliver && (
 						<div className="message-button-sm">
 							<div className="message">Order ready for delivery?</div>
@@ -939,6 +1051,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Prepare for pick up order options */}
 					{preparedPickup && (
 						<div className="message-button-sm">
 							<div className="message">Order ready for pick up?</div>
@@ -952,6 +1065,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Delivered order options */}
 					{ready && (
 						<div className="message-button-sm">
 							<div className="message">Order delivered?</div>
@@ -965,6 +1079,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Feedback component */}
 					{showFeedback && (
 						<FeedbackComp
 							user={currentUser}
@@ -974,6 +1089,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							setAlert={setAlert}
 						/>
 					)}
+					{/** Report feedback component */}
 					{showReportFeedback && (
 						<Report
 							user={currentUser}
@@ -985,6 +1101,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							type={'user'}
 						/>
 					)}
+					{/** Payed order options */}
 					{delivered && (
 						<div className="message-button-sm">
 							<div className="message">Payment Received?</div>
@@ -998,6 +1115,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Received order options */}
 					{received && (
 						<div className="message-button-sm">
 							<div className="message">Order Received?</div>
@@ -1011,8 +1129,10 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Move order options */}
 					{orderRemoval && (
 						<div className="message-button-sm">
+							{/** change question depending on order type */}
 							<div className="message">
 								Move back to{' '}
 								{orderType === 'orders-shop-prepare'
@@ -1041,6 +1161,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							</div>
 						</div>
 					)}
+					{/** Delete order options */}
 					{orderDeletion && (
 						<div className="message-button-sm">
 							<div className="message">Delete Order?</div>
@@ -1124,16 +1245,19 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 				 * Delete Product
 				 */}
 				<Dialog header={'Deletion'} visible={showProductDeletion} onHide={() => setShowProductDeletion(false)}>
+					{/** Delete question, show product name */}
 					{!success && currentProductToDelete && (
 						<h1 className="text-center mt-1">
 							Delete Product? {<div className="text-danger">{currentProductToDelete.name}</div>}
 						</h1>
 					)}
+					{/** Success message, show deleted product's name */}
 					{success && currentProductToDelete && (
 						<h1 className="text-center mt-1">
 							{<div className="text-danger">{currentProductToDelete.name}</div>} Product Deleted!
 						</h1>
 					)}
+					{/** Delete options and exit button when success */}
 					<div className="form-group">
 						<div className="buttons-form">
 							{success ? (
@@ -1162,16 +1286,19 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 				 * Delete Shop
 				 */}
 				<Dialog header={'Deletion'} visible={showShopDeletion} onHide={() => setShowShopDeletion(false)}>
+					{/** Delete question, show shop name */}
 					{!success && currentShopToDelete && (
 						<h1 className="text-center mt-1">
 							Delete Shop? {<div className="text-danger">{currentShopToDelete.name}</div>}
 						</h1>
 					)}
+					{/** Success message, show deleted shop's name */}
 					{success && currentShopToDelete && (
 						<h1 className="text-center mt-1">
 							{<div className="text-danger">{currentShopToDelete.name}</div>} Shop Deleted!
 						</h1>
 					)}
+					{/** Delete options and exit button when success */}
 					<div className="form-group">
 						<div className="buttons-form">
 							{success ? (
@@ -1206,9 +1333,11 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 						setSubmition={setSubmition}
 					/>
 				)}
+				{/** Product Creation */}
 				{productCreation === true && (
 					<ProductCreation toggle={setProductCreation} setAlert={setAlert} history={history} />
 				)}
+				{/** Page title, show 'My account' if owner */}
 				<h1 ref={topRef} className="page-title">
 					{isOwner ? 'My Account' : 'User Information'}{' '}
 				</h1>
@@ -1226,7 +1355,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								feedback={feedback}
 							/>
 						</div>
-						{/** Top Right */}
+						{/** Top Right (Hide on mobile) */}
 						<div className="m-auto hide-sm">
 							<UserData
 								user={currentUser}
@@ -1236,6 +1365,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								feedback={feedback}
 							/>
 						</div>
+						{/** Mobile user card hidden behind button */}
 						<div className="show-sm mt-1">
 							<Inplace closable={true}>
 								<InplaceDisplay>More...</InplaceDisplay>
@@ -1255,6 +1385,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 					{/** Accordion */}
 					{isOwner ? (
 						<Accordion activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+							{/** Statistics */}
 							<AccordionTab
 								header={
 									<div ref={statisticsRef}>
@@ -1267,7 +1398,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										activeIndex={tabActiveIndex}
 										onTabChange={(e) => setTabActiveIndex(e.index)}
 									>
+										{/** User Data Chart */}
 										<TabPanel header="My Data" leftIcon="far fa-user">
+											{/** Options (Hide on mobile) */}
 											<div className="hide-sm">
 												<div className="buttons-form-free">
 													<button
@@ -1312,6 +1445,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 													</button>
 												</div>
 											</div>
+											{/** Options (mobile) */}
 											<div className="show-sm">
 												<div className="buttons-options">
 													<button
@@ -1358,6 +1492,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 													</button>
 												</div>
 											</div>
+											{/** Chart */}
 											<ChartComp
 												data={
 													userChartOption === 'Purchased Items' ||
@@ -1375,10 +1510,13 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												title={userChartOption}
 											/>
 										</TabPanel>
+										{/** Shop data chart */}
 										<TabPanel header="Shops" leftIcon="fas fa-shopping-cart">
+											{/** Show if user has shops */}
 											{shops.length > 0 ? (
 												<div className="chart-search">
 													<div className="vertical">
+														{/** Options */}
 														<div className="buttons-form-free mb-1">
 															<button
 																onClick={() => setShopChartOption('Sold Items')}
@@ -1401,6 +1539,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 																Visits
 															</button>
 														</div>
+														{/** Chart */}
 														<ChartComp
 															data={
 																shopChartOption === 'Sold Items'
@@ -1416,6 +1555,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 															title={shopChartOption}
 														/>
 													</div>
+													{/** List of selectable shops */}
 													<ListBoxIMG
 														itemType={'shop'}
 														item={shop}
@@ -1427,11 +1567,14 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												<h1>You don't have any shops</h1>
 											)}
 										</TabPanel>
+										{/** Products data chart */}
 										<TabPanel header="Products" leftIcon="fas fa-shopping-basket">
+											{/** Show if user has products */}
 											{products.length > 0 ? (
 												<div className="chart-search">
 													<div className="vertical">
 														<div className="buttons-form-free mb-1">
+															{/** options */}
 															<button
 																onClick={() => setProductChartOption('Sold Items')}
 																className={
@@ -1453,6 +1596,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 																Visits
 															</button>
 														</div>
+														{/** Chart */}
 														<ChartComp
 															data={
 																productChartOption === 'Sold Items'
@@ -1468,6 +1612,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 															title={productChartOption}
 														/>
 													</div>
+													{/** List of selectable products */}
 													<ListBoxIMG
 														itemType={'product'}
 														item={product}
@@ -1482,6 +1627,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									</TabView>
 								</div>
 							</AccordionTab>
+							{/** Shops List */}
 							<AccordionTab
 								header={
 									<div ref={shopsRef}>
@@ -1489,16 +1635,18 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									</div>
 								}
 							>
-								{/**Shop List */}
+								{/** Create shop button */}
 								<button onClick={() => setShopCreation(true)} className="btn btn-primary mb-1">
 									<i className="fas fa-plus-circle mr-1"></i>New
 								</button>
+								{/** Show if user has shops */}
 								{shops.length > 0 ? (
 									<DataViewComp items={shops} type="shops" setShopToDelete={setShopToDelete} />
 								) : (
 									<h1>You don't have any shops</h1>
 								)}
 							</AccordionTab>
+							{/** Products List */}
 							<AccordionTab
 								header={
 									<div ref={productsRef}>
@@ -1506,7 +1654,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									</div>
 								}
 							>
-								{/**Product List */}
+								{/** Show if user has products */}
 								{products.length > 0 ? (
 									<DataViewComp
 										items={products}
@@ -1518,6 +1666,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									<h1>You don't have any products</h1>
 								)}
 							</AccordionTab>
+							{/** Orders List (Sale) */}
 							<AccordionTab
 								header={
 									<div ref={ordersSaleRef}>
@@ -1528,7 +1677,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								<Alert />
 								<div>
 									{/**
-									 * Transaction View
+									 * Transaction View Component
 									 */}
 									{transactionToShowSold && (
 										<TransactionView
@@ -1538,12 +1687,14 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 											orderView={true}
 										/>
 									)}
+									{/** Orders by status tabs */}
 									<TabView
 										activeIndex={tabActiveIndex2}
 										onTabChange={(e) => setTabActiveIndex2(e.index)}
 									>
+										{/** Orders to approve */}
 										<TabPanel header="To Approve" leftIcon="far fa-clock">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersApproveSale && ordersApproveSale.length > 0 ? (
 												<Fragment>
 													<DataViewComp
@@ -1560,8 +1711,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												<h1>No orders received</h1>
 											)}
 										</TabPanel>
+										{/** Orders to set as ready */}
 										<TabPanel header="To Prepare" leftIcon="fas fa-wrench">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersPrepareSale && ordersPrepareSale.length > 0 ? (
 												<DataViewComp
 													items={ordersPrepareSale}
@@ -1577,8 +1729,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												<h1>No orders to prepare</h1>
 											)}
 										</TabPanel>
+										{/** Orders to set as delivered */}
 										<TabPanel header="Ready" leftIcon="fas fa-gift">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersReadySale && ordersReadySale.length > 0 ? (
 												<DataViewComp
 													items={ordersReadySale}
@@ -1593,8 +1746,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												<h1>No orders ready for delivery/pickup</h1>
 											)}
 										</TabPanel>
+										{/** Orders to set as payed */}
 										<TabPanel header="Delivered" leftIcon="far fa-check-square">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersDeliveredSale && ordersDeliveredSale.length > 0 ? (
 												<DataViewComp
 													items={ordersDeliveredSale}
@@ -1612,6 +1766,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									</TabView>
 								</div>
 							</AccordionTab>
+							{/** Orders List (Purchase) */}
 							<AccordionTab
 								header={
 									<div ref={ordersPurchaseRef}>
@@ -1622,7 +1777,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								<Alert />
 								<div>
 									{/**
-									 * Transaction View
+									 * Transaction View Component
 									 */}
 									{transactionToShowBought && (
 										<TransactionView
@@ -1636,8 +1791,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										activeIndex={tabActiveIndex3}
 										onTabChange={(e) => setTabActiveIndex3(e.index)}
 									>
+										{/** Orders to be approved */}
 										<TabPanel header="To Approve" leftIcon="far fa-clock">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersApprovePurchase && ordersApprovePurchase.length > 0 ? (
 												<Fragment>
 													<DataViewComp
@@ -1655,8 +1811,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												<h1>No orders made</h1>
 											)}
 										</TabPanel>
+										{/** Orders to be prepared */}
 										<TabPanel header="To Prepare" leftIcon="fas fa-wrench">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersPreparePurchase && ordersPreparePurchase.length > 0 ? (
 												<DataViewComp
 													items={ordersPreparePurchase}
@@ -1673,8 +1830,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												<h1>No orders being prepared</h1>
 											)}
 										</TabPanel>
+										{/** Orders to be set as ready for pickup/delivered */}
 										<TabPanel header="Ready" leftIcon="fas fa-gift">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersReadyPurchase && ordersReadyPurchase.length > 0 ? (
 												<DataViewComp
 													items={ordersReadyPurchase}
@@ -1690,8 +1848,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												<h1>No orders ready for delivery/pickup</h1>
 											)}
 										</TabPanel>
+										{/** Orders delivered */}
 										<TabPanel header="Received" leftIcon="far fa-check-square">
-											{/**Transaction List */}
+											{/** Show list if there is any orders */}
 											{ordersDeliveredPurchase && ordersDeliveredPurchase.length > 0 ? (
 												<DataViewComp
 													items={ordersDeliveredPurchase}
@@ -1710,6 +1869,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									</TabView>
 								</div>
 							</AccordionTab>
+							{/** Transaction list (Sale) */}
 							<AccordionTab
 								header={
 									<div ref={transSaleRef}>
@@ -1718,7 +1878,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								}
 							>
 								{/**
-								 * Transaction View
+								 * Transaction View Component
 								 */}
 								{transactionToShowSold && (
 									<TransactionView
@@ -1727,7 +1887,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										openProduct={setCurrentProductToShow}
 									/>
 								)}
-								{/**Transaction List */}
+								{/** Show transactions if has any */}
 								{!transactionToShowSold && transactionsSold && transactionsSold.length > 0 ? (
 									<DataViewComp
 										items={transactionsSold}
@@ -1738,6 +1898,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									!transactionToShowSold && <h1>You haven't sold any items</h1>
 								)}
 							</AccordionTab>
+							{/** Transaction list (Purchase) */}
 							<AccordionTab
 								header={
 									<div ref={transPurchaseRef}>
@@ -1746,7 +1907,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								}
 							>
 								{/**
-								 * Transaction View
+								 * Transaction View Component
 								 */}
 								{transactionToShowBought && (
 									<TransactionView
@@ -1755,7 +1916,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										openProduct={setCurrentProductToShow}
 									/>
 								)}
-								{/**Transaction List */}
+								{/** Show transactions if has any */}
 								{!transactionToShowBought && transactionsBought && transactionsBought.length > 0 ? (
 									<DataViewComp
 										items={transactionsBought}
@@ -1766,6 +1927,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									!transactionToShowBought && <h1>You haven't purchased any items</h1>
 								)}
 							</AccordionTab>
+							{/** Feedback list */}
 							<AccordionTab
 								header={
 									<div ref={feedbackRef}>
@@ -1775,7 +1937,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 							>
 								{/**Review List */}
 								<div className="accord-list">
-									{/**Review card */}
+									{/** Show feedback if has received any */}
 									{feedback && feedback.length > 0 ? (
 										<Fragment>
 											<DataViewComp
@@ -1790,6 +1952,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									)}
 								</div>
 							</AccordionTab>
+							{/** Settings */}
 							<AccordionTab
 								header={
 									<div ref={settingsRef}>
@@ -1819,7 +1982,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 						</Accordion>
 					) : (
 						<Fragment>
+							{/** Accordion for visitors */}
 							<Accordion>
+								{/** Shops list */}
 								<AccordionTab
 									header={
 										<div ref={shopsRef}>
@@ -1827,7 +1992,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										</div>
 									}
 								>
-									{/**Shop List */}
+									{/** Show shop list if has any */}
 									<div className="card-list">
 										{shops.length > 0 ? (
 											<DataViewComp items={shops} type="shops" />
@@ -1836,6 +2001,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										)}
 									</div>
 								</AccordionTab>
+								{/** Products list */}
 								<AccordionTab
 									header={
 										<div ref={productsRef}>
@@ -1843,7 +2009,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										</div>
 									}
 								>
-									{/**Product List */}
+									{/** Show product list if has any */}
 									<div className="card-list">
 										{products.length > 0 ? (
 											<DataViewComp
@@ -1856,6 +2022,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										)}
 									</div>
 								</AccordionTab>
+								{/** Feedback list and textbox to leave one */}
 								<AccordionTab
 									header={
 										<div ref={feedbackRef}>
@@ -1863,7 +2030,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 										</div>
 									}
 								>
-									{/**Review List */}
+									{/**Review Text area*/}
 									<div className="accord-list">
 										{!isOwner && isAuthenticated && (
 											<div className="review-section">
@@ -1881,7 +2048,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 												</button>
 											</div>
 										)}
-										{/**Review card */}
+										{/** Login or register options */}
 										<div className="review-section">
 											{!isAuthenticated && (
 												<div className="mb-1">
@@ -1897,6 +2064,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 													</div>
 												</div>
 											)}
+											{/** Show feedback received if has any */}
 											{feedback && feedback.length > 0 ? (
 												<DataViewComp
 													selectFeedback={selectFeedback}

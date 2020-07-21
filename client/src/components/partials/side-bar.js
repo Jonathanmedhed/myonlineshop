@@ -30,8 +30,7 @@ const SideBarComp = ({
 	const [visibleRight, setVisibleRight] = useState(false);
 	return (
 		<Fragment>
-			{/**console.log('View Sidebar: ' + view)*/}
-			{/**console.log('Type Sidebar: ' + type)*/}
+			{/** Left side bar */}
 			{direction === 'left' && (
 				<Fragment>
 					<Sidebar visible={visibleLeft} onHide={(e) => setVisibleLeft(false)}>
@@ -39,6 +38,7 @@ const SideBarComp = ({
 							<i className="fas fa-code"></i>
 							<h1>MyOnlineShop</h1>
 						</div>
+						{/** Slide menu */}
 						<SlideComp
 							type={type}
 							history={history}
@@ -66,6 +66,7 @@ const SideBarComp = ({
 					<Button icon="fas fa-bars" onClick={(e) => setVisibleLeft(true)} />
 				</Fragment>
 			)}
+			{/** Right side bar */}
 			{direction === 'right' && (
 				<Fragment>
 					<div className="side-bar-right">
@@ -73,6 +74,7 @@ const SideBarComp = ({
 							<div className="title mb-1">
 								<h1>MyOnlineShop</h1>
 							</div>
+							{/** Slide menu */}
 							<SlideComp
 								type={type}
 								history={history}

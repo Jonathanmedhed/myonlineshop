@@ -1,18 +1,4 @@
 /**
- * Rating Calculator
- * @param {*} feedback
- */
-export const calculateRating = (feedback) => {
-	let feedbackValue = 0;
-	let feedbackCount = 0;
-	feedback.forEach((feed) => {
-		feedbackValue = feedbackValue + feed.stars;
-		feedbackCount = feedbackCount + 1;
-	});
-	return feedbackValue / feedbackCount;
-};
-
-/**
  *  Returns active or inactive items
  * @param {*} items
  * @param {*} option true returns active, false returns inactives
@@ -35,6 +21,50 @@ export const activeItems = (items, option) => {
 	} else {
 		return active;
 	}
+};
+
+/**
+ * Calculate average rating from an array of feedbacks
+ * @param {*} feedback
+ */
+export const calculateRating = (feedback) => {
+	// Amount of stars
+	let feedbackValue = 0;
+	// Amount of feedback
+	let feedbackCount = 0;
+	feedback.forEach((feed) => {
+		feedbackValue = feedbackValue + feed.stars;
+		feedbackCount = feedbackCount + 1;
+	});
+	// return average
+	return feedbackValue / feedbackCount;
+};
+
+/**
+ * Create Order email to send
+ */
+export const createEmail = (shop, products, user) => {
+	let emailToSend = '';
+	let productsString = '';
+
+	products.forEach((product) => {
+		productsString = productsString + '\n' + product.name + ' Qty: ' + product.quantity;
+	});
+
+	emailToSend =
+		'Dear ' +
+		shop.name +
+		'\n' +
+		'\n' +
+		user.name +
+		' would like to order the following items: \n' +
+		productsString +
+		'\n\nThis is an auto generated email. \nPlease contact us if there are any issues with the order. \nRegards \n\n' +
+		user.name +
+		'\n' +
+		user.email;
+
+	return emailToSend;
 };
 
 /**
@@ -79,11 +109,67 @@ export const getAmount = (item, option) => {
 };
 
 /**
- * Checkif string is valid url
+ * Devide orders by status from an array of transactions
+ */
+export const getOrders = (transactions) => {
+	let toApprove = [];
+	let toPrepare = [];
+	let ready = [];
+	let delivered = [];
+	let paid = [];
+	transactions.forEach((transaction) => {
+		if (!transaction.approved && !transaction.paid) {
+			toApprove.push(transaction);
+		}
+		if (transaction.approved && !transaction.ready_f_delivery && !transaction.ready_f_pickup && !transaction.paid) {
+			toPrepare.push(transaction);
+		}
+		if (
+			transaction.approved &&
+			!transaction.delivered &&
+			!transaction.paid &&
+			(transaction.ready_f_delivery || transaction.ready_f_pickup)
+		) {
+			ready.push(transaction);
+		}
+		if (transaction.approved && transaction.delivered && !transaction.paid) {
+			delivered.push(transaction);
+		}
+		if (transaction.paid) {
+			paid.push(transaction);
+		}
+	});
+	return { toApprove: toApprove, toPrepare: toPrepare, ready: ready, delivered: delivered, paid: paid };
+};
+
+/**
+ * Check if string is valid url
  * @param {*} string
  */
 export const isValidHttpUrl = (string) => {
 	return string.includes('http:') || string.includes('https:');
+};
+
+/**
+ * Returs the quantity of product of a transaction
+ */
+export const productsQtyTransaction = (transaction) => {
+	let products = 0;
+	transaction.products.forEach((product) => {
+		products = products + product.quantity;
+	});
+	return products;
+};
+
+/**
+ * Returs product's quantity sold
+ */
+export const productsSold = (products) => {
+	let quantity = 0;
+	products.forEach((product) => {
+		quantity = quantity + product.quantity;
+	});
+	return quantity;
 };
 
 /**
@@ -118,87 +204,4 @@ export const transProductsQtyById = (transactions, id) => {
 		});
 	});
 	return products;
-};
-
-/**
- * Returs the quantity of product of a transaction
- */
-export const productsQtyTransaction = (transaction) => {
-	let products = 0;
-	transaction.products.forEach((product) => {
-		products = products + product.quantity;
-	});
-	return products;
-};
-
-/**
- * Returs product's quantity sold
- */
-export const productsSold = (products) => {
-	let quantity = 0;
-	products.forEach((product) => {
-		quantity = quantity + product.quantity;
-	});
-	return quantity;
-};
-
-/**
- * Create Order email to send
- */
-export const createEmail = (shop, products, user) => {
-	let emailToSend = '';
-	let productsString = '';
-
-	products.forEach((product) => {
-		productsString = productsString + '\n' + product.name + ' Qty: ' + product.quantity;
-	});
-
-	emailToSend =
-		'Dear ' +
-		shop.name +
-		'\n' +
-		'\n' +
-		user.name +
-		' would like to order the following items: \n' +
-		productsString +
-		'\n\nThis is an auto generated email. \nPlease contact us if there are any issues with the order. \nRegards \n\n' +
-		user.name +
-		'\n' +
-		user.email;
-
-	return emailToSend;
-};
-
-/**
- * Orders to approve
- */
-export const getOrders = (transactions) => {
-	let toApprove = [];
-	let toPrepare = [];
-	let ready = [];
-	let delivered = [];
-	let paid = [];
-	transactions.forEach((transaction) => {
-		if (!transaction.approved && !transaction.paid) {
-			toApprove.push(transaction);
-		}
-		if (transaction.approved && !transaction.ready_f_delivery && !transaction.ready_f_pickup && !transaction.paid) {
-			toPrepare.push(transaction);
-		}
-		if (
-			transaction.approved &&
-			!transaction.delivered &&
-			!transaction.paid &&
-			(transaction.ready_f_delivery || transaction.ready_f_pickup)
-		) {
-			ready.push(transaction);
-		}
-		if (transaction.approved && transaction.delivered && !transaction.paid) {
-			delivered.push(transaction);
-		}
-		if (transaction.paid) {
-			paid.push(transaction);
-		}
-	});
-	return { toApprove: toApprove, toPrepare: toPrepare, ready: ready, delivered: delivered, paid: paid };
 };

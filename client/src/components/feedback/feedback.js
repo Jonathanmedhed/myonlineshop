@@ -29,7 +29,9 @@ const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, use
 		if (user) {
 			const replayGiven = await replayFeedbackUser(formData, user._id, feedback._id);
 			if (replayGiven.status === 200) {
+				//update user feedback
 				setFeedback(replayGiven.data.userFeedback);
+				// update feedback that is being replied to
 				setCurrentFeedback(replayGiven.data.feedback);
 				setAlert('Reply posted!', 'success');
 			} else {
@@ -38,7 +40,9 @@ const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, use
 		} else if (shop) {
 			const replayGiven = await replayFeedbackShop(formData, shop._id, feedback._id);
 			if (replayGiven.status === 200) {
+				//update shop feedback
 				setFeedback(replayGiven.data.shopFeedback);
+				// update feedback that is being replied to
 				setCurrentFeedback(replayGiven.data.feedback);
 				setAlert('Reply posted!', 'success');
 			} else {
@@ -47,7 +51,9 @@ const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, use
 		} else if (product) {
 			const replayGiven = await replayFeedbackProduct(formData, product._id, feedback._id);
 			if (replayGiven.status === 200) {
+				//update product feedback
 				setFeedback(replayGiven.data.productFeedback);
+				// update feedback that is being replied to
 				setCurrentFeedback(replayGiven.data.feedback);
 				setAlert('Reply posted!', 'success');
 			} else {
@@ -58,6 +64,7 @@ const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, use
 
 	return (
 		<Fragment>
+			{/** Feedback view */}
 			<div className="card-item">
 				<div className="card-review p-1">
 					<div className="card-user-info">
@@ -93,7 +100,11 @@ const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, use
 					</div>
 				</div>
 			</div>
+			{/** Responses */}
 			<div className="responses">
+				{/**
+				 Text box for response
+				 */}
 				<div className="review-section">
 					<Alert />
 					<TextArea name="comment" value={comment} setValue={onChange} />
@@ -101,6 +112,7 @@ const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, use
 						Reply
 					</button>
 				</div>
+				{/** Response list */}
 				{feedback.responses && feedback.responses.length > 0 ? (
 					<DataViewComp
 						items={feedback.responses.sort((a, b) => (a.date < b.date ? 1 : -1))}

@@ -27,6 +27,7 @@ const CardVer = ({
 	selectFeedback,
 	selectReportFeedback,
 }) => {
+	/** Open item */
 	const open = (id) => {
 		switch (type) {
 			case 'shops':
@@ -42,10 +43,16 @@ const CardVer = ({
 		}
 	};
 
+	/** Select and set product */
 	const openProduct = (id) => {
 		setCurrentProduct(item._id);
 	};
 
+	/**
+	 * Options for selected order (show a dialog)
+	 * @param {*} item
+	 * @param {*} option
+	 */
 	const orderOption = (item, option) => {
 		setCurrentOrderDialog(item);
 		switch (option) {
@@ -73,14 +80,20 @@ const CardVer = ({
 		<Fragment>
 			{item && (
 				<Fragment>
+					{/** Add border to ard if transaction */}
 					<div className={type !== 'transactions' ? 'card-review-vert' : 'card-review-vert-border'}>
+						{/**
+						 * Top Part (img/name/stars)
+						 *
+						 */}
+						{/** Transaction/Order header */}
 						{(type === 'transactions' || type.includes('orders')) && (
 							<div className="page-title-absolute">
 								<div className="bold">Id:</div>
 								<div className="bold">{item._id}</div>
 							</div>
 						)}
-						{/**Top part (img/name/stars) */}
+						{/** Feedback */}
 						{type === 'feedback' && (
 							<div className="top">
 								<div className="card-user-info">
@@ -113,6 +126,7 @@ const CardVer = ({
 								</div>
 							</div>
 						)}
+						{/** Product */}
 						{type === 'products' && (
 							<div className="top">
 								<div className="card-product-info">
@@ -141,6 +155,7 @@ const CardVer = ({
 								</div>
 							</div>
 						)}
+						{/** Product in checkout section */}
 						{type === 'products-checkout' && (
 							<div className="card-product-info-sm">
 								<div onClick={() => openProduct(item._id)}>
@@ -160,6 +175,7 @@ const CardVer = ({
 								</div>
 							</div>
 						)}
+						{/** Response for feedback */}
 						{type === 'response' && (
 							<div className="top">
 								<div className="card-user-info">
@@ -184,6 +200,7 @@ const CardVer = ({
 								</div>
 							</div>
 						)}
+						{/** Shop */}
 						{type === 'shops' && (
 							<div className="top">
 								<div className="card-shop-info">
@@ -211,9 +228,10 @@ const CardVer = ({
 								</div>
 							</div>
 						)}
-						{/**Bottom part (info and button)*/}
+						{/**Bottom part (info and buttons)*/}
 						<div className="vertical just-items-center">
 							<div className="card-item-inner">
+								{/** Feedback comment*/}
 								{type === 'feedback' && (
 									<div className="vertical just-items-center">
 										<div className="message">
@@ -221,6 +239,7 @@ const CardVer = ({
 										</div>
 									</div>
 								)}
+								{/** Product data */}
 								{type === 'products' && (
 									<Fragment>
 										<div className="card-data">
@@ -249,6 +268,7 @@ const CardVer = ({
 										</div>
 									</Fragment>
 								)}
+								{/** Product in checkout section data */}
 								{type === 'products-checkout' && (
 									<Fragment>
 										<div className="card-data">
@@ -267,6 +287,7 @@ const CardVer = ({
 										</div>
 									</Fragment>
 								)}
+								{/** Response to feedback comment */}
 								{type === 'response' && (
 									<div className="vertical just-items-center">
 										<div className="message">
@@ -274,6 +295,7 @@ const CardVer = ({
 										</div>
 									</div>
 								)}
+								{/** Shop data */}
 								{type === 'shops' && (
 									<Fragment>
 										<div className="card-data">
@@ -300,6 +322,7 @@ const CardVer = ({
 										</div>
 									</Fragment>
 								)}
+								{/** Transaction Data */}
 								{type === 'transactions' && (
 									<Fragment>
 										<div className="inner-small mt-1">
@@ -362,6 +385,7 @@ const CardVer = ({
 										</div>
 									</Fragment>
 								)}
+								{/** Order data */}
 								{type.includes('orders') && (
 									<Fragment>
 										<div className="inner-small mt-1">
@@ -379,6 +403,7 @@ const CardVer = ({
 												<div className="bold">Buyer:</div>
 												<div className="right-data">{item.buyer_name}</div>
 											</div>
+											{/** Status for order to approve and approved */}
 											{(type === 'orders-shop-approve' || type === 'orders-shop-prepare') && (
 												<div className="horizontal just-items-between">
 													<div className="bold">Approved:</div>
@@ -393,6 +418,7 @@ const CardVer = ({
 													</div>
 												</div>
 											)}
+											{/** Status for approved orders */}
 											{type === 'orders-shop-prepare' && (
 												<Fragment>
 													<div className="horizontal just-items-between">
@@ -421,6 +447,7 @@ const CardVer = ({
 													</div>
 												</Fragment>
 											)}
+											{/** Status for orders ready and delivered */}
 											{(type === 'orders-shop-ready' || type === 'orders-shop-delivered') && (
 												<Fragment>
 													<div className="horizontal just-items-between">
@@ -435,6 +462,7 @@ const CardVer = ({
 															<i className="fas fa-circle"></i>
 														</div>
 													</div>
+													{/** Show ready for delivery status */}
 													{item.ready_f_delivery && type === 'orders-shop-ready' && (
 														<div className="horizontal just-items-between">
 															<div className="bold">Ready to deliver:</div>
@@ -449,6 +477,7 @@ const CardVer = ({
 															</div>
 														</div>
 													)}
+													{/** Show ready for pickup status */}
 													{item.ready_f_pickup && type === 'orders-shop-ready' && (
 														<div className="horizontal just-items-between">
 															<div className="bold">Ready for pickup:</div>
@@ -463,6 +492,7 @@ const CardVer = ({
 															</div>
 														</div>
 													)}
+													{/** Order delivered status */}
 													{type === 'orders-shop-delivered' && (
 														<div className="horizontal just-items-between">
 															<div className="bold">Paid:</div>
@@ -483,7 +513,11 @@ const CardVer = ({
 									</Fragment>
 								)}
 							</div>
+							{/** Option section (Buttons) */}
 							<div className="m-auto">
+								{/** Product in checkout section
+								 *  Remove from cart option
+								 */}
 								{type === 'products-checkout' && transactionView === false ? (
 									<button onClick={() => removeItem(item)} className="btn btn-danger ml-1">
 										Remove
@@ -498,6 +532,7 @@ const CardVer = ({
 										</button>
 									)
 								)}
+								{/** Feedback */}
 								{type === 'feedback' && (
 									<div className="review-buttons-hor">
 										<i onClick={() => selectFeedback(item)} className="fas fa-comment-dots"></i>
@@ -507,6 +542,7 @@ const CardVer = ({
 										></i>
 									</div>
 								)}
+								{/** Product */}
 								{type === 'products' && (
 									<Fragment>
 										<button onClick={() => openProduct(item._id)} className="btn btn-primary ml-1">
@@ -522,11 +558,13 @@ const CardVer = ({
 										)}
 									</Fragment>
 								)}
+								{/** Response to feedback */}
 								{type === 'response' && (
 									<div className="review-buttons-hor">
 										<i className="fas fa-exclamation-circle"></i>
 									</div>
 								)}
+								{/** Shop */}
 								{type === 'shops' && (
 									<Fragment>
 										<button className="btn btn-primary ml-1">
@@ -544,22 +582,27 @@ const CardVer = ({
 										)}
 									</Fragment>
 								)}
+								{/** Transaction */}
 								{type === 'transactions' && (
 									<button onClick={() => setTransaction(item._id)} className="btn btn-primary">
 										View
 									</button>
 								)}
+								{/** Order */}
 								{type.includes('orders') && (
 									<Fragment>
+										{/** Order to approve options */}
 										{type === 'orders-shop-approve' && (
 											<Fragment>
 												<div className="horizontal">
+													{/** Open */}
 													<button
 														onClick={() => setTransaction(item._id)}
 														className="btn-icon btn-primary"
 													>
 														<i className="fas fa-eye text-white"></i>
 													</button>
+													{/** Shop option to approve */}
 													{!buyerView && (
 														<button
 															onClick={() => orderOption(item, 'orders-shop-approve')}
@@ -568,6 +611,7 @@ const CardVer = ({
 															<i className="fas fa-check-circle"></i>
 														</button>
 													)}
+													{/** Remove order */}
 													<button
 														onClick={() => deleteOrder(item, 'orders-shop-approve')}
 														className="btn-icon btn-danger ml-qter"
@@ -577,12 +621,15 @@ const CardVer = ({
 												</div>
 											</Fragment>
 										)}
+										{/** Order to prepare */}
 										{type === 'orders-shop-prepare' && (
 											<Fragment>
 												<div className="vertical align-items-center">
 													<div className="horizontal">
+														{/** Shop owner options */}
 														{!buyerView && (
 															<Fragment>
+																{/** Set order as ready to deliver */}
 																<button
 																	onClick={() =>
 																		orderOption(item, 'orders-shop-prepare-deliver')
@@ -591,6 +638,7 @@ const CardVer = ({
 																>
 																	<i className="fas fa-truck-loading"></i>
 																</button>
+																{/** Set order as ready for pickup */}
 																<button
 																	onClick={() =>
 																		orderOption(item, 'orders-shop-prepare-pickup')
@@ -601,12 +649,14 @@ const CardVer = ({
 																</button>
 															</Fragment>
 														)}
+														{/** Open */}
 														<button
 															onClick={() => setTransaction(item._id)}
 															className="btn-icon btn-primary ml-qter"
 														>
 															<i className="fas fa-eye text-white"></i>
 														</button>
+														{/** Move back to approval */}
 														{!buyerView && (
 															<button
 																onClick={() => moveOrder(item, 'orders-shop-prepare')}
@@ -615,6 +665,7 @@ const CardVer = ({
 																<i className="fas fa-undo-alt"></i>
 															</button>
 														)}
+														{/** Remove order */}
 														<button
 															onClick={() => deleteOrder(item, 'orders-shop-prepare')}
 															className="btn-icon btn-danger ml-qter"
@@ -625,24 +676,29 @@ const CardVer = ({
 												</div>
 											</Fragment>
 										)}
+										{/** Order that are ready options */}
 										{type === 'orders-shop-ready' && (
 											<Fragment>
 												<div className="vertical align-items-center">
 													<div className="horizontal">
+														{/** Open */}
 														<button
 															onClick={() => setTransaction(item._id)}
 															className="btn-icon btn-primary"
 														>
 															<i className="fas fa-eye text-white"></i>
 														</button>
+														{/** Shop owner options */}
 														{!buyerView && (
 															<Fragment>
+																{/** Move order back */}
 																<button
 																	onClick={() => moveOrder(item, 'orders-shop-ready')}
 																	className="btn-icon btn-caution ml-qter"
 																>
 																	<i className="fas fa-undo-alt"></i>
 																</button>
+																{/** Set as elivered */}
 																<button
 																	onClick={() =>
 																		orderOption(item, 'orders-shop-ready')
@@ -653,6 +709,7 @@ const CardVer = ({
 																</button>
 															</Fragment>
 														)}
+														{/** Remove */}
 														<button
 															onClick={() => deleteOrder(item, 'orders-shop-ready')}
 															className="btn-icon btn-danger ml-qter"
@@ -663,15 +720,18 @@ const CardVer = ({
 												</div>
 											</Fragment>
 										)}
+										{/** Order delivered options */}
 										{type === 'orders-shop-delivered' && (
 											<div className="vertical align-items-center">
 												<div className="horizontal">
+													{/** Open */}
 													<button
 														onClick={() => setTransaction(item._id)}
 														className="btn-icon btn-primary"
 													>
 														<i className="fas fa-eye text-white"></i>
 													</button>
+													{/** Move order back */}
 													{!buyerView && (
 														<button
 															onClick={() => moveOrder(item, 'orders-shop-delivered')}
@@ -680,6 +740,7 @@ const CardVer = ({
 															<i className="fas fa-undo-alt"></i>
 														</button>
 													)}
+													{/** Set order as received or payed */}
 													<button
 														onClick={() => orderOption(item, 'orders-shop-delivered')}
 														className="btn-icon btn-success ml-qter"
@@ -692,6 +753,7 @@ const CardVer = ({
 															}
 														></i>
 													</button>
+													{/** Remove order */}
 													<button
 														onClick={() => deleteOrder(item, 'orders-shop-delivered')}
 														className="btn-icon btn-danger ml-qter"

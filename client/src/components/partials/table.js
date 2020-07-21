@@ -1,17 +1,20 @@
 import React, { Fragment, useState } from 'react';
 
 const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transactionView }) => {
+	/** Search box query */
 	const [formData, setFormData] = useState({
 		query: '',
 	});
-
 	const { query } = formData;
 
+	/** Change for data */
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+	/** Filtered list items */
 	let filteredItems = [];
 
 	if (list) {
+		// if sections
 		if (data === 'positions') {
 			filteredItems = list.filter((item) => {
 				return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
@@ -23,6 +26,9 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 		}
 	}
 
+	/**
+	 * Calculate tax and total
+	 */
 	let total = 0;
 	let taxes = 0;
 
@@ -37,6 +43,7 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 	return (
 		<Fragment>
 			<div>
+				{/** Search box */}
 				{wSearch === true && (
 					<div class="search">
 						<input
@@ -52,25 +59,28 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 						</button>
 					</div>
 				)}
-
 				<div className="tables">
 					<div className="table-container">
 						<table className="table">
 							<thead className="bg-primary">
 								<tr>
+									{/** Table headers */}
 									{headers && headers.map((head) => <th>{head}</th>)}
 									{wOptions === true && <th>Options</th>}
 								</tr>
 							</thead>
 							<tbody>
+								{/** Body */}
 								{filteredItems.map((item) => (
 									<tr key={item._id}>
+										{/** Sections positions */}
 										{data === 'positions' && (
 											<Fragment>
 												<td className="bold">{item.position}</td>
 												<td className="bold">{item.title}</td>
 											</Fragment>
 										)}
+										{/** Products */}
 										{data === 'products' && (
 											<Fragment>
 												<td>{item.name}</td>
@@ -79,6 +89,7 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 												<td>${Math.round(item.price * item.quantity * 100) / 100}</td>
 											</Fragment>
 										)}
+										{/** Products for mobile */}
 										{data === 'products-mobile' && (
 											<Fragment>
 												<td>{item.name}</td>
@@ -90,6 +101,7 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 												<td>${Math.round(item.price * item.quantity * 100) / 100}</td>
 											</Fragment>
 										)}
+										{/** Show options */}
 										{wOptions === true && (
 											<td>
 												{transactionView === false ? (
@@ -106,6 +118,7 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 									</tr>
 								))}
 								<tr>
+									{/** Product tax */}
 									{data === 'products' && (
 										<Fragment>
 											<td className="bg-white"></td>
@@ -116,6 +129,7 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 									)}
 								</tr>
 								<tr>
+									{/** Product tax mobile */}
 									{data === 'products-mobile' && (
 										<Fragment>
 											<td className="bg-white"></td>
@@ -126,6 +140,7 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 									)}
 								</tr>
 								<tr>
+									{/** Product total */}
 									{data === 'products' && (
 										<Fragment>
 											<td className="bg-white"></td>
@@ -138,6 +153,7 @@ const Table = ({ selectItem, data, list, headers, wOptions, wSearch, transaction
 									)}
 								</tr>
 								<tr>
+									{/** Product total mobile */}
 									{data === 'products-mobile' && (
 										<Fragment>
 											<td className="bg-white"></td>

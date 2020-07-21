@@ -56,6 +56,7 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 				setCurrentUser={setCurrentUser}
 			/>
 			<div className="user-card">
+				{/** User profile pic, show default img if user dont have one */}
 				<div className="pic">
 					<div className="img-cont-xs">
 						<img
@@ -68,37 +69,46 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 							alt=""
 						></img>
 					</div>
+					{/** Change pic button for owner*/}
 					{isOwner && <i onClick={() => setChangePicture(true)} className="far fa-edit mb-1"></i>}
 				</div>
+				{/** User name */}
 				<div className="data">
 					<div className="bold">User: </div>
 					<div className="sub">
 						<div className="ml-1">{user.name && user.name}</div>
+						{/** Edit name option for owner */}
 						{isOwner && <i onClick={() => setChangeName(true)} className="far fa-edit"></i>}
 					</div>
 				</div>
+				{/** Show email to owner */}
 				{isOwner && (
 					<div className="data">
 						<div className="bold">Email: </div>
 						<div className="sub">
 							<div className="ml-1">{user.email}</div>
+							{/** Edit button for onwer */}
 							<i onClick={() => setChangeEmail(true)} className="far fa-edit"></i>
 						</div>
 					</div>
 				)}
+				{/** Location */}
 				<div className="data">
 					<div className="bold">Location: </div>
 					<div className="sub">
 						<div className="ml-1">{user.location}</div>
+							{/** Edit button for onwer */}
 						{isOwner && <i onClick={() => setChangeLocation(true)} className="far fa-edit"></i>}
 					</div>
 				</div>
+							{/** Date since joined */}
 				<div className="data">
 					<div className="bold">Member Since: </div>
 					<div className="sub">
 						<div className="ml-1">{moment(user.date).fromNow()}</div>
 					</div>
 				</div>
+				{/** Feedback on mobile */}
 				<div className="show-sm">
 					<div className="data">
 						<div className="bold">Feedback:</div>
@@ -107,6 +117,7 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 						</div>
 					</div>
 				</div>
+				{/** Social media */}
 				<div className="data">
 					<div className="bold">Social: </div>
 					<div className="sub">
@@ -160,7 +171,7 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 										)}
 									</Fragment>
 								)}
-								{/** Show edit options in Owner */}
+								{/** Show edit options if Owner */}
 								{isOwner && (
 									<Fragment>
 										{user.social && user.social.facebook ? (
@@ -226,6 +237,7 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 						</div>
 					</div>
 				</div>
+				{/** Button to change password */}
 				{isOwner && (
 					<button onClick={() => setChangePassword(true)} className="btn btn-primary self-center mt-1">
 						Change Password

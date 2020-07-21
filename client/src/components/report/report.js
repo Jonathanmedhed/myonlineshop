@@ -16,12 +16,15 @@ import TextArea from '../partials/text-area';
 import { RadioButton } from 'primereact/radiobutton';
 
 const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, user, close, product, reportProduct }) => {
+	// Form content
 	let [formData, setFormData] = useState({
 		comment: '',
 	});
 
+	// Reason for report
 	const [reason, setReason] = useState(null);
 
+	// Submition success
 	const [success, setSuccess] = useState(null);
 
 	// Form Values Variables
@@ -35,36 +38,46 @@ const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, use
 	// Reply to feedback
 	const onReport = async () => {
 		formData.reason = reason;
+		// User feedback
 		if (user) {
 			const reportRequest = await reportFeedbackUser(formData, user._id, feedback._id);
 			if (reportRequest.status === 200) {
+				// update user feedback
 				setFeedback(reportRequest.data.userFeedback);
+				// Update current feedback
 				setCurrentFeedback(reportRequest.data.feedback);
 				setAlert('Feedback Reported!', 'success');
 				setSuccess(true);
 			} else {
 				setAlert('Reporting failed!', 'error');
 			}
+			// Shop Feedback
 		} else if (shop) {
 			const reportRequest = await reportFeedbackShop(formData, shop._id, feedback._id);
 			if (reportRequest.status === 200) {
+				// Update shop feedback
 				setFeedback(reportRequest.data.shopFeedback);
+				// Update current feedback
 				setCurrentFeedback(reportRequest.data.feedback);
 				setAlert('Feedback Reported!', 'success');
 				setSuccess(true);
 			} else {
 				setAlert('Reporting failed!', 'error');
 			}
+			// Product Feedback
 		} else if (product && !reportProduct) {
 			const reportSubmit = await reportFeedbackProduct(formData, product._id, feedback._id);
 			if (reportSubmit.status === 200) {
+				// Update product feedback
 				setFeedback(reportSubmit.data.productFeedback);
+				// Update current feedback
 				setCurrentFeedback(reportSubmit.data.feedback);
 				setAlert('Feedback Reported!', 'success');
 				setSuccess(true);
 			} else {
 				setAlert('Reporting failed!', 'error');
 			}
+			// Report product
 		} else if (product && reportProduct) {
 			const reportSubmit = await reportProductRequest(formData, product._id);
 			if (reportSubmit.status === 200) {
@@ -83,6 +96,7 @@ const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, use
 					{!success ? (
 						<Fragment>
 							<div className="vertical my-half">
+								{/** Report feedback reasons */}
 								{(product || shop || user) && !reportProduct && (
 									<Fragment>
 										<div className="horizontal">
@@ -127,6 +141,7 @@ const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, use
 										</div>
 									</Fragment>
 								)}
+								{/** Report product reasons */}
 								{product && reportProduct && (
 									<div className="px-2">
 										<div className="horizontal">
@@ -173,15 +188,18 @@ const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, use
 								)}
 							</div>
 							<Alert />
+							{/** Comment for report */}
 							{(reason === 'Other' || reason === 'False statement') && (
 								<TextArea name="comment" value={comment} setValue={onChange} />
 							)}
+							{/** Submit button */}
 							<button onClick={() => onReport()} className="btn btn-primary my-1">
 								Report
 							</button>
 						</Fragment>
 					) : (
 						<div className="success-message">
+							{/** Success Message */}
 							<i class="fas fa-check-circle fa-5x text-success"></i>
 							<h1>Feedback Reported!</h1>
 							<div className="message mb-half">

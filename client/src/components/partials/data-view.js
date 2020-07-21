@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { Dialog } from 'primereact/dialog';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { Dropdown } from 'primereact/dropdown';
 import CardHor from '../partials/card-hor';
@@ -28,13 +27,14 @@ const DataViewComp = ({
 	setReceived,
 	selectReportFeedback,
 }) => {
+	// Layout for items(list or grid)
 	const [layout, setLayout] = useState('list');
-	const [selectedCar, setSelectedCar] = useState(null);
-	const [visible, setVisible] = useState(false);
+	// Sort options
 	const [sortKey, setSortKey] = useState(null);
 	const [sortField, setSortField] = useState(null);
 	const [sortOrder, setSortOrder] = useState(null);
 
+	// Sort data according to value
 	let onSortChange = (event) => {
 		const value = event.value;
 
@@ -49,11 +49,13 @@ const DataViewComp = ({
 		}
 	};
 
-	let renderListItem = (car) => {
+	/** List item layout */
+	let renderListItem = (item) => {
+		// Transaction and orders
 		if (type === 'transactions' || type.includes('orders')) {
 			return (
 				<CardHor
-					item={car}
+					item={item}
 					type={type}
 					transactionView={transactionView}
 					removeItem={removeItem}
@@ -72,9 +74,10 @@ const DataViewComp = ({
 				/>
 			);
 		} else {
+			// Products, Shops and users
 			return (
 				<CardHor
-					item={car}
+					item={item}
 					type={type}
 					pic={true}
 					transactionView={transactionView}
@@ -90,11 +93,13 @@ const DataViewComp = ({
 		}
 	};
 
-	let renderGridItem = (car) => {
+	/** Grid item layout */
+	let renderGridItem = (item) => {
+		// Transaction and orders
 		if (type === 'transactions' || type.includes('orders')) {
 			return (
 				<CardVer
-					item={car}
+					item={item}
 					type={type}
 					transactionView={transactionView}
 					removeItem={removeItem}
@@ -113,9 +118,10 @@ const DataViewComp = ({
 				/>
 			);
 		} else {
+			// Products, Shops and users
 			return (
 				<CardVer
-					item={car}
+					item={item}
 					type={type}
 					pic={true}
 					transactionView={transactionView}
@@ -131,15 +137,17 @@ const DataViewComp = ({
 		}
 	};
 
-	let itemTemplate = (car, layout) => {
-		if (!car) {
+	// Select view for data
+	let itemTemplate = (item, layout) => {
+		if (!item) {
 			return <Fragment></Fragment>;
 		}
 
-		if (layout === 'list') return renderListItem(car);
-		else if (layout === 'grid') return renderGridItem(car);
+		if (layout === 'list') return renderListItem(item);
+		else if (layout === 'grid') return renderGridItem(item);
 	};
 
+	/** Data view header */
 	let renderHeader = () => {
 		const sortOptions =
 			type === 'transactions' || type.includes('orders')
@@ -155,10 +163,12 @@ const DataViewComp = ({
 
 		return (
 			<div className="p-grid">
+				{/** Sorting options */}
 				<div className="p-col-6" style={{ textAlign: 'left' }}>
 					<Dropdown options={sortOptions} value={sortKey} placeholder="Sort By" onChange={onSortChange} />
 				</div>
 				<div className="hide-sm">
+					{/** Layout options */}
 					<div className="p-col-6" style={{ textAlign: 'right' }}>
 						<DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
 					</div>
@@ -171,6 +181,7 @@ const DataViewComp = ({
 
 	return (
 		<Fragment>
+			{/** Desktop dataview */}
 			<div className="hide-sm">
 				<DataView
 					alwaysShowPaginator={false}
@@ -192,6 +203,7 @@ const DataViewComp = ({
 					}
 				/>
 			</div>
+			{/** Mobile dataview */}
 			<div className="show-sm">
 				<DataView
 					alwaysShowPaginator={false}

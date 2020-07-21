@@ -25,7 +25,7 @@ const List = ({ item, jumbo, view, history, isAuthenticated, loading, logout, sh
 			});
 		});
 	}
-	/** Shop Product Categories/ Products */
+	/** Products */
 	let products = [];
 	if (item && item.products) {
 		if (item && item.product_categories.length > 0) {
@@ -51,7 +51,7 @@ const List = ({ item, jumbo, view, history, isAuthenticated, loading, logout, sh
 		}
 	}
 
-	/** Options for Not Logged in user */
+	/** Options for unauthorized user */
 	let itemsNotUser = [
 		{
 			label: 'Home',
@@ -192,59 +192,20 @@ const List = ({ item, jumbo, view, history, isAuthenticated, loading, logout, sh
 		},
 	];
 
-	/** 
-  {
-    label: "Events",
-    icon: "pi pi-fw pi-calendar",
-    items: [
-      {
-        label: "Edit",
-        icon: "pi pi-fw pi-pencil",
-        items: [
-          {
-            label: "Save",
-            icon: "pi pi-fw pi-calendar-plus",
-          },
-          {
-            label: "Delete",
-            icon: "pi pi-fw pi-calendar-minus",
-          },
-        ],
-      },
-      {
-        label: "Archieve",
-        icon: "pi pi-fw pi-calendar-times",
-        items: [
-          {
-            label: "Remove",
-            icon: "pi pi-fw pi-calendar-minus",
-          },
-        ],
-      },
-    ],
-  },
-  */
-
 	return (
 		<Fragment>
 			<div>
 				<div className="horizontal">
+					{/** normal navbar */}
 					{!jumbo && view === 'not-shop-owner' && <Menubar model={itemsNotShopOwner}></Menubar>}
 					{!jumbo && view === 'not-user' && <Menubar model={itemsNotUser}></Menubar>}
 					{!jumbo && view === 'shop-owner' && <Menubar model={itemsShopOwner}></Menubar>}
 					{!jumbo && view === 'shop-owner-visitor' && <Menubar model={itemsShopOwner}></Menubar>}
+					{/** shop navbar */}
 					{jumbo && view === 'not-shop-owner' && <Menubar model={itemsNotShopOwner}></Menubar>}
 					{jumbo && view === 'not-user' && <Menubar model={itemsNotUser}></Menubar>}
 					{jumbo && view === 'shop-owner' && <Menubar model={itemsShopOwnerJumbo}></Menubar>}
-					{/**
-          {!jumbo && view === "shop-owner" && (
-            <input
-              placeholder="search..."
-              className="search border-dark"
-              type="text"
-            ></input>
-          )}
-           */}
+					{jumbo && view === 'shop-owner-visitor' && <Menubar model={itemsShopOwnerJumbo}></Menubar>}
 				</div>
 			</div>
 		</Fragment>

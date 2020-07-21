@@ -18,9 +18,6 @@ const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
 		if (res.status === 200) {
 			setAlert('Image Added', 'success');
 			setProduct(res.data);
-			//setSuccess(true);
-			//setItem(res.data);
-			//history.replace(`/shop/${res.data._id}`);
 		}
 		return res;
 	};
@@ -30,15 +27,23 @@ const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
 			<div className="user-card">
 				{product.pics && product.pics.length > 0 ? (
 					<div className="relative">
+						{/**
+						 * Product images
+						 */}
 						<CardCarousel items={product.pics} type="img" />
+						{/** Show product sold out ifqty <= 0 */}
 						{!product.active && <div className="sold-out">Sold Out</div>}
 					</div>
 				) : (
 					<div className="relative">
+						{/**
+						 * Product default image
+						 */}
 						<img className="carousel-img" src={require('../../img/default-product.png')} alt=""></img>
 						{!product.active && <div className="sold-out">Sold Out</div>}
 					</div>
 				)}
+				{/** Show upload button to owner */}
 				{isOwner && (
 					<div className="">
 						<UploadComp

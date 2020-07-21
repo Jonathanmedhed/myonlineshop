@@ -82,7 +82,7 @@ const JumboFooter = ({ isOwner, shop, user, setShop, selectEdit }) => {
 							)}
 						</Fragment>
 					)}
-					{/** Show edit options in Owner */}
+					{/** Show edit options if Owner */}
 					{isOwner && (
 						<Fragment>
 							{shop.address ? (

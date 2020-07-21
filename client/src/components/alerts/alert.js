@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
+// PrimeReact Component
 import { Message } from "primereact/message";
 
 const Alert = ({ alerts }) =>

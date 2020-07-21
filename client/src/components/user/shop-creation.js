@@ -139,6 +139,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 
 	return (
 		<div className="item-creation">
+			{/** Exit button */}
 			<div onClick={() => toggle(false)} className="exit">
 				<i className="fas fa-times-circle"></i>
 			</div>
@@ -157,6 +158,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 					 */}
 					{step === 0 && (
 						<Fragment>
+							{/** Shop name, email, etc */}
 							<div className="form-group">
 								<label className="form-text">Name</label>
 								<input
@@ -213,6 +215,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 					)}
 					{step === 1 && (
 						<Fragment>
+							{/** Logo and jumbo background */}
 							<div className="form-group">
 								<label className="form-text">Shop Logo</label>
 								{/** Show uploaded picture, else show example */}
@@ -252,6 +255,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 					)}
 					{step === 2 && (
 						<Fragment>
+							{/** Tags and social media */}
 							<div className="form-group">
 								<label className="form-text">Tags</label>
 								<InputChips setItems={setSelectedTags} name={'tags'} value={selectedTags} />
@@ -308,6 +312,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 							</div>
 						</Fragment>
 					)}
+					{/** Last step, Data confirmation */}
 					{!success && step === steps.length - 1 && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -354,6 +359,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 							</div>
 						</Fragment>
 					)}
+					{/** Success message, view shop or exit buttons */}
 					{success === true && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -375,6 +381,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 							</div>
 						</Fragment>
 					)}
+					{/** Steps, hide on success */}
 					{!success && (
 						<Fragment>
 							<div className="form-group-buttons">

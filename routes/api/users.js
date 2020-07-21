@@ -89,7 +89,6 @@ router.delete('/', auth, async (req, res) => {
 router.get('/:id', async (req, res) => {
 	try {
 		const user = await User.findById(req.params.id);
-		console.log(user);
 		if (!user) {
 			return res.status(400).json({ msg: 'User not found' });
 		}

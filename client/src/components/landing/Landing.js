@@ -13,25 +13,30 @@ import Register from './_register';
 const Landing = ({ login, isAuthenticated, setAlert }) => {
 	const [action, setAction] = useState('login');
 	const [subAction, setSubAction] = useState(null);
+
+	// Show login in the same position as register
 	const goToLoginMobile = () => {
 		setAction('register');
 		setSubAction('login-mobile');
 	};
+
 	// Form Values
 	const [formData, setFormData] = useState({
-		email: '',
-		password: '',
+		email: 'Testuser@gmail.com',
+		password: 'Pass1234!',
 	});
+
 	// Form Values Variables
 	const { email, password } = formData;
-	// Asign values on changete/
+
+	// Asign values on change
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		checkInput();
 	};
 
-	// Check input
+	// Check input and login if correct
 	const checkInput = () => {
 		let result = false;
 		// Check Email
@@ -52,6 +57,7 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 		}
 	};
 
+	// Redirect to user page if authenticated
 	if (isAuthenticated) {
 		return <Redirect to="/user" />;
 	}
@@ -65,19 +71,20 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 						{/** Alert Message for Login */}
 						{action === 'login' && <Alert />}
 					</div>
+					{/** if action is login show login on left side, otherwise show 'register on right side' */}
 					{action === 'login' ? (
 						<form onSubmit={(e) => onSubmit(e)} className="form">
 							<div className="form-group">
 								<label className="form-text">Email</label>
 								<input
-									placeholder="TestUser@gmail.com"
+									placeholder="Testuser@gmail.com"
 									className="border-dark"
 									type="email"
 									name="email"
 									value={email}
 									onChange={(e) => onChange(e)}
 								></input>
-								<div>TestUser@Gmail.com</div>
+								<div>Testuser@gmail.com</div>
 							</div>
 							<div className="form-group">
 								<label className="form-text">Password</label>
@@ -121,6 +128,7 @@ const Landing = ({ login, isAuthenticated, setAlert }) => {
 						</div>
 					)}
 				</div>
+				{/** if action is register show form, else show welcome message */}
 				{action === 'register' ? (
 					<Register setAction={setAction} action={action} subAction={subAction} setSubAction={setSubAction} />
 				) : (

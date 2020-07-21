@@ -2,7 +2,9 @@ import React, { Fragment, useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 
 const InputDropdownComp = ({ options, setValue, placeholder, searchPlaceHolder, filter, value }) => {
+	// Selected item
 	const [item, setItem] = useState(null);
+	// Choices
 	const [items, setItems] = useState(
 		options === 'shops'
 			? [
@@ -213,11 +215,13 @@ const InputDropdownComp = ({ options, setValue, placeholder, searchPlaceHolder, 
 			  ]
 	);
 
+	// Set option on select
 	let onItemChange = (e) => {
 		setItem(e.value);
 		setValue(e.value);
 	};
 
+	// Item template
 	let itemTemplate = (option) => {
 		return <div>{option.value}</div>;
 	};

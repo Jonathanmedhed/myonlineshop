@@ -88,18 +88,23 @@ const SectionCreation = ({
 
 	// Form submition
 	const onSubmit = async (id) => {
+		// show spinner
 		setSubmition(true);
+		// Asign uploaded pic to form
 		if (pic) {
 			formData.img = pic;
 		}
+		// Asign selected type to form
 		if (selectedType) {
 			formData.type = selectedType;
 		}
+		// Asign position selected to form
 		if (positionSelected) {
 			// +1 in order to overtake the position
 			formData.position = positionSelected;
 		}
 		switch (itemType) {
+			// Create section for shop
 			case 'shop':
 				if (!sectionToEdit) {
 					const res = await createSection(formData, id);
@@ -107,14 +112,17 @@ const SectionCreation = ({
 						setSuccess(true);
 						setCreated(true);
 						setAlert('Section Created', 'success');
+						// Update sections
 						setUpdatedItems(res.data);
 					}
 				} else {
+					// Create section for product
 					const res = await editSection(formData, sectionToEdit._id);
 					if (res.status === 200) {
 						setSuccess(true);
 						setEdited(true);
 						setAlert('Section Edited', 'success');
+						// Update sections
 						setUpdatedItems(res.data);
 					}
 				}
@@ -138,6 +146,7 @@ const SectionCreation = ({
 						setUpdatedItems(res.data);
 					}
 				}
+				// hide spinner
 				setSubmition(false);
 				break;
 			default:
@@ -146,10 +155,13 @@ const SectionCreation = ({
 		}
 	};
 
+	// Section deletion
 	const onDelete = async () => {
+		// Show spinner
 		setSubmition(true);
 		const res = await deleteSection(sectionToEdit.shop, sectionToEdit._id);
 		if (res.status === 200) {
+			// update sections
 			setUpdatedItems(res.data);
 			setSuccess(true);
 			setDeleted(true);
@@ -157,15 +169,18 @@ const SectionCreation = ({
 		} else {
 			setAlert('Deletion Failed', 'error');
 		}
+		// Hide spinner
 		setSubmition(false);
 	};
 
+	// Close dialog window
 	const onClose = () => {
 		toggle(false);
 		setSectionToEdit(null);
 		setConfirmDelete(false);
 	};
 
+	// Apply changes to shop or product
 	const applyChanges = (changes) => {
 		setSections(changes);
 		onClose();
@@ -173,6 +188,7 @@ const SectionCreation = ({
 
 	return (
 		<div className="section-creation">
+			{/** Loading Spinner */}
 			{submition && <PrimeSpinner />}
 			<div onClick={() => onClose()} className="exit">
 				<i className="fas fa-times-circle"></i>
@@ -184,7 +200,9 @@ const SectionCreation = ({
 					<i onClick={() => setConfirmDelete(true)} class="fas fa-trash-alt"></i>
 				)}
 				<div className="form">
+					{/** Alerts */}
 					<Alert />
+					{/** Success message and aply changes */}
 					{success && (created || deleted || edited) && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -203,6 +221,7 @@ const SectionCreation = ({
 							</div>
 						</Fragment>
 					)}
+					{/** Delete section dialog */}
 					{confirmDelete && !success && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -221,8 +240,10 @@ const SectionCreation = ({
 							</div>
 						</Fragment>
 					)}
+					{/** Section fields */}
 					{!confirmDelete && !success && (
 						<Fragment>
+							{/** Section Title */}
 							<div className="form-group">
 								<label className="form-text">Title:</label>
 								<input
@@ -233,6 +254,7 @@ const SectionCreation = ({
 									onChange={(e) => onChange(e)}
 								></input>
 							</div>
+							{/** Section types */}
 							<div className="form-group">
 								<label className="form-text">Type:</label>
 								<CardCarousel
@@ -245,6 +267,7 @@ const SectionCreation = ({
 									showImg={showImg}
 								/>
 							</div>
+							{/** Section position */}
 							<div className="form-group">
 								<label className="form-text">Position (Top: 1):</label>
 								{/** Show current positions */}
@@ -261,6 +284,7 @@ const SectionCreation = ({
 									incrementButtonIcon="pi pi-plus"
 									decrementButtonIcon="pi pi-minus"
 								/>
+								{/** Current section positions */}
 								{item.sections && item.sections.length > 0 && (
 									// Show Positions on Click
 									<div className="sections-table">
@@ -282,6 +306,7 @@ const SectionCreation = ({
 									</div>
 								)}
 							</div>
+							{/** Text Area for text */}
 							{selectedType && (selectedType === 'text-only' || selectedType === 'w/img') && (
 								<div className="form-group">
 									<label className="form-text">Text:</label>
@@ -295,6 +320,7 @@ const SectionCreation = ({
 									></InputTextarea>
 								</div>
 							)}
+							{/** Upload button for img */}
 							{selectedType && selectedType === 'w/img' && (
 								<div className="form-group">
 									<label className="form-text">Image:</label>
@@ -307,6 +333,7 @@ const SectionCreation = ({
 									/>
 								</div>
 							)}
+							{/** Submit & Cancel buttons */}
 							<div className="form-group-buttons">
 								<div className="form-group">
 									<div onClick={() => onSubmit(item._id)} className="btn btn-primary">

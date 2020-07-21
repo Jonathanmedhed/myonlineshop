@@ -12,23 +12,30 @@ import {
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
-// Login user
+/**
+ * Login user request
+ * @param {*} email
+ * @param {*} password
+ */
 export const login = (email, password) => async (dispatch) => {
+	// headers config
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
 		},
 	};
+	// set body content
 	const body = JSON.stringify({ email, password });
 	try {
+		// login post request
 		const res = await axios.post('/api/auth', body, config);
+		// dispatch user info and success type
 		dispatch({
 			type: LOGIN_SUCCESS,
 			payload: res.data,
 		});
-
+		// Set user using token
 		dispatch(loadUser());
-
 		return res;
 	} catch (err) {
 		const errors = err.response.data.errors;
@@ -41,13 +48,17 @@ export const login = (email, password) => async (dispatch) => {
 	}
 };
 
-//Load User
+/**
+ * Load user using authenticated token
+ */
 export const loadUser = () => async (dispatch) => {
 	if (localStorage.token) {
 		setAuthToken(localStorage.token);
 	}
 	try {
+		// Get authenticated user
 		const res = await axios.get('/api/auth');
+		// dispatch user data and user_loaded type
 		dispatch({
 			type: USER_LOADED,
 			payload: res.data,
@@ -59,23 +70,30 @@ export const loadUser = () => async (dispatch) => {
 	}
 };
 
-// Register user
-export const register = ({ name, email, password }) => async (dispatch) => {
+/**
+ * Register user request
+ * @param {*} name
+ * @param {*} email
+ * @param {*} password
+ */
+export const register = (name, email, password) => async (dispatch) => {
+	// headers config
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
 		},
 	};
-
+	// set body content
 	const body = JSON.stringify({ name, email, password });
 	try {
+		// register user post request
 		const res = await axios.post('/api/users', body, config);
-
+		// Dispatch user data and success type
 		dispatch({
 			type: REGISTER_SUCCESS,
 			payload: res.data,
 		});
-
+		// Set user using token
 		dispatch(loadUser());
 
 		return res;
@@ -92,7 +110,9 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 	}
 };
 
-// Logout, Clear Profile
+/**
+ * Logout Request
+ */
 export const logout = () => (dispatch) => {
 	dispatch({ type: CLEAR_PROFILE });
 	dispatch({ type: LOGOUT });

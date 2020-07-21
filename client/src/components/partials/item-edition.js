@@ -29,6 +29,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 	/** Quantity Selected */
 	const [quantitySelected, setQuantitySelected] = useState(0);
 
+	/** Form data */
 	let [formData, setFormData] = useState(
 		itemType === 'product'
 			? {
@@ -98,7 +99,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 
 	// Form submition
 	const onSubmit = async (soldOut) => {
-		// remove email and name from form if not being edited(prevent error)
+		// remove email and name from form if not being edited(avoid error)
 		if (field !== 'Email') {
 			formData.email = null;
 			formData.email2 = null;
@@ -107,9 +108,11 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 			formData.name = null;
 		}
 		if (itemType === 'shop') {
+			// asing selected type to form
 			if (selectedType) {
 				formData.type = selectedType;
 			}
+			// Assing selected tags to form
 			if (selectedTags) {
 				formData.tags = selectedTags;
 			}
@@ -132,12 +135,15 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 			return res;
 		}
 		if (itemType === 'product') {
+			// Asign qty selected to form
 			if (quantitySelected) {
 				formData.quantity = quantitySelected;
 			}
+			// Asign selected type to form
 			if (selectedType) {
 				formData.type = selectedType;
 			}
+			// Asign selected tags to form
 			if (selectedTags) {
 				formData.tags = selectedTags;
 			}
@@ -154,7 +160,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 		}
 	};
 
-	// Check input, go to next step it correct, else Alert
+	// Check input, go to next step if correct, else Alert
 	const checkInput = () => {
 		let result = false;
 		switch (field) {
@@ -318,6 +324,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 
 	return (
 		<div className="item-creation">
+			{/** Exit button */}
 			<div onClick={() => toggle(false)} className="exit">
 				<i className="fas fa-times-circle"></i>
 			</div>
@@ -550,6 +557,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 							)}
 						</Fragment>
 					)}
+					{/** Edition success message and exit button */}
 					{success === true && (
 						<Fragment>
 							<div className="form-confirm-vert">
@@ -565,6 +573,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 							</div>
 						</Fragment>
 					)}
+					{/** Submit and discard buttons */}
 					{!success && field !== 'Pic_Logo' && (
 						<div className="form-group-buttons">
 							<div className="form-group">

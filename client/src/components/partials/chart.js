@@ -22,6 +22,9 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 	// Value for User and Shop Objects, e.g: show items sold or items bought
 	const [valueObject, setValueObject] = useState(title);
 
+	/**
+	Monthly Data
+	*/
 	const yearSales = (items) => {
 		let January = 0;
 		let February = 0;
@@ -43,6 +46,13 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 				let date = new Date(item.date);
 				// Only This year's
 				if (date.getFullYear() === today.getFullYear()) {
+					{
+						/**
+					if the item is a transaction, calculate the product quantity in it.
+					if item is a product just get its quantity
+					if the item is a transaction income/spend calulation, use total.
+					*/
+					}
 					switch (date.getMonth()) {
 						case 0:
 							January =
@@ -183,6 +193,7 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 			});
 
 		return {
+			/** Label for each month */
 			labels: [
 				'January',
 				'February',
@@ -197,6 +208,8 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 				'November',
 				'December',
 			],
+			/** Asign value for each month */
+			/** Chart Style */
 			datasets: [
 				{
 					label: title && title,
@@ -222,6 +235,9 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 		};
 	};
 
+	/**
+	Current month Data
+	*/
 	const monthlySales = (items) => {
 		let d1 = 0;
 		let d2 = 0;
@@ -262,6 +278,13 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 				let date = new Date(item.date);
 				// Only this year and month's
 				if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth()) {
+					{
+						/**
+					if the item is a transaction, calculate the product quantity in it.
+					if item is a product just get its quantity
+					if the item is a transaction income/spend calulation, use total.
+					*/
+					}
 					switch (date.getDate()) {
 						case 1:
 							d1 =
@@ -611,6 +634,7 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 			});
 
 		return {
+			/** Label for each day */
 			labels: [
 				' 1',
 				' 2',
@@ -645,6 +669,8 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 				'31',
 			],
 			datasets: [
+				/** Asign value for each month */
+				/** Chart Style */
 				{
 					label: title && title,
 					data: [
@@ -688,6 +714,9 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 		};
 	};
 
+	/**
+	Current week Data
+	*/
 	const weeklySales = (items) => {
 		let monday = 0;
 		let tuesday = 0;
@@ -704,6 +733,13 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 			items.forEach((item) => {
 				let date = new Date(item.date);
 				if (date > startOfWeek && date < endOfWeek) {
+					{
+						/**
+					if the item is a transaction, calculate the product quantity in it.
+					if item is a product just get its quantity
+					if the item is a transaction income/spend calulation, use total.
+					*/
+					}
 					switch (date.getDay()) {
 						case 0:
 							sunday =
@@ -789,7 +825,10 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 			});
 
 		return {
+			/** Label for each day of the week*/
 			labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+			/** Asign value for each day of the week */
+			/** Chart Style */
 			datasets: [
 				{
 					label: title && title,
@@ -802,6 +841,9 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 		};
 	};
 
+	/**
+	Today Data
+	*/
 	const daySales = (items) => {
 		let h0 = 0;
 		let h1 = 0;
@@ -839,6 +881,13 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 					date.getMonth() === today.getMonth() &&
 					date.getDate() === today.getDate()
 				) {
+					{
+						/**
+					if the item is a transaction, calculate the product quantity in it.
+					if item is a product just get its quantity
+					if the item is a transaction income/spend calulation, use total.
+					*/
+					}
 					switch (date.getHours()) {
 						case 0:
 							h0 =
@@ -1111,6 +1160,7 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 			});
 
 		return {
+			/** Label for each hour of the day*/
 			labels: [
 				' 0',
 				' 1',
@@ -1139,6 +1189,8 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 			],
 			datasets: [
 				{
+					/** Asign value for each hour */
+					/** Chart Style */
 					label: title && title,
 					data: [
 						h0,
@@ -1176,6 +1228,7 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 
 	return (
 		<Fragment>
+			{/** Lightbox view */}
 			{openChart && (
 				<div className="light-box">
 					<div className="inner">
@@ -1198,6 +1251,7 @@ const ChartComp = ({ data, onlychart, type, title }) => {
 					</div>
 				</div>
 			)}
+			{/** Main chart */}
 			<div className={onlychart === true ? 'chart-wrapper-center' : 'chart-wrapper'}>
 				<div className="chart-container">
 					<Fragment>

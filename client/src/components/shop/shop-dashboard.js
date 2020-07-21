@@ -204,6 +204,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
+	// Rate shop
 	const onRate = async () => {
 		const feedBackGiven = await rateShop(formData, shop._id);
 		if (feedBackGiven) {
@@ -211,22 +212,26 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		}
 	};
 
+	// Edit shop field
 	const selectEdit = (field) => {
 		setEditField(field);
 		setEdit(true);
 	};
 
+	// Show create section dialog
 	const showSectionDialog = (option) => {
 		setSectionCreation(option);
 		setEditSection(option);
 	};
 
+	// Set tab index for charts
 	const setTabIndex = (index) => {
 		setActiveIndex(index);
 		return true;
 	};
 
 	// Action after header option selection
+	// To move the view to the option selected
 	const setHeaderOption = async (option) => {
 		switch (option) {
 			case 'content':
@@ -269,7 +274,10 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		}
 	};
 
+	// Get product and open product dialog
 	const setCurrentProduct = async (id) => {
+		// Remove current product
+		setProduct(null);
 		setProductSelected(true);
 		const result = await getProduct(id);
 		let productObject = result.data;
@@ -285,9 +293,10 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		setChartProduct(productObject);
 	};
 	/**
-	 * Product Deletion
+	 * Set the product to delete and open dialog
 	 */
 	const setProductToDelete = async (id) => {
+		// show spinner
 		setSubmition(true);
 		setSuccess(false);
 		setProductSelected(true);
@@ -295,25 +304,35 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		if (result.status !== 200) {
 			setAlert('Product not found', 'error');
 		}
+		// Set product
 		setCurrentProductToDelete(result.data);
 		setProductSelected(false);
+		// Open dialog
 		setShowProductDeletion(true);
+		// Hide spinner
 		setSubmition(false);
 	};
 
+	/**
+	 * Delete a product
+	 */
 	const productDelete = async (id) => {
+		// show spinner
 		setSubmition(true);
 		const result = await deleteShopProduct(id);
 		if (result.status === 200) {
 			setSuccess(true);
+			// Update products
 			setProducts(result.data);
 			setAlert('Product Deleted', 'success');
 		} else {
 			setAlert('Deletion Failed', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
+	// Close product or cart dialogs
 	const goBack = () => {
 		setProduct(null);
 		setShowCart(false);
@@ -351,27 +370,33 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 
 	// Follow Shop
 	const followCurrentShop = async () => {
+		// show spinner
 		setSubmition(true);
 		const result = await followShop(shop._id);
 		if (result.status === 200) {
+			// update is follower state
 			setIsFollower(true);
 			setAlert('Following shop', 'success');
 		} else {
 			setAlert('Something went wrong', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
 	// Unfollow Shop
 	const unfollowCurrentShop = async () => {
+		// show spinner
 		setSubmition(true);
 		const result = await unFollowShop(shop._id);
 		if (result.status === 200) {
+			// update is follower state
 			setIsFollower(false);
 			setAlert('Unfollowing shop', 'success');
 		} else {
 			setAlert('Something went wrong', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
@@ -420,6 +445,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		*/
 	};
 
+	// Hide Dialog
 	const hideOrderDialog = () => {
 		setApprove(false);
 		setPreparedDeliver(false);
@@ -435,7 +461,9 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 
 	// Approve order or reverse approval
 	const approveOrder = async (reverse) => {
+		// show spinner
 		setSubmition(true);
+		// Clear form data
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.delivered = null;
@@ -492,12 +520,15 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		} else {
 			setAlert('Approval Failed!', 'error');
 		}
+		// hidespinner
 		setSubmition(false);
 	};
 
 	// Set order as ready or reverse ready
 	const readyOrder = async (option, reverse) => {
+		// show spinner
 		setSubmition(true);
+		// Clear form data
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.delivered = null;
@@ -552,12 +583,15 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		} else {
 			setAlert('Modification Failed!', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
 	// Set order as delivered
 	const deliveredOrder = async (reverse) => {
+		// show spinner
 		setSubmition(true);
+		// Clear form data
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.paid = null;
@@ -606,12 +640,14 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		} else {
 			setAlert('Modification Failed!', 'error');
 		}
+		// hide spinner
 		setSubmition(false);
 	};
 
 	// Set order as paid
 	const paidOrder = async () => {
 		setSubmition(true);
+		// Clear form data
 		formData.ready_f_pickup = null;
 		formData.ready_f_delivery = null;
 		formData.delivered = null;
@@ -640,8 +676,11 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 
 	// open 'move order' dialog
 	const moveOrder = (order, type) => {
+		// Set order to be moved
 		setCurrentOrderDialog(order);
+		// Open dialog
 		setOrderRemoval(true);
+		// Change order status state
 		switch (type) {
 			case 'orders-shop-approve':
 				setOrderType('orders-shop-approve');
@@ -662,8 +701,11 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 
 	// open 'delete order' dialog
 	const deleteOrder = (order, type) => {
+		// Set order to be deleted
 		setCurrentOrderDialog(order);
+		// Open dialog
 		setOrderDeletion(true);
+		// Change order status state
 		switch (type) {
 			case 'orders-shop-approve':
 				setOrderType('orders-shop-approve');
@@ -684,10 +726,12 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 
 	// Approve order or reverse approval
 	const deleteOrderFunction = async () => {
+		// Show spinner
 		setSubmition(true);
 		// Edit Order
 		const orderToDelete = await deleteTransaction(currentOrderDialog._id);
 		if (orderToDelete.status === 200) {
+			// Remove and add to corresponding section
 			switch (orderType) {
 				case 'orders-shop-approve':
 					// get index of order
@@ -742,13 +786,16 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 
 	// Delete Shop
 	const deleteShopFunction = async () => {
+		// Show spinner
 		setSubmition(true);
-		// Edit Order
 		const shopToDelete = await deleteShop(shop._id);
+		// Move to user page if success
 		if (shopToDelete.status === 200) {
-			setAlert('Shop Deleted', 'success');
 			history.replace('/user');
+		} else {
+			setAlert('Deletion Failed', 'error');
 		}
+		// Hide spinner
 		setSubmition(false);
 	};
 
@@ -871,7 +918,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 					<Fragment>
 						<section className="container">
 							{/**
-							 * Orders dialog
+							 * Orders dialog, and algo repor and reply
 							 */}
 							<Dialog
 								header={
@@ -907,6 +954,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 								}
 								onHide={() => hideOrderDialog()}
 							>
+								{/** Order Apprival */}
 								{approve && (
 									<div className="message-button-sm">
 										<div className="message">Approve Order?</div>
@@ -920,6 +968,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										</div>
 									</div>
 								)}
+								{/** Order Preparation */}
 								{preparedDeliver && (
 									<div className="message-button-sm">
 										<div className="message">Order ready for delivery?</div>
@@ -933,6 +982,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										</div>
 									</div>
 								)}
+								{/** Order Readiness */}
 								{preparedPickup && (
 									<div className="message-button-sm">
 										<div className="message">Order ready for pick up?</div>
@@ -946,6 +996,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										</div>
 									</div>
 								)}
+								{/** Order delivered */}
 								{ready && (
 									<div className="message-button-sm">
 										<div className="message">Order delivered?</div>
@@ -959,6 +1010,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										</div>
 									</div>
 								)}
+								{/** Delete Shop */}
 								{showDeleteShop && (
 									<div className="message-button-sm">
 										<div className="message">{'Delete ' + shop.name + '?'}</div>
@@ -972,6 +1024,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										</div>
 									</div>
 								)}
+								{/** Feedback component */}
 								{showFeedback && (
 									<FeedbackComp
 										shop={shop}
@@ -981,6 +1034,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										setAlert={setAlert}
 									/>
 								)}
+								{/** Report Feedback */}
 								{showReportFeedback && (
 									<Report
 										shop={shop}
@@ -992,6 +1046,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										type={'shop'}
 									/>
 								)}
+								{/** Order Received */}
 								{delivered && (
 									<div className="message-button-sm">
 										<div className="message">Payment Received?</div>
@@ -1005,6 +1060,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										</div>
 									</div>
 								)}
+								{/** Move order */}
 								{orderRemoval && (
 									<div className="message-button-sm">
 										<div className="message">
@@ -1035,6 +1091,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										</div>
 									</div>
 								)}
+								{/** Delete order */}
 								{orderDeletion && (
 									<div className="message-button-sm">
 										<div className="message">Delete Order?</div>
@@ -1164,6 +1221,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										setProducts={setProducts}
 										setSubmition={setSubmition}
 										hideProduct={setProduct}
+										setCurrentProduct={setCurrentProduct}
 									/>
 								</div>
 							</Dialog>
@@ -1245,18 +1303,21 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 								visible={showProductDeletion}
 								onHide={() => setShowProductDeletion(false)}
 							>
+								{/** Options */}
 								{!success && currentProductToDelete && (
 									<h1 className="text-center mt-1">
 										Delete Product?{' '}
 										{<div className="text-danger">{currentProductToDelete.name}</div>}
 									</h1>
 								)}
+								{/** Success Message */}
 								{success && currentProductToDelete && (
 									<h1 className="text-center mt-1">
 										{<div className="text-danger">{currentProductToDelete.name}</div>} Product
 										Deleted!
 									</h1>
 								)}
+								{/** Submit and cancel/exit buttons */}
 								<div className="form-group">
 									<div className="buttons-form">
 										{success ? (
@@ -1298,6 +1359,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 											history={history}
 											showCreateSection={setSectionCreation}
 											isOwner={isOwner}
+											logout={logout}
 											setIsOwner={setIsOwner}
 											setOption={setHeaderOption}
 											shop={shop}
@@ -1374,8 +1436,10 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 															></i>
 														)}
 													</div>
+													{/** Shop Name */}
 													<div className="text-container">
 														<h1>{shop.name}</h1>
+														{/** Edit option for owner */}
 														{isOwner && (
 															<i
 																onClick={() => selectEdit('Name')}
@@ -1390,6 +1454,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																{shop.intro
 																	? shop.intro
 																	: 'Small shop description/slogan, products for sale or services to provide'}
+																{/** Edit option for owner */}
 																{isOwner && (
 																	<i
 																		onClick={() => selectEdit('Intro')}
@@ -1406,6 +1471,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																{shop.intro
 																	? shop.intro
 																	: 'Small shop description/slogan, products for sale or services to provide'}
+																{/** Edit option for owner */}
 																{isOwner && (
 																	<i
 																		onClick={() => selectEdit('Intro')}
@@ -1416,6 +1482,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														</div>
 													)}
 												</div>
+												{/** Edit button for jumbo */}
 												{isOwner === true && (
 													<div className="edit-button">
 														{isOwner && (
@@ -1426,6 +1493,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														)}
 													</div>
 												)}
+												{/** Footer */}
 												<JumboFooter
 													isOwner={isOwner}
 													setShop={setShop}
@@ -1438,7 +1506,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										)}
 									</div>
 								</div>
-								{/** Show website sections */}
+								{/** Show website sections to visitor */}
 								{!isOwner && !showCart && (
 									<Fragment>
 										{sections &&
@@ -1463,6 +1531,9 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									</Fragment>
 								)}
 								<Fragment>
+									{/**
+									 *  Tags and Type wih edit option
+									 */}
 									{isOwner && (!product || !showCart) ? (
 										<Fragment>
 											{/** Tags and Type */}
@@ -1503,11 +1574,14 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 													</td>
 												</tr>
 											</table>
-											{/** Accordion */}
+											{/**
+											 *  Owner Accordion
+											 * */}
 											<Accordion
 												activeIndex={activeIndex}
 												onTabChange={(e) => setActiveIndex(e.index)}
 											>
+												{/** Website content */}
 												<AccordionTab
 													header={
 														<div ref={contentRef}>
@@ -1540,6 +1614,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																/>
 															))}
 												</AccordionTab>
+												{/** Shop Orders */}
 												<AccordionTab
 													header={
 														<div ref={ordersRef}>
@@ -1560,10 +1635,12 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																openProduct={setCurrentProduct}
 															/>
 														)}
+														{/** Order status categories */}
 														<TabView
 															activeIndex={tabActiveIndex2}
 															onTabChange={(e) => setTabActiveIndex2(e.index)}
 														>
+															{/** Orders to approve */}
 															<TabPanel header="To Approve" leftIcon="far fa-clock">
 																{/**Transaction List */}
 																{ordersApprove && ordersApprove.length > 0 ? (
@@ -1584,6 +1661,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	<h1>No orders received</h1>
 																)}
 															</TabPanel>
+															{/** Orders to set as 'Ready' */}
 															<TabPanel header="To Prepare" leftIcon="fas fa-wrench">
 																{/**Transaction List */}
 																{ordersPrepare && ordersPrepare.length > 0 ? (
@@ -1601,6 +1679,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	<h1>No orders to prepare</h1>
 																)}
 															</TabPanel>
+															{/** Orders to deliver or for pick up */}
 															<TabPanel header="Ready" leftIcon="fas fa-gift">
 																{/**Transaction List */}
 																{ordersReady && ordersReady.length > 0 ? (
@@ -1617,6 +1696,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	<h1>No orders ready for delivery/pickup</h1>
 																)}
 															</TabPanel>
+															{/** Orders to delivered*/}
 															<TabPanel header="Delivered" leftIcon="far fa-check-square">
 																{/**Transaction List */}
 																{ordersDelivered && ordersDelivered.length > 0 ? (
@@ -1636,6 +1716,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														</TabView>
 													</div>
 												</AccordionTab>
+												{/** Statistics */}
 												<AccordionTab
 													header={
 														<div ref={statisticsRef}>
@@ -1644,12 +1725,15 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 													}
 												>
 													<div>
+														{/** Chart Categories */}
 														<TabView
 															activeIndex={tabActiveIndex}
 															onTabChange={(e) => setTabActiveIndex(e.index)}
 														>
+															{/** Shop charts */}
 															<TabPanel header="Shop Data" leftIcon="far fa-user">
 																<div className="buttons-form-free mb-1">
+																	{/** Options */}
 																	<button
 																		onClick={() => setChartOption('Sold Items')}
 																		className={
@@ -1682,6 +1766,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	title={chartOption}
 																/>
 															</TabPanel>
+															{/** Product charts */}
 															<TabPanel
 																header="Products"
 																leftIcon="fas fa-shopping-basket"
@@ -1690,6 +1775,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	<div className="chart-search">
 																		<div className="vertical">
 																			<div className="buttons-form-free mb-1">
+																				{/** Options */}
 																				<button
 																					onClick={() =>
 																						setProductChartOption(
@@ -1733,6 +1819,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																				title={productChartOption}
 																			/>
 																		</div>
+																		{/** List with searchbox for products */}
 																		<ListBoxIMG
 																			itemType={'product'}
 																			item={chartProduct}
@@ -1747,6 +1834,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														</TabView>
 													</div>
 												</AccordionTab>
+												{/** Shop products */}
 												<AccordionTab
 													header={
 														<div ref={productsRef}>
@@ -1772,6 +1860,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														<h1>Doesn't have any products</h1>
 													)}
 												</AccordionTab>
+												{/** Transactions */}
 												<AccordionTab
 													header={
 														<div ref={transactionsRef}>
@@ -1800,6 +1889,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														!transactionToShow && <h1>Haven't sold any items</h1>
 													)}
 												</AccordionTab>
+												{/** Feedback */}
 												<AccordionTab
 													header={
 														<div ref={feedbackRef}>
@@ -1823,6 +1913,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														</div>
 													</div>
 												</AccordionTab>
+												{/** Settings */}
 												<AccordionTab
 													header={
 														<div ref={settingsRef}>
@@ -1865,6 +1956,8 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 											activeIndex={activeIndex}
 											onTabChange={(e) => setActiveIndex(e.index)}
 										>
+											{/** Visitor's Accordion */}
+											{/** Feedback */}
 											<AccordionTab
 												header={
 													<div ref={feedbackVisitorRef}>
@@ -1874,6 +1967,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 												}
 											>
 												<div className="accord-list">
+													{/** Text area to leave review */}
 													{!isOwner && isAuthenticated && (
 														<div className="review-section">
 															<Rating
@@ -1897,7 +1991,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 															</button>
 														</div>
 													)}
-													{/**Review card */}
+													{/** Login and register options*/}
 													<div className="review-section">
 														{!isAuthenticated && (
 															<div className="mb-1">
@@ -1919,6 +2013,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																</div>
 															</div>
 														)}
+														{/** Feedback list */}
 														{feedback && feedback.length > 0 ? (
 															<DataViewComp
 																items={feedback}

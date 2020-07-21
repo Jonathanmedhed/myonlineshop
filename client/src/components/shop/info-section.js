@@ -60,7 +60,7 @@ const InfoSection = ({
 		<Fragment>
 			{/** Loading on submitions */}
 			{submition && <PrimeSpinner />}
-			{/** Dialog */}
+			{/** Delete Section Dialog */}
 			{showDialog && (
 				<DialogPrime
 					deleteSection={deleteSection}
@@ -72,11 +72,14 @@ const InfoSection = ({
 			)}
 			<h1 className="page-title mt-1"> {section.title} </h1>
 			<div className="info-section">
+				{/** Section with image and text */}
 				{section.type === 'w/img' && (
 					<div className={section.reverse === true ? 'info-section-rev' : 'info-section-reg'}>
+						{/** Text */}
 						<h1 className={section.reverse === true ? 'info-message-big' : 'info-message-big'}>
 							{section.text}
 						</h1>
+						{/** Swap positions button */}
 						{isOwner && (
 							<i
 								onClick={() => {
@@ -85,6 +88,7 @@ const InfoSection = ({
 								className="fas fa-exchange-alt"
 							></i>
 						)}
+						{/** Img */}
 						<div className={section.reverse === true ? 'info-extra' : 'info-extra'}>
 							<img
 								className="info-img"
@@ -98,11 +102,13 @@ const InfoSection = ({
 						</div>
 					</div>
 				)}
+				{/** Section with text only */}
 				{section.type === 'text-only' && (
 					<div className="info-section-only">
 						<h1 className="info-message">{section.text}</h1>
 					</div>
 				)}
+				{/** Section with product list */}
 				{section.type === 'data-view' && (
 					<Fragment>
 						<div ref={productSectionRef}>
@@ -119,6 +125,7 @@ const InfoSection = ({
 						</div>
 					</Fragment>
 				)}
+				{/** Section with product carousel */}
 				{section.type === 'carousel' && (
 					<Fragment>
 						<CardCarousel
@@ -129,6 +136,7 @@ const InfoSection = ({
 						/>
 					</Fragment>
 				)}
+				{/** Buttons to change section position */}
 				{isOwner && (
 					<div className="move-options">
 						<i onClick={() => onMove('up')} className="fas fa-sort-up"></i>

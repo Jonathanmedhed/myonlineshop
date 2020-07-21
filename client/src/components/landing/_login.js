@@ -14,19 +14,23 @@ const Login = ({ setSubAction, setAlert, login, isAuthenticated, quickLogin, tog
 	const [submition, setSubmition] = useState(false);
 	// Form Values
 	const [formData, setFormData] = useState({
-		email: '',
-		password: '',
+		email: 'Testuser@gmail.com',
+		password: 'Pass1234!',
 	});
 	// Form Values Variables
+
 	const { email, password } = formData;
+
 	// Asign values on change
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+	// Check input on submit
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		checkInput();
 	};
 
-	// Check input
+	// Check input and submit if no errors
 	const checkInput = async () => {
 		let result = false;
 		// Check Email
@@ -61,10 +65,12 @@ const Login = ({ setSubAction, setAlert, login, isAuthenticated, quickLogin, tog
 		}
 	};
 
+	// Redirect to user page if auntenticated and in landing
 	if (isAuthenticated && !quickLogin) {
 		return <Redirect to="user" />;
 	}
 
+	// Switch between login and register
 	const swapOption = () => {
 		toggleRegister(true);
 		toggle(false);
@@ -72,6 +78,7 @@ const Login = ({ setSubAction, setAlert, login, isAuthenticated, quickLogin, tog
 
 	return (
 		<form onSubmit={(e) => onSubmit(e)} className="form">
+			{/** show spinner on submitions */}
 			{submition && <PrimeSpinner />}
 			<div className="form-group">
 				<label className="form-text">Email</label>
@@ -82,7 +89,7 @@ const Login = ({ setSubAction, setAlert, login, isAuthenticated, quickLogin, tog
 					onChange={(e) => onChange(e)}
 					className="border-dark"
 				></input>
-				<div>TestUser@Gmail.com</div>
+				<div>Testuser@gmail.com</div>
 			</div>
 			<div className="form-group">
 				<label className="form-text">Password</label>
@@ -101,6 +108,7 @@ const Login = ({ setSubAction, setAlert, login, isAuthenticated, quickLogin, tog
 					Login
 				</div>
 			</div>
+			{/** Swap between login and register options */}
 			<div className="form-group">
 				<p>
 					Don't have an account?{' '}

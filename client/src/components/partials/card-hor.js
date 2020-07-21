@@ -29,6 +29,7 @@ const CardHor = ({
 	selectFeedback,
 	selectReportFeedback,
 }) => {
+	// Open item
 	const open = (id) => {
 		switch (type) {
 			case 'shops':
@@ -43,10 +44,16 @@ const CardHor = ({
 				break;
 		}
 	};
+	/** Open by setting product */
 	const openProduct = (id) => {
 		setCurrentProduct(item._id);
 	};
 
+	/**
+	 * Options for selected order (show a dialog)
+	 * @param {*} item
+	 * @param {*} option
+	 */
 	const orderOption = (item, option) => {
 		setCurrentOrderDialog(item);
 		switch (option) {
@@ -79,7 +86,11 @@ const CardHor = ({
 				<Fragment>
 					<div className="card-item">
 						<div className="card-review">
-							{/**Left Side (img/name/stars) */}
+							{/**
+							 * Left Side (img/name/stars)
+							 *
+							 */}
+							{/** Response to feedback */}
 							{type === 'response' && (
 								<div className="card-user-info">
 									<Link to={`/user/${item.user}`}>
@@ -100,6 +111,7 @@ const CardHor = ({
 									</div>
 								</div>
 							)}
+							{/** Feedback */}
 							{type === 'feedback' && (
 								<div className="card-user-info">
 									<Link to={`/user/${item.user}`}>
@@ -130,6 +142,7 @@ const CardHor = ({
 									</div>
 								</div>
 							)}
+							{/** Product */}
 							{type === 'products' && (
 								<div className="card-product-info">
 									<div className="relative" onClick={() => openProduct(item._id)}>
@@ -156,6 +169,7 @@ const CardHor = ({
 									</div>
 								</div>
 							)}
+							{/** Product Checkout section */}
 							{type === 'products-checkout' && (
 								<div className="card-product-info-sm">
 									<div onClick={() => openProduct(item._id)}>
@@ -175,6 +189,7 @@ const CardHor = ({
 									</div>
 								</div>
 							)}
+							{/** Shop */}
 							{type === 'shops' && (
 								<div className="card-shop-info">
 									<Link to={open(item.name)}>
@@ -200,14 +215,21 @@ const CardHor = ({
 									</div>
 								</div>
 							)}
-							{/**Right Side (info and button)*/}
+							{/**
+							 * Right Side (info and buttons)
+							 */}
 							<div className="vertical just-items-center">
 								<div className="card-item-inner">
+									{/**
+									 * Left Side of Right Side :D
+									 */}
+									{/** Feedback */}
 									{type === 'feedback' && (
 										<div className="vertical just-items-center">
 											<div className="message">"{item.comment}"</div>
 										</div>
 									)}
+									{/** Product (Info) */}
 									{type === 'products' && (
 										<Fragment>
 											<div className="horizontal">
@@ -234,6 +256,7 @@ const CardHor = ({
 											</div>
 										</Fragment>
 									)}
+									{/** Product checkout section (Info) */}
 									{type === 'products-checkout' && (
 										<Fragment>
 											<div className="vertical">
@@ -248,11 +271,13 @@ const CardHor = ({
 											</div>
 										</Fragment>
 									)}
+									{/** Response for feedback (Comment) */}
 									{type === 'response' && (
 										<div className="vertical just-items-center">
 											<div className="message">"{item.comment}"</div>
 										</div>
 									)}
+									{/** Shop (info) */}
 									{type === 'shops' && (
 										<Fragment>
 											<div className="vertical">
@@ -277,9 +302,11 @@ const CardHor = ({
 											</div>
 										</Fragment>
 									)}
+									{/** Transaction */}
 									{type === 'transactions' && (
 										<Fragment>
 											<div className="status-table">
+												{/** Status */}
 												<div className="status-cont">
 													<div className="status">
 														<div className="bold">Payed</div>
@@ -316,6 +343,7 @@ const CardHor = ({
 														</div>
 													)}
 												</div>
+												{/** Transaction Data */}
 												<div className="tables">
 													<div className="table-container">
 														<table className="table hide-sm">
@@ -351,10 +379,12 @@ const CardHor = ({
 											</div>
 										</Fragment>
 									)}
+									{/** Order */}
 									{type.includes('orders') && (
 										<Fragment>
 											<div className="status-table">
 												<div className="status-cont">
+													{/** Order status */}
 													{type === 'orders-shop-approve' && (
 														<div className="status">
 															<div className="bold">Approved</div>
@@ -482,6 +512,7 @@ const CardHor = ({
 														</Fragment>
 													)}
 												</div>
+												{/** Order data */}
 												<div className="tables">
 													<div className="table-container">
 														<table className="table hide-sm">
@@ -494,6 +525,7 @@ const CardHor = ({
 																</tr>
 															</thead>
 															<tbody>
+																{/** Order Data */}
 																<tr className="custom-row">
 																	<td>
 																		{moment(item.date).format('DD-MM-YYYY, h:mm a')}
@@ -501,10 +533,12 @@ const CardHor = ({
 																	<td>${item.total}</td>
 																	<td>{item.buyer_name}</td>
 																	<td>
+																		{/** Order to approve options */}
 																		{type === 'orders-shop-approve' && (
 																			<Fragment>
 																				<div className="vertical align-items-center">
 																					<div className="horizontal">
+																						{/** Open */}
 																						<button
 																							onClick={() =>
 																								setTransaction(item._id)
@@ -513,6 +547,7 @@ const CardHor = ({
 																						>
 																							<i className="fas fa-eye text-white"></i>
 																						</button>
+																						{/** Approve button for seller */}
 																						{!buyerView && (
 																							<button
 																								onClick={() =>
@@ -526,6 +561,7 @@ const CardHor = ({
 																								<i className="fas fa-check-circle"></i>
 																							</button>
 																						)}
+																						{/** Remove */}
 																						<button
 																							onClick={() =>
 																								deleteOrder(
@@ -541,11 +577,13 @@ const CardHor = ({
 																				</div>
 																			</Fragment>
 																		)}
+																		{/** Order to prepare */}
 																		{type === 'orders-shop-prepare' && (
 																			<Fragment>
 																				<div className="vertical align-items-center">
 																					{!buyerView && (
 																						<div className="horizontal">
+																							{/** Set order as ready to deliver */}
 																							<button
 																								onClick={() =>
 																									orderOption(
@@ -557,6 +595,7 @@ const CardHor = ({
 																							>
 																								<i className="fas fa-truck-loading"></i>
 																							</button>
+																							{/** Set order as ready for pickup */}
 																							<button
 																								onClick={() =>
 																									orderOption(
@@ -577,6 +616,7 @@ const CardHor = ({
 																								: 'horizontal'
 																						}
 																					>
+																						{/** Open order */}
 																						<button
 																							onClick={() =>
 																								setTransaction(item._id)
@@ -585,6 +625,7 @@ const CardHor = ({
 																						>
 																							<i className="fas fa-eye text-white"></i>
 																						</button>
+																						{/** Move back to approval */}
 																						{!buyerView && (
 																							<button
 																								onClick={() =>
@@ -598,6 +639,7 @@ const CardHor = ({
 																								<i className="fas fa-undo-alt"></i>
 																							</button>
 																						)}
+																						{/** Remove order */}
 																						<button
 																							onClick={() =>
 																								deleteOrder(
@@ -613,12 +655,14 @@ const CardHor = ({
 																				</div>
 																			</Fragment>
 																		)}
+																		{/** Order that are ready options */}
 																		{type === 'orders-shop-ready' && (
 																			<Fragment>
 																				<div className="vertical align-items-center">
 																					{!buyerView && (
 																						<Fragment>
 																							<div className="horizontal">
+																								{/** Open */}
 																								<button
 																									onClick={() =>
 																										setTransaction(
@@ -629,6 +673,7 @@ const CardHor = ({
 																								>
 																									<i className="fas fa-eye text-white"></i>
 																								</button>
+																								{/** move back to prepare */}
 																								<button
 																									onClick={() =>
 																										moveOrder(
@@ -642,6 +687,7 @@ const CardHor = ({
 																								</button>
 																							</div>
 																							<div className="horizontal mt-qter">
+																								{/** Set as delivered */}
 																								<button
 																									onClick={() =>
 																										orderOption(
@@ -653,6 +699,7 @@ const CardHor = ({
 																								>
 																									<i className="fas fa-check-circle"></i>
 																								</button>
+																								{/** Remove order */}
 																								<button
 																									onClick={() =>
 																										deleteOrder(
@@ -667,9 +714,11 @@ const CardHor = ({
 																							</div>
 																						</Fragment>
 																					)}
+																					{/** options for buyer */}
 																					{buyerView && (
 																						<Fragment>
 																							<div className="horizontal">
+																								{/** Open */}
 																								<button
 																									onClick={() =>
 																										setTransaction(
@@ -680,6 +729,7 @@ const CardHor = ({
 																								>
 																									<i className="fas fa-eye text-white"></i>
 																								</button>
+																								{/** Remove order */}
 																								<button
 																									onClick={() =>
 																										deleteOrder(
@@ -697,12 +747,15 @@ const CardHor = ({
 																				</div>
 																			</Fragment>
 																		)}
+																		{/** Order delivered options */}
 																		{type === 'orders-shop-delivered' && (
 																			<Fragment>
 																				<div className="vertical align-items-center">
+																					{/** Shop owner options */}
 																					{!buyerView && (
 																						<Fragment>
 																							<div className="horizontal">
+																								{/** Open */}
 																								<button
 																									onClick={() =>
 																										setTransaction(
@@ -713,6 +766,7 @@ const CardHor = ({
 																								>
 																									<i className="fas fa-eye text-white"></i>
 																								</button>
+																								{/** Move bar to orders ready */}
 																								<button
 																									onClick={() =>
 																										moveOrder(
@@ -726,6 +780,7 @@ const CardHor = ({
 																								</button>
 																							</div>
 																							<div className="horizontal mt-qter">
+																								{/** Set as payed */}
 																								<button
 																									onClick={() =>
 																										orderOption(
@@ -737,6 +792,7 @@ const CardHor = ({
 																								>
 																									<i className="fas fa-hand-holding-usd"></i>
 																								</button>
+																								{/** Remove order */}
 																								<button
 																									onClick={() =>
 																										deleteOrder(
@@ -751,9 +807,11 @@ const CardHor = ({
 																							</div>
 																						</Fragment>
 																					)}
+																					{/** Buyer options */}
 																					{buyerView && (
 																						<Fragment>
 																							<div className="horizontal">
+																								{/** Open */}
 																								<button
 																									onClick={() =>
 																										setTransaction(
@@ -764,6 +822,7 @@ const CardHor = ({
 																								>
 																									<i className="fas fa-eye text-white"></i>
 																								</button>
+																								{/** Set order as received */}
 																								<button
 																									onClick={() =>
 																										orderOption(
@@ -775,6 +834,7 @@ const CardHor = ({
 																								>
 																									<i className="fas fa-hand-holding-heart"></i>
 																								</button>
+																								{/** Remove order */}
 																								<button
 																									onClick={() =>
 																										deleteOrder(
@@ -801,21 +861,33 @@ const CardHor = ({
 											</div>
 										</Fragment>
 									)}
+									{/** Options Section (Buttons) */}
 									<div className="m-auto">
+										{/** Product in checkout section */}
 										{type === 'products-checkout' && transactionView === false ? (
-											<button onClick={() => removeItem(item)} className="btn btn-danger ml-1">
-												Remove
-											</button>
+											<Fragment>
+												{/** Remove option for cart*/}
+												<button
+													onClick={() => removeItem(item)}
+													className="btn btn-danger ml-1"
+												>
+													Remove
+												</button>
+											</Fragment>
 										) : (
 											transactionView === true && (
-												<button
-													onClick={() => setCurrentProduct(item.product)}
-													className="btn btn-primary ml-1"
-												>
-													<i className="fas fa-eye"></i>
-												</button>
+												<Fragment>
+													{/** Open product option*/}
+													<button
+														onClick={() => setCurrentProduct(item.product)}
+														className="btn btn-primary ml-1"
+													>
+														<i className="fas fa-eye"></i>
+													</button>
+												</Fragment>
 											)
 										)}
+										{/** Feedback */}
 										{type === 'feedback' && (
 											<div className="review-buttons">
 												<i onClick={() => selectFeedback(item)} class="fas fa-comment-dots"></i>
@@ -825,6 +897,7 @@ const CardHor = ({
 												></i>
 											</div>
 										)}
+										{/** Product */}
 										{type === 'products' && (
 											<Fragment>
 												<button
@@ -843,11 +916,13 @@ const CardHor = ({
 												)}
 											</Fragment>
 										)}
+										{/** feedback response */}
 										{type === 'response' && (
 											<div className="review-buttons">
 												<i class="fas fa-exclamation-circle"></i>
 											</div>
 										)}
+										{/** shop */}
 										{type === 'shops' && (
 											<Fragment>
 												<button className="btn btn-primary ml-1">
@@ -855,6 +930,7 @@ const CardHor = ({
 														<i className="fas fa-eye text-white"></i>
 													</Link>
 												</button>
+												{/** Delete option */}
 												{isOwner && (
 													<button
 														onClick={() => setShopToDelete(item._id)}
