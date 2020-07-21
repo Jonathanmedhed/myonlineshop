@@ -423,7 +423,7 @@ const storage = multer.diskStorage({
 const upload = multer({
 	storage: storage,
 	limits: { fileSize: 10000000 },
-});
+}).single('myImage');
 
 // @route   POST api/users/upload
 // @desc    Upload IMG and asign to user
@@ -451,29 +451,40 @@ router.post('/upload', auth, (req, res) => {
 // @route   POST api/users/upload
 // @desc    Upload IMG only, return path
 // @access  Private
-router.post('/upload-only', upload.single('myImage'), (req, res) => {
-	try {
-		res.json(req.file.filename);
-	} catch (err) {
-		res.send(400);
-	}
+router.post('/upload-only', (req, res) => {
+	upload(req, res, (err) => {
+		if (!err) {
+			res.json(req.file.filename);
+		} else {
+			console.error(err.message);
+			res.status(500).send('Server Error');
+		}
+	});
 });
 
 // @route   POST api/users/upload
 // @desc    Upload IMG and asign it to section
 // @access  Private
-router.post('/upload-section/:id', upload.single('myImage'), async (req, res) => {
-	try {
-		let section = await Section.findById(req.params.id);
-		if (!section) {
-			return res.status(404).json({ msg: 'Section not found' });
+router.post('/upload-section/:id', (req, res) => {
+	upload(req, res, (err) => {
+		let updatedSection = null;
+		if (!err) {
+			async function updateSection() {
+				let section = await Section.findById(req.params.id);
+				if (!section) {
+					return res.status(404).json({ msg: 'Section not found' });
+				}
+				section.img = req.file.filename;
+				updatedSection = section;
+				await updatedSection.save();
+			}
+			updateSection();
+			res.json(updatedSection);
+		} else {
+			console.error(err.message);
+			res.status(500).send('Server Error');
 		}
-		section.img = req.file.filename;
-		await section.save();
-		res.json(section);
-	} catch (err) {
-		res.send(400);
-	}
+	});
 });
 
 /*****************************************************************************************************
