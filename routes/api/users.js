@@ -82,6 +82,45 @@ router.delete('/', auth, async (req, res) => {
 /*****************************************************************************************************
  * GET REQUESTS
  *****************************************************************************************************/
+const aws = require('aws-sdk');
+aws.config.region = 'us-east-2';
+
+// @route   GET api/users/id
+// @desc    Get user by id
+// @access  Public
+router.get('/sign-s3', async (req, res) => {
+	process.env.AWS_ACCESS_KEY_ID = 'AKIAJRQ5SEZNKOHKM2NA';
+	process.env.AWS_SECRET_ACCESS_KEY = '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';
+	process.env.S3_BUCKET = 'myonlineshopvzla';
+	const S3_BUCKET = process.env.S3_BUCKET;
+	//const S3_BUCKET = 'myonlineshopvzla';
+	const s3 = new aws.S3();
+	const fileName = req.query['file-name'];
+	const fileType = req.query['file-type'];
+	const s3Params = {
+		Bucket: S3_BUCKET,
+		Key: fileName,
+		Expires: 60,
+		ContentType: fileType,
+		ACL: 'public-read',
+	};
+	console.log(s3Params);
+	console.log(s3);
+	s3.getSignedUrl('putObject', s3Params, (err, data) => {
+		if (err) {
+			console.log('Error');
+			console.log(err);
+			return res.end();
+		}
+		const returnData = {
+			signedRequest: data,
+			url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`,
+		};
+		console.log('No error');
+		res.write(JSON.stringify(returnData));
+		res.end();
+	});
+});
 
 // @route   GET api/users/id
 // @desc    Get user by id
