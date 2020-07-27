@@ -89,9 +89,11 @@ aws.config.region = 'us-east-2';
 // @desc    Get user by id
 // @access  Public
 router.get('/sign-s3', async (req, res) => {
+	/** 
 	process.env.AWS_ACCESS_KEY_ID = 'AKIAJRQ5SEZNKOHKM2NA';
 	process.env.AWS_SECRET_ACCESS_KEY = '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';
 	process.env.S3_BUCKET = 'myonlineshopvzla';
+	*/
 	const S3_BUCKET = process.env.S3_BUCKET;
 	//const S3_BUCKET = 'myonlineshopvzla';
 	const s3 = new aws.S3();
