@@ -7,7 +7,6 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	const [file, setFile] = useState(null);
 
 	const onFormSubmit = async (e) => {
-		/** 
 		const formData = new FormData();
 		// append uploaded file to form
 		formData.append('myImage', file);
@@ -61,7 +60,6 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 				setAlert('Modification Failed', 'error');
 			}
 		}
-		*/
 	};
 	// Set file uploaded to brower window
 	const onChange = (e) => {
