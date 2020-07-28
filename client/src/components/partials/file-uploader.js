@@ -6,9 +6,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	// uploaded file
 	const [file, setFile] = useState(null);
 
-	const onFormSubmit = async () => {
-		console.log(file);
-		getSignedRequest(file);
+	const onFormSubmit = async (e) => {
 		/** 
 		const formData = new FormData();
 		// append uploaded file to form
@@ -70,10 +68,10 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 		//setFile(e.files[0]);
 		const files = e.files;
 		const file = files[0];
-		setFile(file);
 		if (file == null) {
 			return alert('No file selected.');
 		}
+		getSignedRequest(file);
 	};
 
 	const getSignedRequest = (file) => {
