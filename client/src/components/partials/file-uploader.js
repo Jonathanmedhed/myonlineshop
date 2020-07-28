@@ -7,6 +7,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	const [file, setFile] = useState(null);
 
 	const onFormSubmit = async () => {
+		console.log(file);
 		getSignedRequest(file);
 		/** 
 		const formData = new FormData();
