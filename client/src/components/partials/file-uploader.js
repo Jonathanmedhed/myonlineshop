@@ -66,7 +66,6 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 		//setFile(e.files[0]);
 		const files = e.files;
 		const file = files[0];
-		console.log(file);
 		if (file == null) {
 			return alert('No file selected.');
 		}
@@ -81,6 +80,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 				if (xhr.status === 200) {
 					console.log('Working');
 					const response = JSON.parse(xhr.responseText);
+					console.log(xhr.responseText);
 					console.log(file);
 					console.log(response.signedRequest);
 					console.log(response.url);
