@@ -154,7 +154,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 						}
 						// Upload and asign to user
 					} else {
-						formData.user_pic = url;
+						formData.pic = url;
 						const res = await editUser(formData);
 						if (res.status === 200) {
 							setAlert('Picture Changed', 'success');
