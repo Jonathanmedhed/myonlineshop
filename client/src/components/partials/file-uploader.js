@@ -78,12 +78,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 		xhr.onreadystatechange = () => {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
-					console.log('Working');
 					const response = JSON.parse(xhr.responseText);
-					console.log(xhr.responseText);
-					console.log(file);
-					console.log(response.signedRequest);
-					console.log(response.url);
 					uploadFile(file, response.signedRequest, response.url);
 				} else {
 					alert('Could not get signed URL.');

@@ -89,7 +89,6 @@ aws.config.region = 'us-east-2';
 // @desc    Get upload img and get url
 // @access  Public
 router.get('/sign-s3', async (req, res) => {
-	console.log('Route running');
 	process.env.AWS_ACCESS_KEY_ID = 'AKIAJRQ5SEZNKOHKM2NA';
 	process.env.AWS_SECRET_ACCESS_KEY = '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';
 	process.env.S3_BUCKET = 'myonlineshopvzla';
@@ -113,7 +112,8 @@ router.get('/sign-s3', async (req, res) => {
 			signedRequest: data,
 			url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`,
 		};
-		res.json(returnData.url);
+		res.write(JSON.stringify(returnData));
+		res.end();
 	});
 });
 
