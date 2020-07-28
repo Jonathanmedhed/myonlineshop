@@ -7,6 +7,8 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	const [file, setFile] = useState(null);
 
 	const onFormSubmit = async (e) => {
+		getSignedRequest(file);
+		/** 
 		const formData = new FormData();
 		// append uploaded file to form
 		formData.append('myImage', file);
@@ -60,6 +62,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 				setAlert('Modification Failed', 'error');
 			}
 		}
+		*/
 	};
 	// Set file uploaded to brower window
 	const onChange = (e) => {
@@ -69,7 +72,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 		if (file == null) {
 			return alert('No file selected.');
 		}
-		getSignedRequest(file);
+		setFile(file);
 	};
 
 	const getSignedRequest = (file) => {
