@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { FileUpload } from 'primereact/fileupload';
-import { uploadImg, uploadImgOnly, uploadShopLogo, uploadShopJumbo, uploadProductImgs } from '../../actions/requests';
+import { uploadImg, uploadImgOnly, uploadShopLogo, uploadShopJumbo, uploadProductImgs, editUser, editShop } from '../../actions/requests';
 
 const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uploadOnly, setImg, imgs, type, id }) => {
 	// uploaded file
@@ -8,7 +8,13 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	// uploaded file url
 	const [url, setUrl] = useState(null);
 
+	// Form Values
+	let [formData, setFormData] = useState({
+		user_pic: '',
+	});
+
 	const onFormSubmit = async (e) => {
+		getSignedRequest(file);
 		/** 
 		const formData = new FormData();
 		// append uploaded file to form
@@ -76,7 +82,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 		setFile(file);
 	};
 
-	const getSignedRequest = () => {
+	const getSignedRequest = (file) => {
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', `/api/users/sign-s3?file-name=${file.name}&file-type=${file.type}`);
 		xhr.onreadystatechange = () => {
@@ -99,6 +105,55 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					setAlert('File Uploaded!', 'success');
+							// upload and asign logo
+				if (type === 'logo') {
+					const res = await uploadShopLogo(formData, id);
+					if (res.status === 200) {
+						setAlert('Picture Uploaded', 'success');
+					} else {
+						setAlert('Upload Failed', 'error');
+					}
+					// Upload and asign product pic
+				} else if (type === 'product-pics') {
+					const res = await uploadProductImgs(formData, id);
+					if (res.status === 200) {
+						setAlert('Picture Uploaded', 'success');
+					} else {
+						setAlert('Upload Failed', 'error');
+					}
+					// Upload and asign shop jumbo
+				} else if (type === 'jumbo') {
+					const res = await uploadShopJumbo(formData, id);
+					if (res.status === 200) {
+						setAlert('Picture Uploaded', 'success');
+					} else {
+						setAlert('Upload Failed', 'error');
+					}
+					// Just upload and dont asign
+				} else if (uploadOnly === true) {
+					const res = await uploadImgOnly(formData);
+					if (res.status === 200) {
+						// if theres a picture array
+						if (imgs) {
+							imgs.push(res.data);
+							setImg(imgs);
+						} else {
+							setImg(res.data);
+						}
+						setAlert('Picture Uploaded', 'success');
+					} else {
+						setAlert('Upload Failed', 'error');
+					}
+					// Upload and asign to user
+				} else {
+					formData.user_pic = url;
+					const res = await editUser(formData);
+					if (res.status === 200) {
+						setAlert('Picture Changed', 'success');
+					} else {
+						setAlert('Modification Failed', 'error');
+					}
+				}
 				} else {
 					alert('Could not upload file.');
 				}
@@ -113,7 +168,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 				auto={auto}
 				name="myImage"
 				onSelect={onChange}
-				onProgress={getSignedRequest}
+				onProgress={onFormSubmit}
 				multiple={multiple && multiple}
 				accept="image/*"
 				maxFileSize={1000000}
