@@ -109,16 +109,58 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	const uploadFile = (file, signedRequest, url) => {
 		const xhr = new XMLHttpRequest();
 		xhr.open('PUT', signedRequest);
-		xhr.onreadystatechange = () => {
+		xhr.onreadystatechange = async () => {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
-					//setAlert('File Uploaded!', 'success');
-					formData.user_pic = url;
-					const res = await editUser(formData);
-					if (res.status === 200) {
-						setAlert('Picture Changed', 'success');
+					setAlert('File Uploaded!', 'success');
+					// upload and asign logo
+					if (type === 'logo') {
+						const res = await uploadShopLogo(formData, id);
+						if (res.status === 200) {
+							setAlert('Picture Uploaded', 'success');
+						} else {
+							setAlert('Upload Failed', 'error');
+						}
+						// Upload and asign product pic
+					} else if (type === 'product-pics') {
+						const res = await uploadProductImgs(formData, id);
+						if (res.status === 200) {
+							setAlert('Picture Uploaded', 'success');
+						} else {
+							setAlert('Upload Failed', 'error');
+						}
+						// Upload and asign shop jumbo
+					} else if (type === 'jumbo') {
+						const res = await uploadShopJumbo(formData, id);
+						if (res.status === 200) {
+							setAlert('Picture Uploaded', 'success');
+						} else {
+							setAlert('Upload Failed', 'error');
+						}
+						// Just upload and dont asign
+					} else if (uploadOnly === true) {
+						const res = await uploadImgOnly(formData);
+						if (res.status === 200) {
+							// if theres a picture array
+							if (imgs) {
+								imgs.push(res.data);
+								setImg(imgs);
+							} else {
+								setImg(res.data);
+							}
+							setAlert('Picture Uploaded', 'success');
+						} else {
+							setAlert('Upload Failed', 'error');
+						}
+						// Upload and asign to user
 					} else {
-						setAlert('Modification Failed', 'error');
+						formData.user_pic = url;
+						const res = await editUser(formData);
+						if (res.status === 200) {
+							setAlert('Picture Changed', 'success');
+						} else {
+							setAlert('Modification Failed', 'error');
+						}
 					}
 				} else {
 					alert('Could not upload file.');
