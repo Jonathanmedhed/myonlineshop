@@ -88,7 +88,8 @@ aws.config.region = 'us-east-2';
 // @route   GET api/users/sign-s3
 // @desc    Get upload img and get url
 // @access  Public
-router.get('/sign-s3', auth, async (req, res) => {
+router.get('/sign-s3', async (req, res) => {
+	console.log('Route running');
 	process.env.AWS_ACCESS_KEY_ID = 'AKIAJRQ5SEZNKOHKM2NA';
 	process.env.AWS_SECRET_ACCESS_KEY = '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';
 	process.env.S3_BUCKET = 'myonlineshopvzla';
