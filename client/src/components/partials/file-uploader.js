@@ -1,6 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { FileUpload } from 'primereact/fileupload';
-import { uploadImg, uploadImgOnly, uploadShopLogo, uploadShopJumbo, uploadProductImgs, editUser, editShop } from '../../actions/requests';
+import {
+	uploadImg,
+	uploadImgOnly,
+	uploadShopLogo,
+	uploadShopJumbo,
+	uploadProductImgs,
+	editUser,
+	editShop,
+} from '../../actions/requests';
 
 const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uploadOnly, setImg, imgs, type, id }) => {
 	// uploaded file
@@ -104,48 +112,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 		xhr.onreadystatechange = () => {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
-					setAlert('File Uploaded!', 'success');
-							// upload and asign logo
-				if (type === 'logo') {
-					const res = await uploadShopLogo(formData, id);
-					if (res.status === 200) {
-						setAlert('Picture Uploaded', 'success');
-					} else {
-						setAlert('Upload Failed', 'error');
-					}
-					// Upload and asign product pic
-				} else if (type === 'product-pics') {
-					const res = await uploadProductImgs(formData, id);
-					if (res.status === 200) {
-						setAlert('Picture Uploaded', 'success');
-					} else {
-						setAlert('Upload Failed', 'error');
-					}
-					// Upload and asign shop jumbo
-				} else if (type === 'jumbo') {
-					const res = await uploadShopJumbo(formData, id);
-					if (res.status === 200) {
-						setAlert('Picture Uploaded', 'success');
-					} else {
-						setAlert('Upload Failed', 'error');
-					}
-					// Just upload and dont asign
-				} else if (uploadOnly === true) {
-					const res = await uploadImgOnly(formData);
-					if (res.status === 200) {
-						// if theres a picture array
-						if (imgs) {
-							imgs.push(res.data);
-							setImg(imgs);
-						} else {
-							setImg(res.data);
-						}
-						setAlert('Picture Uploaded', 'success');
-					} else {
-						setAlert('Upload Failed', 'error');
-					}
-					// Upload and asign to user
-				} else {
+					//setAlert('File Uploaded!', 'success');
 					formData.user_pic = url;
 					const res = await editUser(formData);
 					if (res.status === 200) {
@@ -153,7 +120,6 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 					} else {
 						setAlert('Modification Failed', 'error');
 					}
-				}
 				} else {
 					alert('Could not upload file.');
 				}
