@@ -64,8 +64,10 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	// Set file uploaded to brower window
 	const onChange = (e) => {
 		//setFile(e.files[0]);
+		console.log('Onchange running');
 		const files = e.files;
 		const file = files[0];
+		console.log(file);
 		if (file == null) {
 			return alert('No file selected.');
 		}
@@ -73,6 +75,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	};
 
 	const getSignedRequest = (file) => {
+		console.log('Get Signed Request');
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', `/api/users/sign-s3?file-name=${file.name}&file-type=${file.type}`);
 		xhr.onreadystatechange = () => {
@@ -89,6 +92,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	};
 
 	const uploadFile = (file, signedRequest, url) => {
+		console.log('Upload file');
 		const xhr = new XMLHttpRequest();
 		xhr.open('PUT', signedRequest);
 		xhr.onreadystatechange = () => {
