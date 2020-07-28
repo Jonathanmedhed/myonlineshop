@@ -61,11 +61,7 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 					<div className="img-cont-xs">
 						<img
 							className="round-img"
-							src={
-								user.pic
-									? require('../../../../public/uploads/' + user.pic)
-									: require('../../img/default-profile.png')
-							}
+							src={user.pic ? require(user.pic) : require('../../img/default-profile.png')}
 							alt=""
 						></img>
 					</div>
@@ -97,11 +93,11 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 					<div className="bold">Location: </div>
 					<div className="sub">
 						<div className="ml-1">{user.location}</div>
-							{/** Edit button for onwer */}
+						{/** Edit button for onwer */}
 						{isOwner && <i onClick={() => setChangeLocation(true)} className="far fa-edit"></i>}
 					</div>
 				</div>
-							{/** Date since joined */}
+				{/** Date since joined */}
 				<div className="data">
 					<div className="bold">Member Since: </div>
 					<div className="sub">
