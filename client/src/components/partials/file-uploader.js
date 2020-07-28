@@ -5,9 +5,10 @@ import { uploadImg, uploadImgOnly, uploadShopLogo, uploadShopJumbo, uploadProduc
 const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uploadOnly, setImg, imgs, type, id }) => {
 	// uploaded file
 	const [file, setFile] = useState(null);
+	// uploaded file url
+	const [url, setUrl] = useState(null);
 
 	const onFormSubmit = async (e) => {
-		getSignedRequest(file);
 		/** 
 		const formData = new FormData();
 		// append uploaded file to form
@@ -75,7 +76,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 		setFile(file);
 	};
 
-	const getSignedRequest = (file) => {
+	const getSignedRequest = () => {
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', `/api/users/sign-s3?file-name=${file.name}&file-type=${file.type}`);
 		xhr.onreadystatechange = () => {
@@ -112,7 +113,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 				auto={auto}
 				name="myImage"
 				onSelect={onChange}
-				onProgress={onFormSubmit}
+				onProgress={getSignedRequest}
 				multiple={multiple && multiple}
 				accept="image/*"
 				maxFileSize={1000000}
