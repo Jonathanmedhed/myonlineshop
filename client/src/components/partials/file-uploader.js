@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import PrimeSpinner from './spinner';
 import { FileUpload } from 'primereact/fileupload';
 import {
 	uploadImg,
@@ -11,6 +12,8 @@ import {
 } from '../../actions/requests';
 
 const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uploadOnly, setImg, imgs, type, id }) => {
+	// Submition state to show spinner
+	const [submition, setSubmition] = useState(false);
 	// uploaded file
 	const [file, setFile] = useState(null);
 	// uploaded file url
@@ -81,6 +84,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	};
 	// Set file uploaded to brower window
 	const onChange = (e) => {
+		setSubmition(true);
 		//setFile(e.files[0]);
 		const files = e.files;
 		const file = files[0];
@@ -88,9 +92,11 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 			return alert('No file selected.');
 		}
 		setFile(file);
+		setSubmition(false);
 	};
 
 	const getSignedRequest = (file) => {
+		setSubmition(true);
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', `/api/users/sign-s3?file-name=${file.name}&file-type=${file.type}`);
 		xhr.onreadystatechange = () => {
@@ -104,9 +110,11 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 			}
 		};
 		xhr.send();
+		setSubmition(false);
 	};
 
 	const uploadFile = (file, signedRequest, url) => {
+		setSubmition(true);
 		const xhr = new XMLHttpRequest();
 		xhr.open('PUT', signedRequest);
 		xhr.onreadystatechange = async () => {
@@ -137,22 +145,6 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 						} else {
 							setAlert('Upload Failed', 'error');
 						}
-						// Just upload and dont asign
-					} else if (uploadOnly === true) {
-						const res = await uploadImgOnly(formData);
-						if (res.status === 200) {
-							// if theres a picture array
-							if (imgs) {
-								imgs.push(res.data);
-								setImg(imgs);
-							} else {
-								setImg(res.data);
-							}
-							setAlert('Picture Uploaded', 'success');
-						} else {
-							setAlert('Upload Failed', 'error');
-						}
-						// Upload and asign to user
 					} else {
 						formData.pic = url;
 						const res = await editUser(formData);
@@ -170,19 +162,24 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 			}
 		};
 		xhr.send(file);
+		setSubmition(false);
 	};
 
 	return (
 		<Fragment>
-			<FileUpload
-				auto={auto}
-				name="myImage"
-				onSelect={onChange}
-				onProgress={onFormSubmit}
-				multiple={multiple && multiple}
-				accept="image/*"
-				maxFileSize={1000000}
-			/>
+			{submition ? (
+				<PrimeSpinner />
+			) : (
+				<FileUpload
+					auto={auto}
+					name="myImage"
+					onSelect={onChange}
+					onProgress={onFormSubmit}
+					multiple={multiple && multiple}
+					accept="image/*"
+					maxFileSize={1000000}
+				/>
+			)}
 		</Fragment>
 	);
 };
