@@ -194,11 +194,7 @@ const CardHor = ({
 								<div className="card-shop-info">
 									<Link to={open(item.name)}>
 										<img
-											src={
-												item.pic_logo
-													? require('../../../../public/uploads/' + item.pic_logo)
-													: require('../../img/default-shop.png')
-											}
+											src={item.pic_logo ? item.pic_logo : require('../../img/default-shop.png')}
 											alt=""
 										></img>
 									</Link>
