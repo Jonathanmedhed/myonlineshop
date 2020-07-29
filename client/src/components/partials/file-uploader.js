@@ -20,11 +20,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	const [url, setUrl] = useState(null);
 
 	// Form Values
-	let [formData, setFormData] = useState({
-		user_pic: '',
-		pic_logo: '',
-		pic_jumbo: '',
-	});
+	let [formData, setFormData] = useState({});
 
 	const onFormSubmit = async (e) => {
 		getSignedRequest(file);
