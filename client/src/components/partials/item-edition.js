@@ -492,11 +492,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 								<Fragment>
 									<img
 										className="page-example"
-										src={
-											pic_jumbo
-												? require('../../../../public/uploads/' + pic_jumbo)
-												: require('../../img/jumbo-example.jpg')
-										}
+										src={pic_jumbo ? pic_jumbo : require('../../img/jumbo-example.jpg')}
 										alt=""
 									></img>
 									<UploadComp
@@ -512,11 +508,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 								<Fragment>
 									<img
 										className="page-example"
-										src={
-											pic_logo
-												? require('../../../../public/uploads/' + pic_logo)
-												: require('../../img/logo-example.jpg')
-										}
+										src={pic_logo ? pic_logo : require('../../img/logo-example.jpg')}
 										alt=""
 									></img>
 									<div className="buttons-upload-remove">
