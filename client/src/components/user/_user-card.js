@@ -61,7 +61,7 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 					<div className="img-cont-xs">
 						<img
 							className="round-img"
-							src={user.pic ? require(user.pic) : require('../../img/default-profile.png')}
+							src={user.pic ? user.pic : require('../../img/default-profile.png')}
 							alt=""
 						></img>
 					</div>
