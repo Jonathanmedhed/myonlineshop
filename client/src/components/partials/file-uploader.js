@@ -125,9 +125,11 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 					setAlert('File Uploaded!', 'success');
 					// upload and asign logo
 					if (type === 'logo') {
+						console.log('Working');
 						formData.pic_logo = url;
 						const res = await editShop(formData, id);
 						if (res.status === 200) {
+							console.log(res.data);
 							setAlert('Picture Updated', 'success');
 						} else {
 							setAlert('Upload Failed', 'error');
