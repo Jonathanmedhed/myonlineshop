@@ -1398,7 +1398,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 													className="jumbo-showcase"
 													src={
 														shop.pic_jumbo
-															? require('../../../../public/uploads/' + shop.pic_jumbo)
+															? shop.pic_jumbo
 															: require('../../img/showcase.jpg')
 													}
 													alt=""
@@ -1410,8 +1410,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 															<img
 																src={
 																	shop.pic_logo
-																		? require('../../../../public/uploads/' +
-																				shop.pic_logo)
+																		? shop.pic_logo
 																		: require('../../img/logo-example.png')
 																}
 																alt=""

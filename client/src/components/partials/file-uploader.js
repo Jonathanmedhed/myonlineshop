@@ -22,6 +22,8 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 	// Form Values
 	let [formData, setFormData] = useState({
 		user_pic: '',
+		pic_logo: '',
+		pic_jumbo: '',
 	});
 
 	const onFormSubmit = async (e) => {
@@ -123,9 +125,10 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 					setAlert('File Uploaded!', 'success');
 					// upload and asign logo
 					if (type === 'logo') {
-						const res = await uploadShopLogo(formData, id);
+						formData.pic_logo = url;
+						const res = await editShop(formData, id);
 						if (res.status === 200) {
-							setAlert('Picture Uploaded', 'success');
+							setAlert('Picture Updated', 'success');
 						} else {
 							setAlert('Upload Failed', 'error');
 						}
@@ -139,9 +142,10 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 						}
 						// Upload and asign shop jumbo
 					} else if (type === 'jumbo') {
-						const res = await uploadShopJumbo(formData, id);
+						formData.pic_jumbo = url;
+						const res = await editShop(formData, id);
 						if (res.status === 200) {
-							setAlert('Picture Uploaded', 'success');
+							setAlert('Picture Updated', 'success');
 						} else {
 							setAlert('Upload Failed', 'error');
 						}
