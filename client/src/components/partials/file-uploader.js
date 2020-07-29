@@ -11,7 +11,19 @@ import {
 	editShop,
 } from '../../actions/requests';
 
-const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uploadOnly, setImg, imgs, type, id }) => {
+const UploadComp = ({
+	auto,
+	multiple,
+	setAlert,
+	setSuccess,
+	setCurrentUser,
+	setShop,
+	uploadOnly,
+	setImg,
+	imgs,
+	type,
+	id,
+}) => {
 	// Submition state to show spinner
 	const [submition, setSubmition] = useState(false);
 	// uploaded file
@@ -125,6 +137,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 						const res = await editShop(formData, id);
 						if (res.status === 200) {
 							setAlert('Picture Updated', 'success');
+							setShop(res.data);
 						} else {
 							setAlert('Upload Failed', 'error');
 						}
@@ -142,6 +155,7 @@ const UploadComp = ({ auto, multiple, setAlert, setSuccess, setCurrentUser, uplo
 						const res = await editShop(formData, id);
 						if (res.status === 200) {
 							setAlert('Picture Updated', 'success');
+							setShop(res.data);
 						} else {
 							setAlert('Upload Failed', 'error');
 						}

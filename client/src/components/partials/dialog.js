@@ -620,6 +620,7 @@ const DialogPrime = ({
 							setAlert={setAlert}
 							setSuccess={setSuccess}
 							setCurrentUser={setCurrentUser}
+							setShop={setShop}
 							multiple={false}
 						/>
 					)}
