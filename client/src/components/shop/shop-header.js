@@ -146,11 +146,7 @@ const ShopHeader = ({
 					{shop.pic_logo !== 'none' && (
 						<img
 							className="small-icon"
-							src={
-								shop.pic_logo
-									? require('../../../../public/uploads/' + shop.pic_logo)
-									: require('../../img/logo-example.png')
-							}
+							src={shop.pic_logo ? shop.pic_logo : require('../../img/logo-example.png')}
 							alt=""
 						></img>
 					)}

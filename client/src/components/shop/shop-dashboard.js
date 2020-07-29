@@ -1416,13 +1416,12 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																alt=""
 															></img>
 														)}
-														{/** Show logo option is owner mode */}
+														{/** Show logo option if owner mode */}
 														{isOwner && (
 															<img
 																src={
 																	shop.pic_logo
-																		? require('../../../../public/uploads/' +
-																				shop.pic_logo)
+																		? shop.pic_logo
 																		: require('../../img/logo-example.png')
 																}
 																alt=""
