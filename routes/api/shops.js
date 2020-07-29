@@ -253,6 +253,8 @@ router.post('/edit/:id', auth, async (req, res) => {
 		linkedin,
 		name,
 		phone,
+		pic_logo,
+		pic_jumbo,
 		tags,
 		twitter,
 		type,
@@ -297,6 +299,8 @@ router.post('/edit/:id', auth, async (req, res) => {
 	if (instagram) shopFields.social.instagram = instagram;
 	if (linkedin) shopFields.social.linkedin = linkedin;
 	if (phone) shopFields.social.phone = phone;
+	if (pic_logo) shopFields.social.pic_logo = pic_logo;
+	if (pic_jumbo) shopFields.social.pic_jumbo = pic_jumbo;
 	if (twitter) shopFields.social.twitter = twitter;
 	if (youtube) shopFields.social.youtube = youtube;
 
