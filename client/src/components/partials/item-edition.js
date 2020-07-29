@@ -501,6 +501,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 										setAlert={setAlert}
 										type={'jumbo'}
 										id={item._id}
+										setShop={setItem}
 									/>
 								</Fragment>
 							)}
@@ -521,6 +522,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 											setAlert={setAlert}
 											type={'logo'}
 											id={item._id}
+											setShop={setItem}
 										/>
 									</div>
 								</Fragment>
@@ -566,18 +568,19 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 						</Fragment>
 					)}
 					{/** Submit and discard buttons */}
-					{!success && field !== 'Pic_Logo' && (
-						<div className="form-group-buttons">
-							<div className="form-group">
-								<div onClick={() => checkInput()} className="btn btn-primary">
-									Change
-								</div>
-								<div onClick={() => toggle(false)} className="btn btn-danger ml-1">
-									Discard
+					{(!success && field !== 'Pic_Logo') ||
+						(field !== 'Pic_Jumbo' && (
+							<div className="form-group-buttons">
+								<div className="form-group">
+									<div onClick={() => checkInput()} className="btn btn-primary">
+										Change
+									</div>
+									<div onClick={() => toggle(false)} className="btn btn-danger ml-1">
+										Discard
+									</div>
 								</div>
 							</div>
-						</div>
-					)}
+						))}
 				</div>
 			</div>
 		</div>
