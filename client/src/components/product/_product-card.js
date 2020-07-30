@@ -6,7 +6,7 @@ import UploadComp from '../partials/file-uploader';
 // Functions
 import { editProduct } from '../../actions/requests';
 
-const ProductCard = ({ product, isOwner, setAlert, setProduct, setSubmition }) => {
+const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
 	let [formData, setFormData] = useState({
 		pics: product.pics ? product.pics : [],
 	});
@@ -55,7 +55,6 @@ const ProductCard = ({ product, isOwner, setAlert, setProduct, setSubmition }) =
 							uploadOnly={true}
 							setImg={onSubmit}
 							setAlert={setAlert}
-							setSubmition={setSubmition}
 						/>
 					</div>
 				)}

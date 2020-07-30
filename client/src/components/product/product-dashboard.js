@@ -320,7 +320,6 @@ const ProductDashboard = ({
 										isOwner={isOwner}
 										setAlert={setAlert}
 										setProduct={setProduct}
-										setSubmition={setSubmition}
 									/>
 									{/** Top Right */}
 									<ProductData

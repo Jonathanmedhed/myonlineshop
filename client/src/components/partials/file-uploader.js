@@ -29,6 +29,8 @@ const UploadComp = ({
 	product,
 	setProduct,
 }) => {
+	// Submition state to show spinner
+	const [submition, setSubmition] = useState(false);
 	// uploaded file
 	const [file, setFile] = useState(null);
 	// uploaded file url
@@ -127,9 +129,7 @@ const UploadComp = ({
 	};
 
 	const uploadFile = (file, signedRequest, url) => {
-		if (setSubmition) {
-			setSubmition(true);
-		}
+		setSubmition(true);
 		const xhr = new XMLHttpRequest();
 		xhr.open('PUT', signedRequest);
 		xhr.onreadystatechange = async () => {
@@ -185,26 +185,21 @@ const UploadComp = ({
 			}
 		};
 		xhr.send(file);
-		if (setSubmition) {
-			setSubmition(false);
-		}
+		setSubmition(false);
 	};
 
 	return (
 		<div>
-			{submition ? (
-				<PrimeSpinner />
-			) : (
-				<FileUpload
-					auto={auto}
-					name="myImage"
-					onSelect={onChange}
-					onProgress={onFormSubmit}
-					multiple={multiple && multiple}
-					accept="image/*"
-					maxFileSize={1000000}
-				/>
-			)}
+			{submition && <PrimeSpinner />}
+			<FileUpload
+				auto={auto}
+				name="myImage"
+				onSelect={onChange}
+				onProgress={onFormSubmit}
+				multiple={multiple && multiple}
+				accept="image/*"
+				maxFileSize={1000000}
+			/>
 		</div>
 	);
 };
