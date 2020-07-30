@@ -312,7 +312,9 @@ const ProductDashboard = ({
 						<Fragment>
 							{/** Top */}
 							<div className="top-section">
-								<Alert />
+								<div className="vertical">
+									<Alert />
+								</div>
 								<div className="sub-page-header">
 									{/** Top Left */}
 									<ProductCard
