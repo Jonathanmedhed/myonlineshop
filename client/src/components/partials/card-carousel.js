@@ -66,20 +66,12 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 	let imgTemplate = (item) => {
 		return (
 			<Fragment>
-				{subType !== 'product-carousel' && (
-					<img
-						className="carousel-img"
-						src={require('../../../../public/uploads/' + item)}
-						alt="product"
-					></img>
-				)}
+				{subType !== 'product-carousel' && <img className="carousel-img" src={item} alt="product"></img>}
 				{subType === 'product-carousel' && (
 					<img
 						className="carousel-img"
 						src={
-							item.pics && item.pics.length > 0
-								? require('../../../../public/uploads/' + item.pics[0])
-								: require('../../img/default-product.png')
+							item.pics && item.pics.length > 0 ? item.pics[0] : require('../../img/default-product.png')
 						}
 						alt="product"
 					></img>
@@ -92,20 +84,12 @@ const CardCarousel = ({ items, options, setImg, showImg, type, subType, select, 
 	let imgTemplateMobile = (item) => {
 		return (
 			<Fragment>
-				{subType !== 'product-carousel' && (
-					<img
-						className="carousel-img"
-						src={require('../../../../public/uploads/' + item)}
-						alt="product"
-					></img>
-				)}
+				{subType !== 'product-carousel' && <img className="carousel-img" src={item} alt="product"></img>}
 				{subType === 'product-carousel' && (
 					<img
 						className="carousel-img"
 						src={
-							item.pics && item.pics.length > 0
-								? require('../../../../public/uploads/' + item.pics[0])
-								: require('../../img/default-product.png')
+							item.pics && item.pics.length > 0 ? item.pics[0] : require('../../img/default-product.png')
 						}
 						alt="product"
 					></img>
