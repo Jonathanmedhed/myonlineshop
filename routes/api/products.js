@@ -387,7 +387,7 @@ router.get('/sections/:id', async (req, res) => {
  * Post Request
  *************************************************************************************************************/
 
- // @route   POST api/products/picture/id
+// @route   POST api/products/picture/id
 // @desc    Add img to product
 // @access  Private
 router.post('/picture/:id', auth, async (req, res) => {
@@ -409,7 +409,6 @@ router.post('/picture/:id', auth, async (req, res) => {
 		await product.save();
 
 		res.json(product);
-
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');

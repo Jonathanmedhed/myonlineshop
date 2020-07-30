@@ -147,6 +147,7 @@ const UploadComp = ({
 						// USE NEW REQUEST
 						formData.picture = url;
 						const res = await addProductImg(formData, id);
+						console.log(res.data);
 						if (res.status === 200) {
 							setAlert('Picture Uploaded', 'success');
 						} else {
