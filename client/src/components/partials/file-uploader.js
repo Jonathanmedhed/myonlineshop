@@ -8,6 +8,7 @@ import {
 	uploadShopLogo,
 	uploadShopJumbo,
 	uploadProductImgs,
+	editProduct,
 	editUser,
 	editShop,
 } from '../../actions/requests';
