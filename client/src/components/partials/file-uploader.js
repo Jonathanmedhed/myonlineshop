@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import PrimeSpinner from './spinner';
 import { FileUpload } from 'primereact/fileupload';
 import {
+	addProductImg,
 	uploadImg,
 	uploadImgOnly,
 	uploadShopLogo,
@@ -143,7 +144,9 @@ const UploadComp = ({
 						}
 						// Upload and asign product pic
 					} else if (type === 'product-pics') {
-						const res = await uploadProductImgs(formData, id);
+						// USE NEW REQUEST
+						formData.picture = url;
+						const res = await addProductImg(formData, id);
 						if (res.status === 200) {
 							setAlert('Picture Uploaded', 'success');
 						} else {

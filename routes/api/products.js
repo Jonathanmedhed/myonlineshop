@@ -387,6 +387,35 @@ router.get('/sections/:id', async (req, res) => {
  * Post Request
  *************************************************************************************************************/
 
+ // @route   POST api/products/picture/id
+// @desc    Add img to product
+// @access  Private
+router.post('/picture/:id', auth, (req, res) => {
+	try {
+		const product = await Product.findById(req.params.id);
+		//Make sure product exists
+		if (!product) {
+			return res.status(404).json({ msg: 'Product does not exist' });
+		}
+
+		const shop = await Shop.findById(product.shop);
+		if (!shop) {
+			return res.status(404).json({ msg: 'Shop not found' });
+		}
+
+		const { picture } = req.body;
+
+		product.pics.push(picture);
+		await product.save();
+
+		res.json(product);
+
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 // @route  POST api/products/section/id
 // @desc   Add section to product
 // @access Private

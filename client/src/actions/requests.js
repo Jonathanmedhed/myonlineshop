@@ -310,6 +310,16 @@ export const uploadImgOnly = async (formData) => {
 /*************************************** IMG Related ******************************************/
 
 /**
+ * Add picture to product
+ *
+ * @param {*} formData Img/Imgs
+ */
+export const addProductImg = async (formData, id) => {
+	const res = await axios.post(`/api/products/picture/${id}`, formData, configMulti);
+	return res;
+};
+
+/**
  * IMG logo upload, and assign to shop
  *
  * @param {*} formData Img/Imgs

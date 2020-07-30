@@ -568,19 +568,18 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 						</Fragment>
 					)}
 					{/** Submit and discard buttons */}
-					{(!success && field !== 'Pic_Logo') ||
-						(field !== 'Pic_Jumbo' && (
-							<div className="form-group-buttons">
-								<div className="form-group">
-									<div onClick={() => checkInput()} className="btn btn-primary">
-										Change
-									</div>
-									<div onClick={() => toggle(false)} className="btn btn-danger ml-1">
-										Discard
-									</div>
+					{!success && (field !== 'Pic_Logo' || field !== 'Pic_Jumbo') && (
+						<div className="form-group-buttons">
+							<div className="form-group">
+								<div onClick={() => checkInput()} className="btn btn-primary">
+									Change
+								</div>
+								<div onClick={() => toggle(false)} className="btn btn-danger ml-1">
+									Discard
 								</div>
 							</div>
-						))}
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
