@@ -11,11 +11,7 @@ const ListBoxIMG = ({ items, item, itemType, setItem }) => {
 						{itemType === 'shop' && (
 							<img
 								alt={option.name}
-								src={
-									option.pic_logo
-										? require('../../../../public/uploads/' + option.pic_logo)
-										: require('../../img/logo2.png')
-								}
+								src={option.pic_logo ? option.pic_logo : require('../../img/logo2.png')}
 							/>
 						)}
 						{itemType === 'product' && (
@@ -23,7 +19,7 @@ const ListBoxIMG = ({ items, item, itemType, setItem }) => {
 								alt={option.name}
 								src={
 									option.pics && option.pics.length > 0
-										? require('../../../../public/uploads/' + option.pics[0])
+										? option.pics[0]
 										: require('../../img/default-product.png')
 								}
 							/>
