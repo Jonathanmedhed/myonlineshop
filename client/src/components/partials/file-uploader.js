@@ -190,7 +190,6 @@ const UploadComp = ({
 
 	return (
 		<div>
-			<Alert />
 			{submition ? (
 				<PrimeSpinner />
 			) : (

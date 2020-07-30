@@ -313,6 +313,7 @@ const ProductDashboard = ({
 							{/** Top */}
 							<div className="top-section">
 								<div className="sub-page-header">
+									<Alert />
 									{/** Top Left */}
 									<ProductCard
 										product={product}
