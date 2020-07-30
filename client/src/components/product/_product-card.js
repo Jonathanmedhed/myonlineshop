@@ -47,8 +47,9 @@ const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
 				{isOwner && (
 					<div className="">
 						<UploadComp
+							product={product}
+							setProduct={setProduct}
 							type={'product-pics'}
-							id={product._id}
 							multiple={false}
 							auto={false}
 							uploadOnly={true}

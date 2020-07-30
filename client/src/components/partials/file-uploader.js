@@ -25,6 +25,8 @@ const UploadComp = ({
 	imgs,
 	type,
 	id,
+	product,
+	setProduct,
 }) => {
 	// Submition state to show spinner
 	const [submition, setSubmition] = useState(false);
@@ -146,8 +148,10 @@ const UploadComp = ({
 						// Upload and asign product pic
 					} else if (type === 'product-pics') {
 						// USE NEW REQUEST
-						formData.picture = url;
-						const res = await addProductImg(formData, id);
+						let pictures = product.pics;
+						pictures.push(url);
+						formData.pics = pictures;
+						const res = await editProduct(formData, product._id);
 						console.log(res.data);
 						if (res.status === 200) {
 							setAlert('Picture Uploaded', 'success');
