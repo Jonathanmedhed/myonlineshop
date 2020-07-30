@@ -390,7 +390,7 @@ router.get('/sections/:id', async (req, res) => {
  // @route   POST api/products/picture/id
 // @desc    Add img to product
 // @access  Private
-router.post('/picture/:id', auth, (req, res) => {
+router.post('/picture/:id', auth, async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);
 		//Make sure product exists
