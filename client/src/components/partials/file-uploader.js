@@ -29,8 +29,6 @@ const UploadComp = ({
 	product,
 	setProduct,
 }) => {
-	// Submition state to show spinner
-	const [submition, setSubmition] = useState(false);
 	// uploaded file
 	const [file, setFile] = useState(null);
 	// uploaded file url
@@ -129,7 +127,9 @@ const UploadComp = ({
 	};
 
 	const uploadFile = (file, signedRequest, url) => {
-		setSubmition(true);
+		if (setSubmition) {
+			setSubmition(true);
+		}
 		const xhr = new XMLHttpRequest();
 		xhr.open('PUT', signedRequest);
 		xhr.onreadystatechange = async () => {
@@ -185,7 +185,9 @@ const UploadComp = ({
 			}
 		};
 		xhr.send(file);
-		setSubmition(false);
+		if (setSubmition) {
+			setSubmition(false);
+		}
 	};
 
 	return (
