@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import PrimeSpinner from './spinner';
 import { FileUpload } from 'primereact/fileupload';
+import Alert from '../alerts/alert';
 import {
 	addProductImg,
 	uploadImg,
@@ -152,7 +153,6 @@ const UploadComp = ({
 						pictures.push(url);
 						formData.pics = pictures;
 						const res = await editProduct(formData, product._id);
-						console.log(res.data);
 						if (res.status === 200) {
 							setAlert('Picture Uploaded', 'success');
 						} else {
@@ -189,7 +189,8 @@ const UploadComp = ({
 	};
 
 	return (
-		<Fragment>
+		<div>
+			<Alert />
 			{submition ? (
 				<PrimeSpinner />
 			) : (
@@ -203,7 +204,7 @@ const UploadComp = ({
 					maxFileSize={1000000}
 				/>
 			)}
-		</Fragment>
+		</div>
 	);
 };
 export default UploadComp;
