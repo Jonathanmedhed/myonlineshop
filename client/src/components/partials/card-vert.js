@@ -100,9 +100,7 @@ const CardVer = ({
 									<Link to={`/user/${item.user}`}>
 										<img
 											src={
-												item.user_pic
-													? require('../../../../public/uploads/' + item.user_pic)
-													: require('../../img/default-profile.png')
+												item.user_pic ? item.user_pic : require('../../img/default-profile.png')
 											}
 											alt="user-img"
 											className="hover-point"
@@ -134,7 +132,7 @@ const CardVer = ({
 										<img
 											src={
 												item.pics && item.pics.length > 0
-													? require('../../../../public/uploads/' + item.pics[0])
+													? item.pics[0]
 													: require('../../img/default-product.png')
 											}
 											alt=""
@@ -162,7 +160,7 @@ const CardVer = ({
 									<img
 										src={
 											item.pics && item.pics.length > 0
-												? require('../../../../public/uploads/' + item.pics[0])
+												? item.pics[0]
 												: require('../../img/default-product.png')
 										}
 										alt=""
@@ -184,7 +182,7 @@ const CardVer = ({
 											<img
 												src={
 													item.user_pic
-														? require('../../../../public/uploads/' + item.user_pic)
+														? item.user_pic
 														: require('../../img/default-profile.png')
 												}
 												alt="user-img"
