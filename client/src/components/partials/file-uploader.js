@@ -155,6 +155,7 @@ const UploadComp = ({
 						const res = await editProduct(formData, product._id);
 						if (res.status === 200) {
 							setAlert('Picture Uploaded', 'success');
+							setProduct(res.data);
 						} else {
 							setAlert('Upload Failed', 'error');
 						}
