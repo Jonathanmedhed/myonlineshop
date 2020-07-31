@@ -94,7 +94,7 @@ const InfoSection = ({
 								className="info-img"
 								src={
 									section.img
-										? require('../../../../public/uploads/' + section.img)
+										? section.img
 										: require('../../img/galaxy1.jpg')
 								}
 								alt=""
