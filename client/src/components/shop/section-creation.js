@@ -326,10 +326,10 @@ const SectionCreation = ({
 									<label className="form-text">Image:</label>
 									<UploadComp
 										multiple={false}
-										auto={true}
-										uploadOnly={true}
+										auto={false}
 										setImg={setPic}
 										setAlert={setAlert}
+										type={'section-img'}
 									/>
 								</div>
 							)}

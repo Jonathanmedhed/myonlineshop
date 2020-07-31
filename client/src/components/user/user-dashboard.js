@@ -145,6 +145,10 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 	const [productToShow, setProductToShow] = useState(null);
 	const [productSelected, setProductSelected] = useState(false);
 
+	// Showing Order
+	const [orderToShowBought, setOrderToShowBought] = useState(null);
+	const [orderToShowSold, setOrderToShowSold] = useState(null);
+
 	// Showing Transaction
 	const [transactionToShowBought, setTransactionToShowBought] = useState(null);
 	const [transactionToShowSold, setTransactionToShowSold] = useState(null);
@@ -349,6 +353,34 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		setSubmition(false);
 	};
 
+	// Show sale order
+	const setCurrentOrderSold = async (id) => {
+		// show spinner
+		setSubmition(true);
+		const result = await getTransaction(id);
+		if (result.status === 200) {
+			setOrderToShowSold(result.data);
+		} else {
+			setAlert('Selection failed', 'error');
+		}
+		// hide spinner
+		setSubmition(false);
+	};
+
+	// Show purchase order
+	const setCurrentOrderBought = async (id) => {
+		// show spinner
+		setSubmition(true);
+		const result = await getTransaction(id);
+		if (result.status === 200) {
+			setOrderToShowBought(result.data);
+		} else {
+			setAlert('Selection failed', 'error');
+		}
+		// hide spinner
+		setSubmition(false);
+	};
+
 	// Set tab index of charts
 	const setTabIndex = (index) => {
 		setActiveIndex(index);
@@ -471,6 +503,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	// Approve order or reverse approval
 	const approveOrder = async (reverse) => {
+		// Close order opened
+		setTransactionToShowSold(null);
+		setTransactionToShowBought(null);
 		// show spinner
 		setSubmition(true);
 		// clear form fields
@@ -526,6 +561,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	// Set order as ready or reverse ready
 	const readyOrder = async (option, reverse) => {
+		// Close order opened
+		setTransactionToShowSold(null);
+		setTransactionToShowBought(null);
 		// show spinner
 		setSubmition(true);
 		// clear form data
@@ -585,6 +623,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	// Set order as delivered
 	const deliveredOrder = async (reverse) => {
+		// Close order opened
+		setTransactionToShowSold(null);
+		setTransactionToShowBought(null);
 		// show spinner
 		setSubmition(true);
 		// clear form data
@@ -638,6 +679,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	// Set order as paid
 	const paidOrder = async (option) => {
+		// Close order opened
+		setTransactionToShowSold(null);
+		setTransactionToShowBought(null);
 		// show spinner
 		setSubmition(true);
 		// clear data
@@ -683,6 +727,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 
 	// open 'move order' dialog
 	const moveOrder = (order, type) => {
+		// Close order opened
+		setTransactionToShowSold(null);
+		setTransactionToShowBought(null);
 		setCurrentOrderDialog(order);
 		setOrderRemoval(true);
 		switch (type) {
@@ -1679,91 +1726,94 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									{/**
 									 * Transaction View Component
 									 */}
-									{transactionToShowSold && (
+									{orderToShowSold ? (
 										<TransactionView
-											toggle={setTransactionToShowSold}
-											transaction={transactionToShowSold}
+											toggle={setOrderToShowSold}
+											transaction={orderToShowSold}
 											openProduct={setCurrentProduct}
 											orderView={true}
 										/>
+									) : (
+										<Fragment>
+											{/** Orders by status tabs */}
+											<TabView
+												activeIndex={tabActiveIndex2}
+												onTabChange={(e) => setTabActiveIndex2(e.index)}
+											>
+												{/** Orders to approve */}
+												<TabPanel header="To Approve" leftIcon="far fa-clock">
+													{/** Show list if there is any orders */}
+													{ordersApproveSale && ordersApproveSale.length > 0 ? (
+														<Fragment>
+															<DataViewComp
+																items={ordersApproveSale}
+																setTransaction={setCurrentOrderSold}
+																type="orders-shop-approve"
+																setApprove={setApprove}
+																setCurrentOrderDialog={setCurrentOrderDialog}
+																moveOrder={moveOrder}
+																deleteOrder={deleteOrder}
+															/>
+														</Fragment>
+													) : (
+														<h1>No orders received</h1>
+													)}
+												</TabPanel>
+												{/** Orders to set as ready */}
+												<TabPanel header="To Prepare" leftIcon="fas fa-wrench">
+													{/** Show list if there is any orders */}
+													{ordersPrepareSale && ordersPrepareSale.length > 0 ? (
+														<DataViewComp
+															items={ordersPrepareSale}
+															setTransaction={setCurrentOrderSold}
+															type="orders-shop-prepare"
+															setPreparedDeliver={setPreparedDeliver}
+															setPreparedPickup={setPreparedPickup}
+															setCurrentOrderDialog={setCurrentOrderDialog}
+															moveOrder={moveOrder}
+															deleteOrder={deleteOrder}
+														/>
+													) : (
+														<h1>No orders to prepare</h1>
+													)}
+												</TabPanel>
+												{/** Orders to set as delivered */}
+												<TabPanel header="Ready" leftIcon="fas fa-gift">
+													{/** Show list if there is any orders */}
+													{ordersReadySale && ordersReadySale.length > 0 ? (
+														<DataViewComp
+															items={ordersReadySale}
+															setTransaction={setCurrentOrderSold}
+															type="orders-shop-ready"
+															setReady={setReady}
+															setCurrentOrderDialog={setCurrentOrderDialog}
+															moveOrder={moveOrder}
+															deleteOrder={deleteOrder}
+														/>
+													) : (
+														<h1>No orders ready for delivery/pickup</h1>
+													)}
+												</TabPanel>
+												{/** Orders to set as payed */}
+												<TabPanel header="Delivered" leftIcon="far fa-check-square">
+													{/** Show list if there is any orders */}
+													{ordersDeliveredSale && ordersDeliveredSale.length > 0 ? (
+														<DataViewComp
+															items={ordersDeliveredSale}
+															setTransaction={setCurrentOrderSold}
+															type="orders-shop-delivered"
+															setDelivered={setDelivered}
+															setCurrentOrderDialog={setCurrentOrderDialog}
+															moveOrder={moveOrder}
+															deleteOrder={deleteOrder}
+														/>
+													) : (
+														<h1>No recent orders delivered</h1>
+													)}
+												</TabPanel>
+											</TabView>
+										</Fragment>
 									)}
-									{/** Orders by status tabs */}
-									<TabView
-										activeIndex={tabActiveIndex2}
-										onTabChange={(e) => setTabActiveIndex2(e.index)}
-									>
-										{/** Orders to approve */}
-										<TabPanel header="To Approve" leftIcon="far fa-clock">
-											{/** Show list if there is any orders */}
-											{ordersApproveSale && ordersApproveSale.length > 0 ? (
-												<Fragment>
-													<DataViewComp
-														items={ordersApproveSale}
-														setTransaction={setCurrentTransactionSold}
-														type="orders-shop-approve"
-														setApprove={setApprove}
-														setCurrentOrderDialog={setCurrentOrderDialog}
-														moveOrder={moveOrder}
-														deleteOrder={deleteOrder}
-													/>
-												</Fragment>
-											) : (
-												<h1>No orders received</h1>
-											)}
-										</TabPanel>
-										{/** Orders to set as ready */}
-										<TabPanel header="To Prepare" leftIcon="fas fa-wrench">
-											{/** Show list if there is any orders */}
-											{ordersPrepareSale && ordersPrepareSale.length > 0 ? (
-												<DataViewComp
-													items={ordersPrepareSale}
-													setTransaction={setCurrentTransactionSold}
-													type="orders-shop-prepare"
-													setPreparedDeliver={setPreparedDeliver}
-													setPreparedPickup={setPreparedPickup}
-													setCurrentOrderDialog={setCurrentOrderDialog}
-													moveOrder={moveOrder}
-													deleteOrder={deleteOrder}
-												/>
-											) : (
-												<h1>No orders to prepare</h1>
-											)}
-										</TabPanel>
-										{/** Orders to set as delivered */}
-										<TabPanel header="Ready" leftIcon="fas fa-gift">
-											{/** Show list if there is any orders */}
-											{ordersReadySale && ordersReadySale.length > 0 ? (
-												<DataViewComp
-													items={ordersReadySale}
-													setTransaction={setCurrentTransactionSold}
-													type="orders-shop-ready"
-													setReady={setReady}
-													setCurrentOrderDialog={setCurrentOrderDialog}
-													moveOrder={moveOrder}
-													deleteOrder={deleteOrder}
-												/>
-											) : (
-												<h1>No orders ready for delivery/pickup</h1>
-											)}
-										</TabPanel>
-										{/** Orders to set as payed */}
-										<TabPanel header="Delivered" leftIcon="far fa-check-square">
-											{/** Show list if there is any orders */}
-											{ordersDeliveredSale && ordersDeliveredSale.length > 0 ? (
-												<DataViewComp
-													items={ordersDeliveredSale}
-													setTransaction={setCurrentTransactionSold}
-													type="orders-shop-delivered"
-													setDelivered={setDelivered}
-													setCurrentOrderDialog={setCurrentOrderDialog}
-													moveOrder={moveOrder}
-													deleteOrder={deleteOrder}
-												/>
-											) : (
-												<h1>No recent orders delivered</h1>
-											)}
-										</TabPanel>
-									</TabView>
 								</div>
 							</AccordionTab>
 							{/** Orders List (Purchase) */}
@@ -1779,94 +1829,97 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									{/**
 									 * Transaction View Component
 									 */}
-									{transactionToShowBought && (
+									{orderToShowBought ? (
 										<TransactionView
-											toggle={setTransactionToShowBought}
-											transaction={transactionToShowBought}
+											toggle={setOrderToShowBought}
+											transaction={orderToShowBought}
 											openProduct={setCurrentProduct}
 											orderView={true}
 										/>
+									) : (
+										<Fragment>
+											<TabView
+												activeIndex={tabActiveIndex3}
+												onTabChange={(e) => setTabActiveIndex3(e.index)}
+											>
+												{/** Orders to be approved */}
+												<TabPanel header="To Approve" leftIcon="far fa-clock">
+													{/** Show list if there is any orders */}
+													{ordersApprovePurchase && ordersApprovePurchase.length > 0 ? (
+														<Fragment>
+															<DataViewComp
+																items={ordersApprovePurchase}
+																setTransaction={setCurrentOrderBought}
+																type="orders-shop-approve"
+																setApprove={setApprove}
+																setCurrentOrderDialog={setCurrentOrderDialog}
+																moveOrder={moveOrder}
+																deleteOrder={deleteOrder}
+																buyerView={true}
+															/>
+														</Fragment>
+													) : (
+														<h1>No orders made</h1>
+													)}
+												</TabPanel>
+												{/** Orders to be prepared */}
+												<TabPanel header="To Prepare" leftIcon="fas fa-wrench">
+													{/** Show list if there is any orders */}
+													{ordersPreparePurchase && ordersPreparePurchase.length > 0 ? (
+														<DataViewComp
+															items={ordersPreparePurchase}
+															setTransaction={setCurrentOrderBought}
+															type="orders-shop-prepare"
+															setPreparedDeliver={setPreparedDeliver}
+															setPreparedPickup={setPreparedPickup}
+															setCurrentOrderDialog={setCurrentOrderDialog}
+															moveOrder={moveOrder}
+															deleteOrder={deleteOrder}
+															buyerView={true}
+														/>
+													) : (
+														<h1>No orders being prepared</h1>
+													)}
+												</TabPanel>
+												{/** Orders to be set as ready for pickup/delivered */}
+												<TabPanel header="Ready" leftIcon="fas fa-gift">
+													{/** Show list if there is any orders */}
+													{ordersReadyPurchase && ordersReadyPurchase.length > 0 ? (
+														<DataViewComp
+															items={ordersReadyPurchase}
+															setTransaction={setCurrentOrderBought}
+															type="orders-shop-ready"
+															setReady={setReady}
+															setCurrentOrderDialog={setCurrentOrderDialog}
+															moveOrder={moveOrder}
+															deleteOrder={deleteOrder}
+															buyerView={true}
+														/>
+													) : (
+														<h1>No orders ready for delivery/pickup</h1>
+													)}
+												</TabPanel>
+												{/** Orders delivered */}
+												<TabPanel header="Received" leftIcon="far fa-check-square">
+													{/** Show list if there is any orders */}
+													{ordersDeliveredPurchase && ordersDeliveredPurchase.length > 0 ? (
+														<DataViewComp
+															items={ordersDeliveredPurchase}
+															setTransaction={setCurrentOrderBought}
+															type="orders-shop-delivered"
+															setReceived={setReceived}
+															setCurrentOrderDialog={setCurrentOrderDialog}
+															moveOrder={moveOrder}
+															deleteOrder={deleteOrder}
+															buyerView={true}
+														/>
+													) : (
+														<h1>No recent orders received</h1>
+													)}
+												</TabPanel>
+											</TabView>
+										</Fragment>
 									)}
-									<TabView
-										activeIndex={tabActiveIndex3}
-										onTabChange={(e) => setTabActiveIndex3(e.index)}
-									>
-										{/** Orders to be approved */}
-										<TabPanel header="To Approve" leftIcon="far fa-clock">
-											{/** Show list if there is any orders */}
-											{ordersApprovePurchase && ordersApprovePurchase.length > 0 ? (
-												<Fragment>
-													<DataViewComp
-														items={ordersApprovePurchase}
-														setTransaction={setCurrentTransactionBought}
-														type="orders-shop-approve"
-														setApprove={setApprove}
-														setCurrentOrderDialog={setCurrentOrderDialog}
-														moveOrder={moveOrder}
-														deleteOrder={deleteOrder}
-														buyerView={true}
-													/>
-												</Fragment>
-											) : (
-												<h1>No orders made</h1>
-											)}
-										</TabPanel>
-										{/** Orders to be prepared */}
-										<TabPanel header="To Prepare" leftIcon="fas fa-wrench">
-											{/** Show list if there is any orders */}
-											{ordersPreparePurchase && ordersPreparePurchase.length > 0 ? (
-												<DataViewComp
-													items={ordersPreparePurchase}
-													setTransaction={setCurrentTransactionBought}
-													type="orders-shop-prepare"
-													setPreparedDeliver={setPreparedDeliver}
-													setPreparedPickup={setPreparedPickup}
-													setCurrentOrderDialog={setCurrentOrderDialog}
-													moveOrder={moveOrder}
-													deleteOrder={deleteOrder}
-													buyerView={true}
-												/>
-											) : (
-												<h1>No orders being prepared</h1>
-											)}
-										</TabPanel>
-										{/** Orders to be set as ready for pickup/delivered */}
-										<TabPanel header="Ready" leftIcon="fas fa-gift">
-											{/** Show list if there is any orders */}
-											{ordersReadyPurchase && ordersReadyPurchase.length > 0 ? (
-												<DataViewComp
-													items={ordersReadyPurchase}
-													setTransaction={setCurrentTransactionBought}
-													type="orders-shop-ready"
-													setReady={setReady}
-													setCurrentOrderDialog={setCurrentOrderDialog}
-													moveOrder={moveOrder}
-													deleteOrder={deleteOrder}
-													buyerView={true}
-												/>
-											) : (
-												<h1>No orders ready for delivery/pickup</h1>
-											)}
-										</TabPanel>
-										{/** Orders delivered */}
-										<TabPanel header="Received" leftIcon="far fa-check-square">
-											{/** Show list if there is any orders */}
-											{ordersDeliveredPurchase && ordersDeliveredPurchase.length > 0 ? (
-												<DataViewComp
-													items={ordersDeliveredPurchase}
-													setTransaction={setCurrentTransactionBought}
-													type="orders-shop-delivered"
-													setReceived={setReceived}
-													setCurrentOrderDialog={setCurrentOrderDialog}
-													moveOrder={moveOrder}
-													deleteOrder={deleteOrder}
-													buyerView={true}
-												/>
-											) : (
-												<h1>No recent orders received</h1>
-											)}
-										</TabPanel>
-									</TabView>
 								</div>
 							</AccordionTab>
 							{/** Transaction list (Sale) */}
@@ -1880,22 +1933,25 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								{/**
 								 * Transaction View Component
 								 */}
-								{transactionToShowSold && (
+								{transactionToShowSold ? (
 									<TransactionView
 										toggle={setTransactionToShowSold}
 										transaction={transactionToShowSold}
 										openProduct={setCurrentProductToShow}
 									/>
-								)}
-								{/** Show transactions if has any */}
-								{!transactionToShowSold && transactionsSold && transactionsSold.length > 0 ? (
-									<DataViewComp
-										items={transactionsSold}
-										setTransaction={setCurrentTransactionSold}
-										type="transactions"
-									/>
 								) : (
-									!transactionToShowSold && <h1>You haven't sold any items</h1>
+									<Fragment>
+										{/** Show transactions if has any */}
+										{!transactionToShowSold && transactionsSold && transactionsSold.length > 0 ? (
+											<DataViewComp
+												items={transactionsSold}
+												setTransaction={setCurrentTransactionSold}
+												type="transactions"
+											/>
+										) : (
+											!transactionToShowSold && <h1>You haven't sold any items</h1>
+										)}
+									</Fragment>
 								)}
 							</AccordionTab>
 							{/** Transaction list (Purchase) */}
@@ -1909,22 +1965,27 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								{/**
 								 * Transaction View Component
 								 */}
-								{transactionToShowBought && (
+								{transactionToShowBought ? (
 									<TransactionView
 										toggle={setTransactionToShowBought}
 										transaction={transactionToShowBought}
 										openProduct={setCurrentProductToShow}
 									/>
-								)}
-								{/** Show transactions if has any */}
-								{!transactionToShowBought && transactionsBought && transactionsBought.length > 0 ? (
-									<DataViewComp
-										items={transactionsBought}
-										setTransaction={setCurrentTransactionBought}
-										type="transactions"
-									/>
 								) : (
-									!transactionToShowBought && <h1>You haven't purchased any items</h1>
+									<Fragment>
+										{/** Show transactions if has any */}
+										{!transactionToShowBought &&
+										transactionsBought &&
+										transactionsBought.length > 0 ? (
+											<DataViewComp
+												items={transactionsBought}
+												setTransaction={setCurrentTransactionBought}
+												type="transactions"
+											/>
+										) : (
+											!transactionToShowBought && <h1>You haven't purchased any items</h1>
+										)}
+									</Fragment>
 								)}
 							</AccordionTab>
 							{/** Feedback list */}

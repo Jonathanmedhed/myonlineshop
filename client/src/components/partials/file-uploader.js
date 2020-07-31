@@ -148,7 +148,6 @@ const UploadComp = ({
 						}
 						// Upload and asign product pic
 					} else if (type === 'product-pics') {
-						// USE NEW REQUEST
 						let pictures = product.pics;
 						pictures.push(url);
 						formData.pics = pictures;
@@ -156,6 +155,14 @@ const UploadComp = ({
 						if (res.status === 200) {
 							setAlert('Picture Uploaded', 'success');
 							setProduct(res.data.product);
+						} else {
+							setAlert('Upload Failed', 'error');
+						}
+						// Set section image
+					} else if (type === 'section-img') {
+						setImg(url);
+						if (url) {
+							setAlert('Picture Uploaded', 'success');
 						} else {
 							setAlert('Upload Failed', 'error');
 						}

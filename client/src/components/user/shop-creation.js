@@ -126,9 +126,11 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 		{
 			label: 'Info',
 		},
+		/** 
 		{
 			label: 'Images',
 		},
+		*/
 		{
 			label: 'Social',
 		},
@@ -136,6 +138,47 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 			label: 'Confirm',
 		},
 	];
+
+	/**
+	  {step === 1 && (
+						<Fragment>\
+							<div className="form-group">
+								<label className="form-text">Shop Logo</label>\
+								<img className="page-example" src={require('../../img/logo-example.jpg')} alt=""></img>
+								<UploadComp
+									multiple={false}
+									auto={true}
+									uploadOnly={true}
+									setImg={setLogo}
+									setAlert={setAlert}
+								/>
+								{logo && (
+									<div className="img-success">
+										<div>Logo Uploaded</div>
+										<i className="fas fa-check-circle text-success"></i>
+									</div>
+								)}
+							</div>
+							<div className="form-group">
+								<label className="form-text">Shop Image</label>
+								<img className="page-example" src={require('../../img/jumbo-example.jpg')} alt=""></img>
+								<UploadComp
+									multiple={false}
+									auto={true}
+									uploadOnly={true}
+									setImg={setJumbo}
+									setAlert={setAlert}
+								/>
+								{jumbo && (
+									<div className="img-success">
+										<div>Image Uploaded</div>
+										<i className="fas fa-check-circle text-success"></i>
+									</div>
+								)}
+							</div>
+						</Fragment>
+					)}
+	 */
 
 	return (
 		<div className="item-creation">
@@ -215,46 +258,6 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 					)}
 					{step === 1 && (
 						<Fragment>
-							{/** Logo and jumbo background */}
-							<div className="form-group">
-								<label className="form-text">Shop Logo</label>
-								{/** Show uploaded picture, else show example */}
-								<img className="page-example" src={require('../../img/logo-example.jpg')} alt=""></img>
-								<UploadComp
-									multiple={false}
-									auto={true}
-									uploadOnly={true}
-									setImg={setLogo}
-									setAlert={setAlert}
-								/>
-								{logo && (
-									<div className="img-success">
-										<div>Logo Uploaded</div>
-										<i className="fas fa-check-circle text-success"></i>
-									</div>
-								)}
-							</div>
-							<div className="form-group">
-								<label className="form-text">Shop Image</label>
-								<img className="page-example" src={require('../../img/jumbo-example.jpg')} alt=""></img>
-								<UploadComp
-									multiple={false}
-									auto={true}
-									uploadOnly={true}
-									setImg={setJumbo}
-									setAlert={setAlert}
-								/>
-								{jumbo && (
-									<div className="img-success">
-										<div>Image Uploaded</div>
-										<i className="fas fa-check-circle text-success"></i>
-									</div>
-								)}
-							</div>
-						</Fragment>
-					)}
-					{step === 2 && (
-						<Fragment>
 							{/** Tags and social media */}
 							<div className="form-group">
 								<label className="form-text">Tags</label>
@@ -330,6 +333,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 										<div className="value">{selectedType && selectedType}</div>
 									</div>
 								</div>
+								{/**
 								<div className="group-vertical">
 									<div className="group">
 										<div className="label">Shop Logo:</div>
@@ -356,6 +360,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 										)}
 									</div>
 								</div>
+								 */}
 							</div>
 						</Fragment>
 					)}

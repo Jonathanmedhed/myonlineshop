@@ -107,20 +107,21 @@ const TransactionView = ({ toggle, transaction, openProduct, orderView }) => {
 													<i className="fas fa-circle mx-1"></i>
 												</div>
 											</div>
-											{transaction.delivered !== true && (
-												<div className={orderView ? 'status-hor-sm' : 'status-hor'}>
-													<div className="bold">in-Transit</div>
-													<div
-														className={
-															'right-data ' + transaction.in_transit !== true
-																? 'text-success'
-																: 'text-danger'
-														}
-													>
-														<i className="fas fa-circle mx-1"></i>
+											{transaction.delivered !== true &&
+												(transaction.ready_f_delivery || transaction.ready_f_pickup) && (
+													<div className={orderView ? 'status-hor-sm' : 'status-hor'}>
+														<div className="bold">in-Transit</div>
+														<div
+															className={
+																'right-data ' + transaction.in_transit !== true
+																	? 'text-success'
+																	: 'text-danger'
+															}
+														>
+															<i className="fas fa-circle mx-1"></i>
+														</div>
 													</div>
-												</div>
-											)}
+												)}
 										</div>
 									</div>
 								</div>
