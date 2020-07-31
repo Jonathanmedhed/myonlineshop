@@ -331,6 +331,7 @@ const SectionCreation = ({
 										setAlert={setAlert}
 										type={'section-img'}
 									/>
+									<Alert />
 								</div>
 							)}
 							{/** Submit & Cancel buttons */}

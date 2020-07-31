@@ -312,9 +312,6 @@ const ProductDashboard = ({
 						<Fragment>
 							{/** Top */}
 							<div className="top-section">
-								<div className="vertical">
-									<Alert />
-								</div>
 								<div className="sub-page-header">
 									{/** Top Left */}
 									<ProductCard
@@ -405,6 +402,7 @@ const ProductDashboard = ({
 								<Accordion>
 									{/** Product page content */}
 									<AccordionTab header="Page Content">
+										<Alert />
 										<button onClick={() => setSectionCreation(true)} className="btn btn-primary">
 											Add Section
 										</button>
@@ -494,6 +492,7 @@ const ProductDashboard = ({
 											{/**Review card */}
 											<div className="accord-list">
 												<div className="review-section">
+													<Alert />
 													{feedback && feedback.length > 0 ? (
 														<DataViewComp
 															items={feedback}

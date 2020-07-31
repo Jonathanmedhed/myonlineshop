@@ -1430,6 +1430,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 													}
 													alt=""
 												></img>
+												<Alert />
 												<div className="inner">
 													<div className="logo-showcase">
 														{/** Show logo if has one */}
@@ -1877,6 +1878,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														</div>
 													}
 												>
+													<Alert />
 													{/**Product List */}
 													<button
 														onClick={() => setProductCreation(true)}
@@ -1939,6 +1941,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 												>
 													{/**Review List */}
 													<div className="accord-list">
+														<Alert />
 														<div className="review-section">
 															{feedback && feedback.length > 0 ? (
 																<DataViewComp
@@ -2018,6 +2021,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																stars={5}
 																cancel={5}
 															/>
+															<Alert />
 															<TextArea
 																name="comment"
 																value={comment}

@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 
 // Components
+import Alert from '../alerts/alert';
 import CardCarousel from '../partials/card-carousel';
 import UploadComp from '../partials/file-uploader';
 // Functions
@@ -25,6 +26,7 @@ const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
 	return (
 		<Fragment>
 			<div className="user-card">
+				<Alert />
 				{product.pics && product.pics.length > 0 ? (
 					<div className="relative">
 						{/**

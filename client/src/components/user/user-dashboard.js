@@ -1686,6 +1686,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 								<button onClick={() => setShopCreation(true)} className="btn btn-primary mb-1">
 									<i className="fas fa-plus-circle mr-1"></i>New
 								</button>
+								<Alert />
 								{/** Show if user has shops */}
 								{shops.length > 0 ? (
 									<DataViewComp items={shops} type="shops" setShopToDelete={setShopToDelete} />
@@ -1701,6 +1702,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									</div>
 								}
 							>
+								<Alert />
 								{/** Show if user has products */}
 								{products.length > 0 ? (
 									<DataViewComp
@@ -1996,6 +1998,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 									</div>
 								}
 							>
+								<Alert />
 								{/**Review List */}
 								<div className="accord-list">
 									{/** Show feedback if has received any */}
@@ -2104,6 +2107,7 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 													cancel={5}
 												/>
 												<TextArea name="comment" value={comment} setValue={onChange} />
+												<Alert />
 												<button onClick={() => onRate()} className="btn btn-primary my-1">
 													Leave Review
 												</button>
