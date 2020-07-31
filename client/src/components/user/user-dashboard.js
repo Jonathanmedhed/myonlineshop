@@ -905,6 +905,10 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 		setShowReportFeedback(true);
 	};
 
+	const closeProduct = () => {
+		setProductToShow(null);
+	};
+
 	useEffect(() => {
 		const fetchData = async () => {
 			// if params
@@ -1280,6 +1284,9 @@ const UserDashboard = ({ match, setAlert, history, auth: { isAuthenticated, load
 				{/** Show Product */}
 				<Dialog header={'Product Information'} visible={productToShow} onHide={() => setProductToShow(null)}>
 					<ProductDashboard
+						goBack={closeProduct}
+						setProducts={setProducts}
+						setSubmition={setSubmition}
 						productObject={productToShow}
 						isOwner={isOwner}
 						setIsOwner={setIsOwner}

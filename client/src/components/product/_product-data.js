@@ -191,7 +191,7 @@ const ProductData = ({
 						</div>
 					)}
 					{/** Login/Register option */}
-					{!isAuthenticated && (
+					{!isAuthenticated && !isOwner && (
 						<div className="purchase-options">
 							<div className="review-login-sug">
 								<div onClick={() => toggleLogin(true)} className="solid">
