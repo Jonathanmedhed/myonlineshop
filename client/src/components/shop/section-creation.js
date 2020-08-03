@@ -52,7 +52,7 @@ const SectionCreation = ({
 	/** Section Edited */
 	const [edited, setEdited] = useState(false);
 	/** Type Selection */
-	const [selectedType, setSelectedType] = useState('');
+	const [selectedType, setSelectedType] = useState(!sectionToEdit ? '' : sectionToEdit.type && sectionToEdit.type);
 	// Updated Items
 	const [updatedItems, setUpdatedItems] = useState([]);
 	/** Section Types */
@@ -326,7 +326,8 @@ const SectionCreation = ({
 									<label className="form-text">Image:</label>
 									{pic && (
 										<div className="horizontal align-items-center">
-											<i class="fas fa-check-circle color-success"></i> <div className='ml-half'>Pic selected</div>
+											<i class="fas fa-check-circle color-success"></i>{' '}
+											<div className="ml-half bold">Picture Selected</div>
 										</div>
 									)}
 									<UploadComp
