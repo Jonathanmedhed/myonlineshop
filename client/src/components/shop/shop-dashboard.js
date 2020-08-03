@@ -1430,7 +1430,6 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 													}
 													alt=""
 												></img>
-												<Alert />
 												<div className="inner">
 													<div className="logo-showcase">
 														{/** Show logo if has one */}
@@ -1507,6 +1506,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 															</p>
 														</div>
 													)}
+													<Alert />
 												</div>
 												{/** Edit button for jumbo */}
 												{isOwner === true && (

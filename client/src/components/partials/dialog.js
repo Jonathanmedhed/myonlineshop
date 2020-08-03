@@ -250,6 +250,12 @@ const DialogPrime = ({
 		setSubmition(false);
 	};
 
+	// Apply changes and hide dialog
+	const applyChanges = (updatedItems) => {
+		setSections(updatedItems);
+		onHide();
+	};
+
 	// Check if Email is valid
 	const checkEmail = () => {
 		let re = /\S+@\S+\.\S+/;
@@ -805,7 +811,7 @@ const DialogPrime = ({
 									<Fragment>
 										{deleteSection && (
 											<button
-												onClick={() => setSections(updatedItems)}
+												onClick={() => applyChanges(updatedItems)}
 												className="btn btn-success"
 											>
 												Apply

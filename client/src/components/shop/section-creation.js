@@ -88,70 +88,73 @@ const SectionCreation = ({
 
 	// Form submition
 	const onSubmit = async (id) => {
-		// show spinner
-		setSubmition(true);
-		// Asign uploaded pic to form
-		if (pic) {
-			formData.img = pic;
-		}
-		// Asign selected type to form
-		if (selectedType) {
-			formData.type = selectedType;
-		}
-		// Asign position selected to form
-		if (positionSelected) {
-			// +1 in order to overtake the position
-			formData.position = positionSelected;
-		}
-		switch (itemType) {
-			// Create section for shop
-			case 'shop':
-				if (!sectionToEdit) {
-					const res = await createSection(formData, id);
-					if (res.status === 200) {
-						setSuccess(true);
-						setCreated(true);
-						setAlert('Section Created', 'success');
-						// Update sections
-						setUpdatedItems(res.data);
+		if (selectedType === 'w/img' && !pic) {
+			setAlert('Picture Required', 'error');
+		} else {
+			// show spinner
+			setSubmition(true);
+			// Asign uploaded pic to form
+			if (pic) {
+				formData.img = pic;
+			}
+			// Asign selected type to form
+			if (selectedType) {
+				formData.type = selectedType;
+			}
+			// Asign position selected to form
+			if (positionSelected) {
+				formData.position = positionSelected;
+			}
+			switch (itemType) {
+				// Create section for shop
+				case 'shop':
+					if (!sectionToEdit) {
+						const res = await createSection(formData, id);
+						if (res.status === 200) {
+							setSuccess(true);
+							setCreated(true);
+							setAlert('Section Created', 'success');
+							// Update sections
+							setUpdatedItems(res.data);
+						}
+					} else {
+						// Create section for product
+						const res = await editSection(formData, sectionToEdit._id);
+						if (res.status === 200) {
+							setSuccess(true);
+							setEdited(true);
+							setAlert('Section Edited', 'success');
+							// Update sections
+							setUpdatedItems(res.data);
+						}
 					}
-				} else {
-					// Create section for product
-					const res = await editSection(formData, sectionToEdit._id);
-					if (res.status === 200) {
-						setSuccess(true);
-						setEdited(true);
-						setAlert('Section Edited', 'success');
-						// Update sections
-						setUpdatedItems(res.data);
+					setSubmition(false);
+					break;
+				case 'product':
+					if (!sectionToEdit) {
+						const res = await createProductSection(formData, id);
+						if (res.status === 200) {
+							setSuccess(true);
+							setCreated(true);
+							setAlert('Section Created', 'success');
+							setUpdatedItems(res.data);
+						}
+					} else {
+						const res = await editProductSection(formData, sectionToEdit._id);
+						if (res.status === 200) {
+							setSuccess(true);
+							setEdited(true);
+							setAlert('Section Edited', 'success');
+							setUpdatedItems(res.data);
+						}
 					}
-				}
-				setSubmition(false);
-				break;
-			case 'product':
-				if (!sectionToEdit) {
-					const res = await createProductSection(formData, id);
-					if (res.status === 200) {
-						setSuccess(true);
-						setCreated(true);
-						setAlert('Section Created', 'success');
-						setUpdatedItems(res.data);
-					}
-				} else {
-					const res = await editProductSection(formData, sectionToEdit._id);
-					if (res.status === 200) {
-						setSuccess(true);
-						setEdited(true);
-						setAlert('Section Edited', 'success');
-						setUpdatedItems(res.data);
-					}
-				}
-				// hide spinner
-				setSubmition(false);
-				break;
-			default:
-				setSubmition(false);
-				break;
+					// hide spinner
+					setSubmition(false);
+					break;
+				default:
+					setSubmition(false);
+					break;
+			}
 		}
 	};
 
