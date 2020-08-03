@@ -326,7 +326,7 @@ const SectionCreation = ({
 									<label className="form-text">Image:</label>
 									{pic && (
 										<div className="horizontal align-items-center">
-											<i class="fas fa-check-circle"></i> Pic uploaded
+											<i class="fas fa-check-circle color-success"></i> <div className='ml-half'>Pic selected</div>
 										</div>
 									)}
 									<UploadComp
