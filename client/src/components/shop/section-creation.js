@@ -324,6 +324,11 @@ const SectionCreation = ({
 							{selectedType && selectedType === 'w/img' && (
 								<div className="form-group">
 									<label className="form-text">Image:</label>
+									{pic && (
+										<div className="horizontal align-items-center">
+											<i class="fas fa-check-circle"></i> Pic uploaded
+										</div>
+									)}
 									<UploadComp
 										multiple={false}
 										auto={false}
