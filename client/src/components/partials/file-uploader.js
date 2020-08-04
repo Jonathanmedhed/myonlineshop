@@ -121,11 +121,11 @@ const UploadComp = ({
 					uploadFile(file, response.signedRequest, response.url);
 				} else {
 					alert('Could not get signed URL.');
+					setSubmition(false);
 				}
 			}
 		};
 		xhr.send();
-		setSubmition(false);
 	};
 
 	const uploadFile = (file, signedRequest, url) => {
@@ -198,19 +198,16 @@ const UploadComp = ({
 
 	return (
 		<div>
-			{submition ? (
-				<PrimeSpinner />
-			) : (
-				<FileUpload
-					auto={auto}
-					name="myImage"
-					onSelect={onChange}
-					onProgress={onFormSubmit}
-					multiple={multiple && multiple}
-					accept="image/*"
-					maxFileSize={50000000}
-				/>
-			)}
+			{submition && <PrimeSpinner />}
+			<FileUpload
+				auto={auto}
+				name="myImage"
+				onSelect={onChange}
+				onProgress={onFormSubmit}
+				multiple={multiple && multiple}
+				accept="image/*"
+				maxFileSize={50000000}
+			/>
 		</div>
 	);
 };
