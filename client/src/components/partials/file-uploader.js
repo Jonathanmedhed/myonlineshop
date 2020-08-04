@@ -197,7 +197,7 @@ const UploadComp = ({
 	};
 
 	return (
-		<div>
+		<div className="m-1">
 			{submition && <PrimeSpinner />}
 			<FileUpload
 				auto={auto}
