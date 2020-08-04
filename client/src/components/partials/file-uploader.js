@@ -187,13 +187,13 @@ const UploadComp = ({
 							setAlert('Modification Failed', 'error');
 						}
 					}
+					setSubmition(false);
 				} else {
 					alert('Could not upload file.');
 				}
 			}
 		};
 		xhr.send(file);
-		setSubmition(false);
 	};
 
 	return (
