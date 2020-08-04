@@ -206,7 +206,7 @@ const UploadComp = ({
 				onProgress={onFormSubmit}
 				multiple={multiple && multiple}
 				accept="image/*"
-				maxFileSize={50000000}
+				maxFileSize={10000000}
 			/>
 		</div>
 	);
