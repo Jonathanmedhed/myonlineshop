@@ -522,7 +522,7 @@ const ProductDashboard = ({
 											</div>
 											 */}
 											<div className="big-item mt-1">
-												<div className="bold">Delete Account:</div>
+												<div className="bold">Delete Product:</div>
 												<button
 													onClick={() => setShowDeleteProduct(true)}
 													className="btn btn-danger"

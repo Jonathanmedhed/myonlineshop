@@ -542,14 +542,16 @@ const CardVer = ({
 										<button onClick={() => openProduct(item._id)} className="btn btn-primary ml-1">
 											<i className="fas fa-eye text-white"></i>
 										</button>
-										{isOwner && (
-											<button
-												onClick={() => setProductToDelete(item._id)}
-												className="btn btn-danger ml-1"
-											>
-												<i className="far fa-trash-alt"></i>
-											</button>
-										)}
+										{/**isOwner && (
+											<Fragment className="ml-1">
+												<button
+													onClick={() => setProductToDelete(item._id)}
+													className="btn btn-danger"
+												>
+													<i className="far fa-trash-alt"></i>
+												</button>
+											</Fragment>
+										)*/}
 									</Fragment>
 								)}
 								{/** Response to feedback */}

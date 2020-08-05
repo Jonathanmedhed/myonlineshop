@@ -146,7 +146,7 @@ const ProductData = ({
 					</div>
 				</div>
 				<Fragment>
-					<div className="data-vert">
+					<div className={product.description ? 'data-vert' : 'data'}>
 						<div className="bold">Description:</div>
 						<div className="description">
 							{product.description}

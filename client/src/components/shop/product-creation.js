@@ -173,9 +173,17 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 									locale="en-US"
 								/>
 							</div>
-							<div className="from-group">
+							<div className="from-group mt-1">
 								<label className="form-text">Quantity</label>
-								<InputNumber name="quantity" value={quantity} step={1} onChange={(e) => onChange(e)} />
+								<input
+									className="input"
+									min="1"
+									step="1"
+									type="number"
+									name="quantity"
+									value={quantity}
+									onChange={(e) => onChange(e)}
+								></input>
 							</div>
 							<div className="form-group">
 								<label className="form-text">Type</label>
