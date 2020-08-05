@@ -52,8 +52,8 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 					instagram: item.social && item.social.instagram ? item.social.instagram : '',
 					intro: item.intro ? item.intro : '',
 					linkedin: item.social && item.social.linkedin ? item.social.linkedin : '',
-					pic_jumbo: item.pic_jumbo ? item.pic_jumbo : '',
-					pic_logo: item.pic_logo ? item.pic_logo : '',
+					pic_jumbo: '',
+					pic_logo: '',
 					pics: item.pics ? item.pics : [],
 					twitter: item.social && item.social.twitter ? item.social.twitter : '',
 					youtube: item.social && item.social.youtube ? item.social.youtube : '',
@@ -281,13 +281,13 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 				}
 				break;
 			case 'Pic_Jumbo':
-				if (pic_jumbo && pic_jumbo === '') {
+				if ((pic_jumbo && pic_jumbo === '') || !pic_jumbo) {
 					setAlert('Picture Required', 'error');
 					result = true;
 				}
 				break;
 			case 'Pic_Logo':
-				if (pic_logo && pic_logo === '') {
+				if ((pic_logo && pic_logo === '') || !pic_logo) {
 					setAlert('Picture Required', 'error');
 					result = true;
 				}
