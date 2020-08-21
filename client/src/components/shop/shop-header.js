@@ -4,6 +4,7 @@ import { Menubar } from 'primereact/menubar';
 import SideBarComp from '../partials/side-bar';
 
 const ShopHeader = ({
+	closeProduct,
 	unFollow,
 	follow,
 	isFollower,
@@ -106,7 +107,7 @@ const ShopHeader = ({
 								label: 'Follow Us',
 								icon: 'fas fa-plus',
 								command: () => {
-									follow();
+									follow(shop._id);
 								},
 						  }
 						: isFollower &&
@@ -136,7 +137,7 @@ const ShopHeader = ({
 	// Open shopping cart
 	const openCart = () => {
 		setShowCart(true);
-		setProduct(null);
+		closeProduct();
 	};
 	return (
 		<Fragment>

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { ListBox } from 'primereact/listbox';
 
-const ListBoxIMG = ({ items, item, itemType, setItem }) => {
+const ListBoxIMG = ({ items, item, itemType, setItem, transactionsSold }) => {
 	// item template
 	let itemTemplate = (option) => {
 		return (
@@ -41,7 +41,7 @@ const ListBoxIMG = ({ items, item, itemType, setItem }) => {
 					filter={true}
 					filterBy={'name'}
 					options={items}
-					onChange={(e) => setItem(e.value)}
+					onChange={(e) => (itemType === 'product' ? setItem(e.value, transactionsSold) : setItem(e.value))}
 					itemTemplate={itemTemplate}
 					style={{ width: '15em' }}
 					listStyle={{ maxHeight: '250px' }}

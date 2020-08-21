@@ -191,7 +191,11 @@ router.post('/:id', auth, async (req, res) => {
 			{ new: true }
 		);
 		await transaction.save();
-		res.json(transaction);
+		// Get updated transactions
+		const transactions = await Transaction.find({
+			seller: req.user.id,
+		});
+		res.json(transactions);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
@@ -229,7 +233,7 @@ router.post('/:trans_id/:product_id', auth, async (req, res) => {
  *******************************************************************************************************/
 
 // @route   DELETE api/transaction/:id
-// @desc    Delete a transaction
+// @desc    Delete a transaction from an user
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {
 	try {
@@ -251,7 +255,50 @@ router.delete('/:id', auth, async (req, res) => {
 		await seller.save();
 		await shop.save();
 		await transaction.remove();
-		res.json({ msg: 'Transaction removed' });
+
+		// Get updated transactions
+		const transactions = await Transaction.find({
+			seller: req.user.id,
+		});
+		res.json(transactions);
+	} catch (err) {
+		console.error(err.message);
+		if (err.kind === 'ObjectId') {
+			return res.status(404).json({ msg: 'Transaction not found' });
+		}
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route   DELETE api/transaction/shop/:id
+// @desc    Delete a transaction from a shop
+// @access  Private
+router.delete('/shop/:id', auth, async (req, res) => {
+	try {
+		const transaction = await Transaction.findById(req.params.id);
+		if (!transaction) {
+			return res.status(404).json({ msg: 'Transaction not found' });
+		}
+
+		// Remove transaction from users
+		let buyer = await User.findById(transaction.buyer);
+		let seller = await User.findById(transaction.seller);
+		let shop = await Shop.findById(transaction.shop);
+
+		buyer.transactions_purchase.remove(transaction);
+		seller.transactions_sale.remove(transaction);
+		shop.transactions.remove(transaction);
+
+		await buyer.save();
+		await seller.save();
+		await shop.save();
+		await transaction.remove();
+
+		// Get updated transactions
+		const transactions = await Transaction.find({
+			shop: shop._id,
+		});
+		res.json(transactions);
 	} catch (err) {
 		console.error(err.message);
 		if (err.kind === 'ObjectId') {

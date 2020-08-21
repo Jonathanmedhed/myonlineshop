@@ -10,21 +10,15 @@ import PrimeSpinner from '../partials/spinner';
 import Table from '../partials/table';
 import UploadComp from '../partials/file-uploader';
 
-// Functions
-import {
-	createSection,
-	deleteSection,
-	editSection,
-	createProductSection,
-	editProductSection,
-	deleteProductSection,
-} from '../../actions/requests';
-
 const SectionCreation = ({
+	editProductSection,
+	editSection,
 	history,
 	sectionToEdit,
 	setSectionToEdit,
-	setSections,
+	createProductSection,
+	createSection,
+	deleteSection,
 	currentSections,
 	toggle,
 	setAlert,
@@ -109,44 +103,18 @@ const SectionCreation = ({
 				// Create section for shop
 				case 'shop':
 					if (!sectionToEdit) {
-						const res = await createSection(formData, id);
-						if (res.status === 200) {
-							setSuccess(true);
-							setCreated(true);
-							setAlert('Section Created', 'success');
-							// Update sections
-							setUpdatedItems(res.data);
-						}
+						createSection(formData, id, setSuccess, setCreated);
 					} else {
 						// Create section for product
-						const res = await editSection(formData, sectionToEdit._id);
-						if (res.status === 200) {
-							setSuccess(true);
-							setEdited(true);
-							setAlert('Section Edited', 'success');
-							// Update sections
-							setUpdatedItems(res.data);
-						}
+						editSection(formData, sectionToEdit._id, setSuccess, setEdited);
 					}
 					setSubmition(false);
 					break;
 				case 'product':
 					if (!sectionToEdit) {
-						const res = await createProductSection(formData, id);
-						if (res.status === 200) {
-							setSuccess(true);
-							setCreated(true);
-							setAlert('Section Created', 'success');
-							setUpdatedItems(res.data);
-						}
+						createProductSection(formData, id, setSuccess, setCreated);
 					} else {
-						const res = await editProductSection(formData, sectionToEdit._id);
-						if (res.status === 200) {
-							setSuccess(true);
-							setEdited(true);
-							setAlert('Section Edited', 'success');
-							setUpdatedItems(res.data);
-						}
+						editProductSection(formData, sectionToEdit._id, setSuccess, setEdited);
 					}
 					// hide spinner
 					setSubmition(false);
@@ -158,35 +126,11 @@ const SectionCreation = ({
 		}
 	};
 
-	// Section deletion
-	const onDelete = async () => {
-		// Show spinner
-		setSubmition(true);
-		const res = await deleteSection(sectionToEdit.shop, sectionToEdit._id);
-		if (res.status === 200) {
-			// update sections
-			setUpdatedItems(res.data);
-			setSuccess(true);
-			setDeleted(true);
-			setAlert('Section Deleted', 'success');
-		} else {
-			setAlert('Deletion Failed', 'error');
-		}
-		// Hide spinner
-		setSubmition(false);
-	};
-
 	// Close dialog window
 	const onClose = () => {
 		toggle(false);
 		setSectionToEdit(null);
 		setConfirmDelete(false);
-	};
-
-	// Apply changes to shop or product
-	const applyChanges = (changes) => {
-		setSections(changes);
-		onClose();
 	};
 
 	return (
@@ -213,9 +157,6 @@ const SectionCreation = ({
 									<i className="fas fa-check-square fa-4x text-success"></i>
 									<h1>Section {created ? 'Created' : deleted ? 'Deleted' : edited && 'Edited'}!</h1>
 									<div className="buttons-form mt-1">
-										<button className="btn btn-primary" onClick={() => applyChanges(updatedItems)}>
-											Apply
-										</button>
 										<button className="btn btn-danger" onClick={() => onClose()}>
 											Exit
 										</button>
@@ -232,7 +173,12 @@ const SectionCreation = ({
 									<i className="fas fa-exclamation-triangle fa-4x text-caution"></i>
 									<h1>Delete Section?</h1>
 									<div className="buttons-form mt-1">
-										<button className="btn btn-primary" onClick={() => onDelete()}>
+										<button
+											className="btn btn-primary"
+											onClick={() =>
+												deleteSection(item._id, sectionToEdit._id, setSuccess, setDeleted)
+											}
+										>
 											Confirm
 										</button>
 										<button className="btn btn-danger" onClick={() => setConfirmDelete(false)}>

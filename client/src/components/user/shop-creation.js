@@ -6,20 +6,16 @@ import InputChips from '../partials/input-chips';
 import InputDropdownComp from '../partials/dropdown';
 import LabeledInput from '../partials/labeled-input';
 import StepsComp from '../partials/steps';
-import UploadComp from '../partials/file-uploader';
-import PrimeSpinner from '../partials/spinner';
 
 // Functions
-import { createShop, getShops } from '../../actions/requests';
+import { getShops } from '../../actions/requests';
 
-const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => {
+const ShopCreation = ({ createShop, createdShop, history, toggle, setAlert, setShops, setSubmition }) => {
 	/** Shop Pics */
 	const [logo, setLogo] = useState(null);
 	const [jumbo, setJumbo] = useState(null);
 	/** Operation success */
 	const [success, setSuccess] = useState(false);
-	/** Created item (Created object after submition) */
-	const [createdItem, setCreatedItem] = useState(null);
 	const [selectedType, setSelectedType] = useState('');
 	const [selectedTags, setSelectedTags] = useState([]);
 	const [formData, setFormData] = useState({
@@ -61,22 +57,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 		if (selectedTags) {
 			formData.tags = selectedTags;
 		}
-		const res = await createShop(formData);
-		if (res.status === 200 && res.data.name) {
-			const shops = await getShops();
-			if (shops.status === 200) {
-				setShops(shops.data);
-			}
-			setSuccess(true);
-			setCreatedItem(res.data);
-			setAlert('Shop Created', 'success');
-		} else if (res.data === 'Shop name already in use') {
-			setAlert('Name already in use', 'error');
-		} else if (res.data === 'Shop email already in use') {
-			setAlert('Email already in use', 'error');
-		} else {
-			setAlert('Creation Failed', 'error');
-		}
+		const res = await createShop(formData, setSuccess);
 		setSubmition(false);
 		return res;
 	};
@@ -374,7 +355,7 @@ const ShopCreation = ({ history, toggle, setAlert, setShops, setSubmition }) => 
 									<div className="buttons-form mt-1">
 										<button
 											className="btn btn-primary"
-											onClick={() => history.replace(`/shop/${createdItem.name}`)}
+											onClick={() => history.replace(`/shop/${createdShop.name}`)}
 										>
 											View Shop
 										</button>

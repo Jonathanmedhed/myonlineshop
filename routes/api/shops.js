@@ -222,6 +222,7 @@ router.post('/', auth, [check('name', 'Name is Required').not().isEmpty()], asyn
 		// Create section
 		const section = new Section(sectionFields);
 		await section.save();
+
 		res.json(shop);
 	} catch (err) {
 		console.error(err.message);
@@ -409,6 +410,7 @@ router.post('/upload_jumbo/:id', auth, (req, res) => {
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {
 	try {
+		console.log('id: ' + req.params.id);
 		const shop = await Shop.findById(req.params.id);
 		if (!shop) {
 			return res.status(404).json({ msg: 'Shop not found' });
@@ -491,7 +493,7 @@ router.delete('/product/:id', auth, async (req, res) => {
  *****************************************************************************************************/
 
 // @route   PUT api/shops/feedback/:id
-// @desc    Feedback an shop
+// @desc    Feedback a shop
 // @access  Private
 router.put('/feedback/:id', auth, async (req, res) => {
 	try {
@@ -517,24 +519,35 @@ router.put('/feedback/:id', auth, async (req, res) => {
 		if (stars) feedbackFields.stars = stars;
 		if (comment) feedbackFields.comment = comment;
 
+		// If shop has feedback
 		if (shop_receiver.feedback.length > 0) {
+			// Check if user has rated before
+			let feedbackFound = false;
 			let feedbacks = shop_receiver.feedback;
 			feedbacks.forEach(async (feedback) => {
-				// If user has rated before
 				if (feedback.user.toString() === user._id.toString()) {
+					feedbackFound = true;
 					const index = feedbacks.indexOf(feedback);
 					if (index > -1) {
 						// Remove old feedback
 						feedbacks.splice(index, 1);
-						// Add new feedback
-						feedbacks.unshift(feedbackFields);
 					}
+					// Add new feedback
+					feedbacks.unshift(feedbackFields);
 					shop_receiver.feedback = feedbacks;
 					await shop_receiver.save();
 					res.json(shop_receiver.feedback.sort((a, b) => (a.date > b.date ? 1 : -1)));
 				}
 			});
+			// If user hasnt rated before
+			if (feedbackFound === false) {
+				feedbacks.unshift(feedbackFields);
+				shop_receiver.feedback = feedbacks;
+				await shop_receiver.save();
+				res.json(shop_receiver.feedback.sort((a, b) => (a.date > b.date ? 1 : -1)));
+			}
 		} else {
+			// If shop has no feedback
 			const feedbacks = [];
 			feedbacks.unshift(feedbackFields);
 			shop_receiver.feedback = feedbacks;
@@ -707,7 +720,6 @@ router.put('/unfollow/:id', auth, async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
-
 
 /************************************************************************************************************
  * Product Routes

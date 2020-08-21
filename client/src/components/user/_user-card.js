@@ -6,7 +6,7 @@ import { calculateRating } from '../../actions/utilities';
 import DialogPrime from '../partials/dialog';
 import { Rating } from 'primereact/rating';
 
-const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
+const UserCard = ({ setCurrentUser, user, isOwner, feedback, editUser }) => {
 	// Change User Info States
 	const [changeLocation, setChangeLocation] = useState(false);
 	const [changeName, setChangeName] = useState(false);
@@ -28,6 +28,7 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback }) => {
 	return (
 		<Fragment>
 			<DialogPrime
+				editUser={editUser}
 				user={user}
 				changeLocation={changeLocation}
 				setChangeLocation={setChangeLocation}

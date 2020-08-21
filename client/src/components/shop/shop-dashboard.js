@@ -1,4 +1,5 @@
 import React, { useEffect, useState, Fragment, createRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -37,34 +38,112 @@ import Alert from '../alerts/alert';
 
 /** Functions */
 import {
-	deleteTransaction,
+	approveOrder,
+	closeFeedback,
+	closeProduct,
+	closeTransaction,
+	createProduct,
+	createProductSection,
+	createSection,
+	deleteProduct,
 	deleteShop,
-	editTransaction,
-	followShop,
-	unFollowShop,
-	getShop,
-	getShopByName,
-	getShopProducts,
-	getShopTransactions,
-	getCurrentUser,
-	getSections,
-	rateShop,
-	getProduct,
-	getProductSections,
-	deleteShopProduct,
-	rateProduct,
-	visitShop,
-	visitShopAuth,
-	getShopFeedback,
-	getProductFeedback,
-	getTransaction,
+	deleteSection,
+	deleteTransaction,
 	editShop,
-} from '../../actions/requests';
+	editShopSection,
+	editProductSection,
+	followShop,
+	getOrder,
+	getProduct,
+	getProductChart,
+	getProductToDelete,
+	getShop,
+	getTransaction,
+	moveSection,
+	rateShop,
+	replyFeedback,
+	reportFeedback,
+	selectFeedback,
+	selectReportFeedback,
+	setOrderReady,
+	setOrderDelivered,
+	setOrderPaid,
+	swapImgSection,
+	unFollowShop,
+} from '../../actions/shop';
 import { transProductsQtyById, getOrders } from '../../actions/utilities';
 import { setAlert } from '../../actions/alerts';
 import { logout } from '../../actions/auth';
 
-const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, loading }, logout }) => {
+const ShopDashboard = ({
+	match,
+	setAlert,
+	auth: { isAuthenticated },
+	closeFeedback,
+	closeProduct,
+	closeTransaction,
+	createProduct,
+	createProductSection,
+	createSection,
+	deleteProduct,
+	deleteSection,
+	deleteShop,
+	deleteTransaction,
+	editProductSection,
+	editShop,
+	editShopSection,
+	followShop,
+	logout,
+	moveSection,
+	getOrder,
+	getProduct,
+	getProductChart,
+	getProductToDelete,
+	getShop,
+	getTransaction,
+	rateShop,
+	unFollowShop,
+	approveOrder,
+	replyFeedback,
+	reportFeedback,
+	selectFeedback,
+	selectReportFeedback,
+	setOrderReady,
+	setOrderDelivered,
+	setOrderPaid,
+	swapImgSection,
+	shop: {
+		createdProduct,
+		currentFeedback,
+		loading,
+		product,
+		shop,
+		chartProduct,
+		currentUser,
+		feedback,
+		hasProductSection,
+		isOwner,
+		isFollower,
+		orderToShow,
+		ordersApprove,
+		ordersPrepare,
+		ordersReady,
+		ordersDelivered,
+		products,
+		productsInTransactions,
+		productToDelete,
+		sections,
+		showFeedback,
+		showReportFeedback,
+		showProductDeletion,
+		tags,
+		transactions,
+		type,
+	},
+}) => {
+	// History
+	let history = useHistory();
+
 	// List References
 	let contentRef = createRef();
 	let feedbackRef = createRef();
@@ -76,11 +155,6 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 	let statisticsRef = createRef();
 	let transactionsRef = createRef();
 
-	// show report feedback
-	const [showReportFeedback, setShowReportFeedback] = useState(false);
-	// show reply feedback
-	const [showFeedback, setShowFeedback] = useState(false);
-	const [currentFeedback, setCurrentFeedback] = useState(null);
 	// show delete shop dialog
 	const [showDeleteShop, setShowDeleteShop] = useState(false);
 	// order deletion to show delete order dialog
@@ -101,32 +175,14 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 	const [ready, setReady] = useState(false);
 	// show delivered dialog
 	const [delivered, setDelivered] = useState(false);
-	// Orders to approve
-	const [ordersApprove, setOrdersApprove] = useState([]);
-	// Orders to prepare
-	const [ordersPrepare, setOrdersPrepare] = useState([]);
-	// Orders that are ready
-	const [ordersReady, setOrdersReady] = useState([]);
-	// Orders delivered
-	const [ordersDelivered, setOrdersDelivered] = useState([]);
 	// Quick Register
 	const [showRegister, setShowRegister] = useState(false);
 	// Quick Login
 	const [showLogin, setShowLogin] = useState(false);
-	// Tags
-	const [tags, setTags] = useState([]);
-	// Tags
-	const [type, setType] = useState(null);
 	// Submition loading
 	const [submition, setSubmition] = useState(false);
-	// Visitor is follower
-	const [isFollower, setIsFollower] = useState(false);
-	// Has Products Section
-	const [hasProductSection, setHasProductSection] = useState(false);
 	// Product Deletion
-	const [showProductDeletion, setShowProductDeletion] = useState(false);
 	const [success, setSuccess] = useState(false);
-	const [currentProductToDelete, setCurrentProductToDelete] = useState(null);
 	// Create Product Suggestion
 	const [productSuggestion, setProductSuggestion] = useState(true);
 	// Create Section Suggestion
@@ -139,10 +195,6 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 	const [cartContent, setCartContent] = useState([]);
 	// Item Added to Cart
 	const [itemAdded, setItemAdded] = useState(false);
-	// Logged in User
-	const [currentUser, setCurrentUser] = useState(null);
-	// Current Product
-	const [product, setProduct] = useState(null);
 	// ProductSelected (To show loading when product selected)
 	const [productSelected, setProductSelected] = useState(false);
 	// Edit Section
@@ -151,23 +203,8 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 
 	// Chart
 	const [chartOption, setChartOption] = useState('Sold Items');
-	const [productsInTransactions, setProductsInTransactions] = useState([]);
-	const [chartProduct, setChartProduct] = useState(null);
 	const [productChartOption, setProductChartOption] = useState('Sold Items');
 
-	/** Shop Data */
-	const [shop, setShop] = useState(null);
-	// Feedback
-	const [feedback, setFeedback] = useState([]);
-	// Products
-	const [products, setProducts] = useState([]);
-	// Sections
-	const [sections, setSections] = useState([]);
-	// Transactions
-	const [transactions, setTransactions] = useState([]);
-
-	// (set view for costumer orshop owner)
-	const [isOwner, setIsOwner] = useState(false);
 	const [visitor, setVisitor] = useState(false);
 	//
 	const [checked1, setChecked1] = useState(false);
@@ -188,9 +225,6 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 	const [imgToShow, setImgToShow] = useState('');
 	const [showLightBox, setShowLightBox] = useState(false);
 
-	// Showing Order
-	const [orderToShow, setOrderToShow] = useState(null);
-
 	// Showing Transaction
 	const [transactionToShow, setTransactionToShow] = useState(null);
 
@@ -205,14 +239,6 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 	// Asign values on change
 	const onChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
-
-	// Rate shop
-	const onRate = async () => {
-		const feedBackGiven = await rateShop(formData, shop._id);
-		if (feedBackGiven) {
-			setFeedback(feedBackGiven.data);
-		}
 	};
 
 	// Edit shop field
@@ -277,80 +303,10 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		}
 	};
 
-	// Get product and open product dialog
-	const setCurrentProduct = async (id) => {
-		// Remove current product
-		setProduct(null);
-		setProductSelected(true);
-		const result = await getProduct(id);
-		let productObject = result.data;
-		// Get Sections
-		const productSections = await getProductSections(id);
-		productObject.sections = productSections.data;
-		setProduct(productObject);
-		setProductSelected(false);
-		// Set Chart Data
-		if (transactions) {
-			setProductsInTransactions(transProductsQtyById(transactions, id));
-		}
-		setChartProduct(productObject);
-	};
-	/**
-	 * Set the product to delete and open dialog
-	 */
-	const setProductToDelete = async (id) => {
-		// show spinner
-		setSubmition(true);
-		setSuccess(false);
-		setProductSelected(true);
-		const result = await getProduct(id);
-		if (result.status !== 200) {
-			setAlert('Product not found', 'error');
-		}
-		// Set product
-		setCurrentProductToDelete(result.data);
-		setProductSelected(false);
-		// Open dialog
-		setShowProductDeletion(true);
-		// Hide spinner
-		setSubmition(false);
-	};
-
-	/**
-	 * Delete a product
-	 */
-	const productDelete = async (id) => {
-		// show spinner
-		setSubmition(true);
-		const result = await deleteShopProduct(id);
-		if (result.status === 200) {
-			setSuccess(true);
-			// Update products
-			setProducts(result.data);
-			setAlert('Product Deleted', 'success');
-		} else {
-			setAlert('Deletion Failed', 'error');
-		}
-		// hide spinner
-		setSubmition(false);
-	};
-
 	// Close product or cart dialogs
 	const goBack = () => {
-		setProduct(null);
+		closeProduct();
 		setShowCart(false);
-	};
-
-	// Set current product for chart
-	const setCurrentChartProduct = async (product) => {
-		if (product) {
-			setSubmition(true);
-			if (transactions) {
-				setProductsInTransactions(transProductsQtyById(transactions, product._id));
-			}
-			setChartProduct(product);
-			setSubmition(false);
-		}
 	};
 
 	// Open create product and close product suggestion
@@ -363,58 +319,6 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 	const acceptSectionSuggestion = () => {
 		setSectionCreation(true);
 		setSectionSuggestion(false);
-	};
-
-	// Set current transaction to show
-	const setCurrentTransaction = async (id) => {
-		// show spinner
-		setSubmition(true);
-		const result = await getTransaction(id);
-		setTransactionToShow(result.data);
-		// hide spinner
-		setSubmition(false);
-	};
-
-	// Set current order to show
-	const setCurrentOrder = async (id) => {
-		// show spinner
-		setSubmition(true);
-		const result = await getTransaction(id);
-		setOrderToShow(result.data);
-		// hide spinner
-		setSubmition(false);
-	};
-
-	// Follow Shop
-	const followCurrentShop = async () => {
-		// show spinner
-		setSubmition(true);
-		const result = await followShop(shop._id);
-		if (result.status === 200) {
-			// update is follower state
-			setIsFollower(true);
-			setAlert('Following shop', 'success');
-		} else {
-			setAlert('Something went wrong', 'error');
-		}
-		// hide spinner
-		setSubmition(false);
-	};
-
-	// Unfollow Shop
-	const unfollowCurrentShop = async () => {
-		// show spinner
-		setSubmition(true);
-		const result = await unFollowShop(shop._id);
-		if (result.status === 200) {
-			// update is follower state
-			setIsFollower(false);
-			setAlert('Unfollowing shop', 'success');
-		} else {
-			setAlert('Something went wrong', 'error');
-		}
-		// hide spinner
-		setSubmition(false);
 	};
 
 	// Set User after login
@@ -472,231 +376,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		setOrderRemoval(false);
 		setOrderDeletion(false);
 		setShowDeleteShop(false);
-		setShowFeedback(false);
-		setShowReportFeedback(false);
-	};
-
-	// Approve order or reverse approval
-	const approveOrder = async (reverse) => {
-		// Close order opened
-		setTransactionToShow(null);
-		// show spinner
-		setSubmition(true);
-		// Clear form data
-		formData.ready_f_pickup = null;
-		formData.ready_f_delivery = null;
-		formData.delivered = null;
-		formData.paid = null;
-		// set false if revelsal
-		if (reverse) {
-			formData.approved = false;
-		} else {
-			formData.approved = true;
-		}
-		// Edit Order
-		const orderApproved = await editTransaction(formData, currentOrderDialog._id);
-		if (orderApproved.status === 200) {
-			// if reverse remove from approved else add to approved
-			if (reverse) {
-				// get index of order
-				var removeIndex = ordersPrepare
-					.map(function (item) {
-						return item._id;
-					})
-					.indexOf(currentOrderDialog._id);
-				// remove object
-				ordersPrepare.splice(removeIndex, 1);
-				// add to prepare
-				ordersApprove.unshift(orderApproved.data);
-				setAlert('Order Unapproved!', 'success');
-				hideOrderDialog();
-				// go back if reversal
-				if (reverse) {
-					setTabActiveIndex2(0);
-				} else {
-					setTabActiveIndex2(1);
-				}
-			} else {
-				// get index of order
-				var removeIndex = ordersApprove
-					.map(function (item) {
-						return item._id;
-					})
-					.indexOf(currentOrderDialog._id);
-				// remove object
-				ordersApprove.splice(removeIndex, 1);
-				// add to prepare
-				ordersPrepare.unshift(orderApproved.data);
-				setAlert('Order Approved!', 'success');
-				hideOrderDialog();
-				// go back if reversal
-				if (reverse) {
-					setTabActiveIndex2(0);
-				} else {
-					setTabActiveIndex2(1);
-				}
-			}
-		} else {
-			setAlert('Approval Failed!', 'error');
-		}
-		// hidespinner
-		setSubmition(false);
-	};
-
-	// Set order as ready or reverse ready
-	const readyOrder = async (option, reverse) => {
-		// Close order opened
-		setTransactionToShow(null);
-		// show spinner
-		setSubmition(true);
-		// Clear form data
-		formData.ready_f_pickup = null;
-		formData.ready_f_delivery = null;
-		formData.delivered = null;
-		formData.paid = null;
-		// set false if revelsal
-		if (reverse) {
-			formData.ready_f_pickup = false;
-			formData.ready_f_delivery = false;
-		} else {
-			if (option === 'delivery') {
-				formData.ready_f_delivery = true;
-			} else {
-				formData.ready_f_pickup = true;
-			}
-		}
-		// Edit Order
-		const orderReady = await editTransaction(formData, currentOrderDialog._id);
-		if (orderReady.status === 200) {
-			// if reverse remove from ready else add to prepare
-			if (reverse) {
-				// get index of order
-				var removeIndex = ordersReady
-					.map(function (item) {
-						return item._id;
-					})
-					.indexOf(currentOrderDialog._id);
-				// remove object
-				ordersReady.splice(removeIndex, 1);
-				// add to prepare
-				ordersPrepare.unshift(orderReady.data);
-				setAlert('Order is not ready!', 'success');
-			} else {
-				// get index of order
-				var removeIndex = ordersPrepare
-					.map(function (item) {
-						return item._id;
-					})
-					.indexOf(currentOrderDialog._id);
-				// remove object
-				ordersPrepare.splice(removeIndex, 1);
-				// add to prepare
-				ordersReady.unshift(orderReady.data);
-				setAlert('Order is now ready!', 'success');
-			}
-			hideOrderDialog();
-			// move back if reversal
-			if (reverse) {
-				setTabActiveIndex2(1);
-			} else {
-				setTabActiveIndex2(2);
-			}
-		} else {
-			setAlert('Modification Failed!', 'error');
-		}
-		// hide spinner
-		setSubmition(false);
-	};
-
-	// Set order as delivered
-	const deliveredOrder = async (reverse) => {
-		// Close order opened
-		setTransactionToShow(null);
-		// show spinner
-		setSubmition(true);
-		// Clear form data
-		formData.ready_f_pickup = null;
-		formData.ready_f_delivery = null;
-		formData.paid = null;
-		// set false if revelsal
-		if (reverse) {
-			formData.delivered = false;
-		} else {
-			formData.delivered = true;
-		}
-		// Edit Order
-		const orderDelivered = await editTransaction(formData, currentOrderDialog._id);
-		if (orderDelivered.status === 200) {
-			// if reverse remove from delivered else add to ready
-			if (reverse) {
-				// get index of order
-				var removeIndex = ordersDelivered
-					.map(function (item) {
-						return item._id;
-					})
-					.indexOf(currentOrderDialog._id);
-				// remove object
-				ordersDelivered.splice(removeIndex, 1);
-				// add to prepare
-				ordersReady.unshift(orderDelivered.data);
-				setAlert('Order is not delivered!', 'success');
-			} else {
-				// get index of order
-				var removeIndex = ordersReady
-					.map(function (item) {
-						return item._id;
-					})
-					.indexOf(currentOrderDialog._id);
-				// remove object
-				ordersReady.splice(removeIndex, 1);
-				// add to prepare
-				ordersDelivered.unshift(orderDelivered.data);
-				setAlert('Order is delivered!', 'success');
-			}
-			hideOrderDialog();
-			// move back if reversal
-			if (reverse) {
-				setTabActiveIndex2(2);
-			} else {
-				setTabActiveIndex2(3);
-			}
-		} else {
-			setAlert('Modification Failed!', 'error');
-		}
-		// hide spinner
-		setSubmition(false);
-	};
-
-	// Set order as paid
-	const paidOrder = async () => {
-		// Close order opened
-		setTransactionToShow(null);
-		setSubmition(true);
-		// Clear form data
-		formData.ready_f_pickup = null;
-		formData.ready_f_delivery = null;
-		formData.delivered = null;
-		formData.paid = true;
-		// Edit Order
-		const orderPaid = await editTransaction(formData, currentOrderDialog._id);
-		if (orderPaid.status === 200) {
-			// get index of order
-			var removeIndex = ordersDelivered
-				.map(function (item) {
-					return item._id;
-				})
-				.indexOf(currentOrderDialog._id);
-			// remove object
-			ordersDelivered.splice(removeIndex, 1);
-			// add to prepare
-			transactions.unshift(orderPaid.data);
-			setAlert('Order is paid!', 'success');
-			hideOrderDialog();
-			setTabActiveIndex2(3);
-		} else {
-			setAlert('Modification Failed!', 'error');
-		}
-		setSubmition(false);
+		closeFeedback();
 	};
 
 	// open 'move order' dialog
@@ -751,157 +431,9 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 		}
 	};
 
-	// Approve order or reverse approval
-	const deleteOrderFunction = async () => {
-		// Show spinner
-		setSubmition(true);
-		// Edit Order
-		const orderToDelete = await deleteTransaction(currentOrderDialog._id);
-		if (orderToDelete.status === 200) {
-			// Remove and add to corresponding section
-			switch (orderType) {
-				case 'orders-shop-approve':
-					// get index of order
-					var removeIndex = ordersApprove
-						.map(function (item) {
-							return item._id;
-						})
-						.indexOf(currentOrderDialog._id);
-					// remove object
-					ordersApprove.splice(removeIndex, 1);
-					break;
-				case 'orders-shop-prepare':
-					// get index of order
-					var removeIndex = ordersPrepare
-						.map(function (item) {
-							return item._id;
-						})
-						.indexOf(currentOrderDialog._id);
-					// remove object
-					ordersPrepare.splice(removeIndex, 1);
-					break;
-				case 'orders-shop-ready':
-					// get index of order
-					var removeIndex = ordersReady
-						.map(function (item) {
-							return item._id;
-						})
-						.indexOf(currentOrderDialog._id);
-					// remove object
-					ordersReady.splice(removeIndex, 1);
-					break;
-				case 'orders-shop-delivered':
-					// get index of order
-					var removeIndex = ordersDelivered
-						.map(function (item) {
-							return item._id;
-						})
-						.indexOf(currentOrderDialog._id);
-					// remove object
-					ordersDelivered.splice(removeIndex, 1);
-					break;
-				default:
-					break;
-			}
-			setAlert('Order Deleted', 'success');
-			hideOrderDialog();
-		} else {
-			setAlert('Deletion Failed', 'error');
-		}
-		setSubmition(false);
-	};
-
-	// Delete Shop
-	const deleteShopFunction = async () => {
-		// Show spinner
-		setSubmition(true);
-		const shopToDelete = await deleteShop(shop._id);
-		// Move to user page if success
-		if (shopToDelete.status === 200) {
-			history.replace('/user');
-		} else {
-			setAlert('Deletion Failed', 'error');
-		}
-		// Hide spinner
-		setSubmition(false);
-	};
-
-	// Select feedback to replay to
-	const selectFeedback = (feedback) => {
-		setCurrentFeedback(feedback);
-		setShowFeedback(true);
-	};
-
-	// Report a feedback
-	const selectReportFeedback = (feedback) => {
-		setCurrentFeedback(feedback);
-		setShowReportFeedback(true);
-	};
-
 	useEffect(() => {
-		const fetchData = async () => {
-			const result = await getShopByName(match.params.id);
-			let shopObject = result.data;
-			// Get Feedback
-			setFeedback(result.data.feedback);
-			// Get Products
-			const products = await getShopProducts(shopObject._id);
-			setProducts(products.data);
-			// Get Sections
-			const shopSections = await getSections(shopObject._id);
-			setSections(shopSections.data);
-			// Set Tags
-			setTags(shopObject.tags);
-			// Set Type
-			setType(shopObject.type);
-			// Check if shop has product section
-			if (shopSections) {
-				shopSections.data.forEach((section) => {
-					if (section.type === 'data-view') {
-						setHasProductSection(true);
-					}
-				});
-			}
-			try {
-				const user = await getCurrentUser();
-				setCurrentUser(user.data);
-				//Set isOwner view if user is owner
-				if (shopObject.user === user.data._id) {
-					const transactions = await getShopTransactions(shopObject._id);
-					setIsOwner(true);
-					// Set Orders
-					setOrdersApprove(getOrders(transactions.data).toApprove);
-					setOrdersPrepare(getOrders(transactions.data).toPrepare);
-					setOrdersReady(getOrders(transactions.data).ready);
-					setOrdersDelivered(getOrders(transactions.data).delivered);
-					// Set Transactions
-					setTransactions(getOrders(transactions.data).paid);
-					//Set products for chart
-					if (result.data.products && transactions) {
-						setChartProduct(result.data.products[0]);
-						setProductsInTransactions(transProductsQtyById(transactions.data, result.data.products[0]._id));
-					}
-				} else {
-					setVisitor(user.data);
-				}
-				// Set isFollower
-				user.data.shops_followed.forEach((shop) => {
-					if (shop.shop === shopObject._id) {
-						setIsFollower(true);
-					}
-				});
-				// Update Visit Count
-				if (user) {
-					visitShopAuth(shopObject._id);
-				} else {
-					visitShop(shopObject._id);
-				}
-			} catch (error) {}
-
-			setShop(shopObject);
-		};
-		fetchData();
-	}, [match.params.id]);
+		getShop(match.params.id);
+	}, [match.params.id, getShop]);
 	return (
 		<Fragment>
 			{submition && <PrimeSpinner />}
@@ -913,9 +445,9 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 				view={
 					currentUser && currentUser.shops_owned.length > 0 && isOwner
 						? 'shop-owner'
-						: currentUser && currentUser.shops_owned.length > 0 /**&& visitor*/
+						: currentUser && currentUser.shops_owned.length > 0
 						? 'shop-owner-visitor'
-						: currentUser && currentUser.shops_owned.length === 0 && (isOwner || visitor)
+						: isAuthenticated
 						? 'not-shop-owner'
 						: 'not-user'
 				}
@@ -925,18 +457,18 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 				shop={shop}
 				products={products}
 				selectOption={setHeaderOption}
-				selectProduct={setCurrentProduct}
+				selectProduct={getProduct}
 				isAuthenticated={isAuthenticated}
 				loading={loading}
 				logout={logout}
 				toggleCreateShop={setShopCreation}
 				hasProductSection={hasProductSection}
-				unFollow={unfollowCurrentShop}
-				follow={followCurrentShop}
+				unFollow={unFollowShop}
+				follow={followShop}
 				isFollower={isFollower}
 				cartContent={cartContent}
 				setShowCart={setShowCart}
-				setProduct={setProduct}
+				//setProduct={setProduct}
 			/>
 			<Fragment>
 				{shop === null ? (
@@ -986,7 +518,18 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									<div className="message-button-sm">
 										<div className="message">Approve Order?</div>
 										<div className="options">
-											<button onClick={() => approveOrder()} className="btn btn-success">
+											<button
+												onClick={() =>
+													approveOrder(
+														formData,
+														null,
+														currentOrderDialog._id,
+														hideOrderDialog,
+														setTabActiveIndex2
+													)
+												}
+												className="btn btn-success"
+											>
 												Yes
 											</button>
 											<button onClick={() => hideOrderDialog()} className="btn btn-danger">
@@ -1000,7 +543,19 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									<div className="message-button-sm">
 										<div className="message">Order ready for delivery?</div>
 										<div className="options">
-											<button onClick={() => readyOrder('delivery')} className="btn btn-success">
+											<button
+												onClick={() =>
+													setOrderReady(
+														formData,
+														null,
+														currentOrderDialog._id,
+														'delivery',
+														hideOrderDialog,
+														setTabActiveIndex2
+													)
+												}
+												className="btn btn-success"
+											>
 												Yes
 											</button>
 											<button onClick={() => hideOrderDialog()} className="btn btn-danger">
@@ -1014,7 +569,19 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									<div className="message-button-sm">
 										<div className="message">Order ready for pick up?</div>
 										<div className="options">
-											<button onClick={() => readyOrder('pickup')} className="btn btn-success">
+											<button
+												onClick={() =>
+													setOrderReady(
+														formData,
+														null,
+														currentOrderDialog._id,
+														'pickup',
+														hideOrderDialog,
+														setTabActiveIndex2
+													)
+												}
+												className="btn btn-success"
+											>
 												Yes
 											</button>
 											<button onClick={() => hideOrderDialog()} className="btn btn-danger">
@@ -1028,7 +595,18 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									<div className="message-button-sm">
 										<div className="message">Order delivered?</div>
 										<div className="options">
-											<button onClick={() => deliveredOrder()} className="btn btn-success">
+											<button
+												onClick={() =>
+													setOrderDelivered(
+														formData,
+														null,
+														currentOrderDialog._id,
+														hideOrderDialog,
+														setTabActiveIndex2
+													)
+												}
+												className="btn btn-success"
+											>
 												Yes
 											</button>
 											<button onClick={() => hideOrderDialog()} className="btn btn-danger">
@@ -1042,7 +620,10 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									<div className="message-button-sm">
 										<div className="message">{'Delete ' + shop.name + '?'}</div>
 										<div className="options">
-											<button onClick={() => deleteShopFunction()} className="btn btn-danger">
+											<button
+												onClick={() => deleteShop(history, shop._id)}
+												className="btn btn-danger"
+											>
 												Yes
 											</button>
 											<button onClick={() => hideOrderDialog()} className="btn btn-success">
@@ -1055,21 +636,21 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 								{showFeedback && (
 									<FeedbackComp
 										shop={shop}
-										setCurrentFeedback={setCurrentFeedback}
-										setFeedback={setFeedback}
+										setCurrentFeedback={selectFeedback}
 										feedback={currentFeedback}
 										setAlert={setAlert}
+										replyFeedback={replyFeedback}
 									/>
 								)}
 								{/** Report Feedback */}
 								{showReportFeedback && (
 									<Report
+										reportFeedback={reportFeedback}
 										shop={shop}
-										setCurrentFeedback={setCurrentFeedback}
-										setFeedback={setFeedback}
+										setCurrentFeedback={selectReportFeedback}
 										feedback={currentFeedback}
 										setAlert={setAlert}
-										close={setShowReportFeedback}
+										close={closeFeedback}
 										type={'shop'}
 									/>
 								)}
@@ -1078,7 +659,12 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									<div className="message-button-sm">
 										<div className="message">Payment Received?</div>
 										<div className="options">
-											<button onClick={() => paidOrder()} className="btn btn-success">
+											<button
+												onClick={() =>
+													setOrderPaid(formData, currentOrderDialog._id, hideOrderDialog)
+												}
+												className="btn btn-success"
+											>
 												Yes
 											</button>
 											<button onClick={() => hideOrderDialog()} className="btn btn-danger">
@@ -1103,10 +689,30 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 											<button
 												onClick={() => {
 													orderType === 'orders-shop-prepare'
-														? approveOrder(true)
+														? approveOrder(
+																formData,
+																true,
+																currentOrderDialog._id,
+																hideOrderDialog,
+																setTabActiveIndex2
+														  )
 														: orderType === 'orders-shop-ready'
-														? readyOrder(null, true)
-														: orderType === 'orders-shop-delivered' && deliveredOrder(true);
+														? setOrderReady(
+																formData,
+																true,
+																currentOrderDialog._id,
+																null,
+																hideOrderDialog,
+																setTabActiveIndex2
+														  )
+														: orderType === 'orders-shop-delivered' &&
+														  setOrderDelivered(
+																formData,
+																true,
+																currentOrderDialog._id,
+																hideOrderDialog,
+																setTabActiveIndex2
+														  );
 												}}
 												className="btn btn-success"
 											>
@@ -1123,7 +729,10 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									<div className="message-button-sm">
 										<div className="message">Delete Order?</div>
 										<div className="options">
-											<button onClick={() => deleteOrderFunction()} className="btn btn-success">
+											<button
+												onClick={() => deleteTransaction(currentOrderDialog._id)}
+												className="btn btn-success"
+											>
 												Yes
 											</button>
 											<button onClick={() => hideOrderDialog()} className="btn btn-danger">
@@ -1228,27 +837,24 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 								</div>
 							)}
 							{/** Show Product */}
-							<Dialog header={'Product Information'} visible={product} onHide={() => setProduct(null)}>
+							<Dialog header={'Product Information'} visible={product} onHide={() => closeProduct()}>
 								<div className="big-dialog">
 									<ProductDashboard
+										closeProduct={closeProduct}
 										shop={shop}
 										productObject={product}
 										isOwner={isOwner}
-										setIsOwner={setIsOwner}
-										setCurrentProduct={setCurrentProduct}
+										setCurrentProduct={getProduct}
 										setCartContent={setCartContent}
 										cartContent={cartContent}
 										setItemAdded={setItemAdded}
-										goBack={setProduct}
 										transactionInfo={productsInTransactions}
 										isAuthenticated={isAuthenticated}
 										products={products}
 										toggleRegister={setShowRegister}
 										toggleLogin={setShowLogin}
-										setProducts={setProducts}
 										setSubmition={setSubmition}
-										hideProduct={setProduct}
-										setCurrentProduct={setCurrentProduct}
+										deleteProduct={deleteProduct}
 									/>
 								</div>
 							</Dialog>
@@ -1275,7 +881,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									setItemAdded={setItemAdded}
 									message="Item added to cart!"
 									setShowCart={setShowCart}
-									setProduct={setProduct}
+									closeProduct={closeProduct}
 								/>
 							)}
 							{/** Shop/Product Creation */}
@@ -1287,11 +893,11 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 								<ItemEdition
 									field={editField}
 									item={shop}
-									setItem={setShop}
+									editShop={editShop}
 									itemType={'shop'}
 									setAlert={setAlert}
 									toggle={setEdit}
-									setProducts={setProducts}
+									//setProducts={setProducts}
 								/>
 							)}
 							{/** Product Creation */}
@@ -1301,14 +907,18 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									itemType={'product'}
 									setAlert={setAlert}
 									shop_id={shop._id}
-									setProducts={setProducts}
-									setCurrentProduct={setCurrentProduct}
-									setSections={setSections}
+									setCurrentProduct={getProduct}
+									createdProduct={createdProduct}
+									createProduct={createProduct}
 								/>
 							)}
 							{/** Section Creation */}
 							{(sectionCreation === true || editSection === true) && (
 								<SectionCreation
+									createProductSection={createProductSection}
+									deleteSection={deleteSection}
+									editSection={editShopSection}
+									editProductSection={editProductSection}
 									history={history}
 									toggle={showSectionDialog}
 									setAlert={setAlert}
@@ -1318,7 +928,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 									showImg={setShowLightBox}
 									sectionToEdit={sectionToEdit}
 									setSectionToEdit={setSectionToEdit}
-									setSections={setSections}
+									createSection={createSection}
 									currentSections={sections}
 								/>
 							)}
@@ -1328,20 +938,18 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 							<Dialog
 								header={'Deletion'}
 								visible={showProductDeletion}
-								onHide={() => setShowProductDeletion(false)}
+								//onHide={() => setShowProductDeletion(false)}
 							>
 								{/** Options */}
-								{!success && currentProductToDelete && (
+								{!success && productToDelete && (
 									<h1 className="text-center mt-1">
-										Delete Product?{' '}
-										{<div className="text-danger">{currentProductToDelete.name}</div>}
+										Delete Product? {<div className="text-danger">{productToDelete.name}</div>}
 									</h1>
 								)}
 								{/** Success Message */}
-								{success && currentProductToDelete && (
+								{success && productToDelete && (
 									<h1 className="text-center mt-1">
-										{<div className="text-danger">{currentProductToDelete.name}</div>} Product
-										Deleted!
+										{<div className="text-danger">{productToDelete.name}</div>} Product Deleted!
 									</h1>
 								)}
 								{/** Submit and cancel/exit buttons */}
@@ -1350,7 +958,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										{success ? (
 											<Fragment>
 												<button
-													onClick={() => setShowProductDeletion(false)}
+													//onClick={() => setShowProductDeletion(false)}
 													className="btn btn-success"
 												>
 													Exit
@@ -1359,13 +967,13 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										) : (
 											<Fragment>
 												<button
-													onClick={() => productDelete(currentProductToDelete._id)}
+													onClick={() => deleteProduct(productToDelete._id)}
 													className="btn btn-danger"
 												>
 													Delete
 												</button>
 												<button
-													onClick={() => setShowProductDeletion(false)}
+													//onClick={() => setShowProductDeletion(false)}
 													className="btn btn-primary"
 												>
 													Cancel
@@ -1383,17 +991,18 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 										 *  Header
 										 */}
 										<ShopHeader
+											closeProduct={closeProduct}
 											history={history}
 											showCreateSection={setSectionCreation}
 											isOwner={isOwner}
 											logout={logout}
-											setIsOwner={setIsOwner}
+											//setIsOwner={setIsOwner}
 											setOption={setHeaderOption}
 											shop={shop}
 											user={currentUser}
 											cartContent={cartContent}
 											setShowCart={setShowCart}
-											setProduct={setProduct}
+											//setProduct={setProduct}
 											goBack={goBack}
 											toggleCreateProduct={setProductCreation}
 											type={'shop'}
@@ -1410,12 +1019,12 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 											}
 											products={products}
 											hasProductSection={hasProductSection}
-											unFollow={unfollowCurrentShop}
-											follow={followCurrentShop}
+											unFollow={unFollowShop}
+											follow={followShop}
 											isFollower={isFollower}
 											cartContent={cartContent}
 											setShowCart={setShowCart}
-											setProduct={setProduct}
+											//setProduct={setProduct}
 										/>
 										{!product && !showCart && (
 											<Fragment>
@@ -1522,7 +1131,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 												{/** Footer */}
 												<JumboFooter
 													isOwner={isOwner}
-													setShop={setShop}
+													//setShop={setShop}
 													shop={shop}
 													user={currentUser}
 													goBack={goBack}
@@ -1548,10 +1157,12 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														section={section}
 														setAlert={setAlert}
 														setSectionToEdit={setSectionToEdit}
-														setSections={setSections}
+														moveSection={moveSection}
 														setEdit={setEditSection}
-														setCurrentProduct={setCurrentProduct}
+														setCurrentProduct={getProduct}
 														productSectionRef={productSectionRef}
+														swapImgSection={swapImgSection}
+														deleteSection={deleteSection}
 													/>
 												))}
 									</Fragment>
@@ -1634,9 +1245,11 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	section={section}
 																	setAlert={setAlert}
 																	setSectionToEdit={setSectionToEdit}
-																	setSections={setSections}
+																	moveSection={moveSection}
 																	setEdit={setEditSection}
-																	setCurrentProduct={setCurrentProduct}
+																	setCurrentProduct={getProduct}
+																	swapImgSection={swapImgSection}
+																	deleteSection={deleteSection}
 																/>
 															))}
 												</AccordionTab>
@@ -1656,9 +1269,9 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														 */}
 														{orderToShow ? (
 															<TransactionView
-																toggle={setOrderToShow}
+																toggle={closeTransaction}
 																transaction={orderToShow}
-																openProduct={setCurrentProduct}
+																openProduct={getProduct}
 															/>
 														) : (
 															<TabView
@@ -1673,7 +1286,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																		<Fragment>
 																			<DataViewComp
 																				items={ordersApprove}
-																				setTransaction={setCurrentOrder}
+																				setTransaction={getOrder}
 																				type="orders-shop-approve"
 																				setApprove={setApprove}
 																				setCurrentOrderDialog={
@@ -1693,7 +1306,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	{ordersPrepare && ordersPrepare.length > 0 ? (
 																		<DataViewComp
 																			items={ordersPrepare}
-																			setTransaction={setCurrentOrder}
+																			setTransaction={getOrder}
 																			type="orders-shop-prepare"
 																			setPreparedDeliver={setPreparedDeliver}
 																			setPreparedPickup={setPreparedPickup}
@@ -1713,7 +1326,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	{ordersReady && ordersReady.length > 0 ? (
 																		<DataViewComp
 																			items={ordersReady}
-																			setTransaction={setCurrentOrder}
+																			setTransaction={getOrder}
 																			type="orders-shop-ready"
 																			setReady={setReady}
 																			setCurrentOrderDialog={
@@ -1735,7 +1348,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																	{ordersDelivered && ordersDelivered.length > 0 ? (
 																		<DataViewComp
 																			items={ordersDelivered}
-																			setTransaction={setCurrentOrder}
+																			setTransaction={getOrder}
 																			type="orders-shop-delivered"
 																			setDelivered={setDelivered}
 																			setCurrentOrderDialog={
@@ -1859,7 +1472,8 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																		<ListBoxIMG
 																			itemType={'product'}
 																			item={chartProduct}
-																			setItem={setCurrentChartProduct}
+																			setItem={getProductChart}
+																			transactionsSold={transactions}
 																			items={products}
 																		/>
 																	</div>
@@ -1890,8 +1504,8 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 														<DataViewComp
 															items={products}
 															type="products"
-															setCurrentProduct={setCurrentProduct}
-															setProductToDelete={setProductToDelete}
+															setCurrentProduct={getProduct}
+															setProductToDelete={getProductToDelete}
 														/>
 													) : (
 														<h1>Doesn't have any products</h1>
@@ -1910,9 +1524,9 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 													 */}
 													{transactionToShow ? (
 														<TransactionView
-															toggle={setTransactionToShow}
+															toggle={closeTransaction}
 															transaction={transactionToShow}
-															openProduct={setCurrentProduct}
+															openProduct={getProduct}
 														/>
 													) : (
 														<Fragment>
@@ -1922,7 +1536,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 															transactions.length > 0 ? (
 																<DataViewComp
 																	items={transactions}
-																	setTransaction={setCurrentTransaction}
+																	setTransaction={getTransaction}
 																	type="transactions"
 																/>
 															) : (
@@ -2028,7 +1642,7 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 																setValue={onChange}
 															/>
 															<button
-																onClick={() => onRate()}
+																onClick={() => rateShop(formData, shop._id)}
 																className="btn btn-primary my-1"
 															>
 																Leave Review
@@ -2084,15 +1698,131 @@ const ShopDashboard = ({ history, match, setAlert, auth: { isAuthenticated, load
 };
 
 ShopDashboard.propTypes = {
-	history: PropTypes.object.isRequired,
+	approveOrder: PropTypes.func.isRequired,
+	closeTransaction: PropTypes.func.isRequired,
+	createdProduct: PropTypes.object.isRequired,
+	createProductSection: PropTypes.func.isRequired,
+	createSection: PropTypes.func.isRequired,
+	currentFeedback: PropTypes.object.isRequired,
+	deleteSection: PropTypes.func.isRequired,
+	setOrderReady: PropTypes.func.isRequired,
+	setOrderDelivered: PropTypes.func.isRequired,
+	setOrderPaid: PropTypes.func.isRequired,
+	closeFeedback: PropTypes.func.isRequired,
+	closeProduct: PropTypes.func.isRequired,
+	createProduct: PropTypes.func.isRequired,
+	currentUser: PropTypes.object.isRequired,
+	deleteProduct: PropTypes.func.isRequired,
+	deleteShop: PropTypes.func.isRequired,
+	deleteTransaction: PropTypes.func.isRequired,
+	editProductSection: PropTypes.func.isRequired,
+	editShop: PropTypes.func.isRequired,
+	editShopSection: PropTypes.func.isRequired,
+	followShop: PropTypes.func.isRequired,
+	getOrder: PropTypes.func.isRequired,
+	getProduct: PropTypes.func.isRequired,
+	getProductChart: PropTypes.func.isRequired,
+	getProductToDelete: PropTypes.func.isRequired,
+	getShop: PropTypes.func.isRequired,
+	getTransaction: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	logout: PropTypes.func.isRequired,
+	moveSection: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
+	loading: PropTypes.object.isRequired,
+	shop: PropTypes.object.isRequired,
+	chartProduct: PropTypes.object.isRequired,
+	feedback: PropTypes.array.isRequired,
+	hasProductSection: PropTypes.bool.isRequired,
+	isOwner: PropTypes.bool.isRequired,
+	isFollower: PropTypes.bool.isRequired,
+	orderToShow: PropTypes.object.isRequired,
+	ordersApprove: PropTypes.array.isRequired,
+	ordersPrepare: PropTypes.array.isRequired,
+	ordersReady: PropTypes.array.isRequired,
+	ordersDelivered: PropTypes.array.isRequired,
+	products: PropTypes.array.isRequired,
+	productsInTransactions: PropTypes.array.isRequired,
+	productToDelete: PropTypes.object.isRequired,
+	rateShop: PropTypes.func.isRequired,
+	replyFeedback: PropTypes.func.isRequired,
+	reportFeedback: PropTypes.func.isRequired,
+	sections: PropTypes.array.isRequired,
+	selectFeedback: PropTypes.func.isRequired,
+	selectReportFeedback: PropTypes.func.isRequired,
+	showFeedback: PropTypes.bool.isRequired,
+	showReportFeedback: PropTypes.bool.isRequired,
+	showProductDeletion: PropTypes.bool.isRequired,
+	swapImgSection: PropTypes.func.isRequired,
+	tags: PropTypes.array.isRequired,
+	transactions: PropTypes.array.isRequired,
+	type: PropTypes.object.isRequired,
+	unFollowShop: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-	history: state.history,
 	auth: state.auth,
+	createdProduct: state.createdProduct,
+	currentUser: state.currentUser,
+	loading: state.loading,
+	shop: state.shop,
+	chartProduct: state.chartProduct,
+	feedback: state.feedback,
+	hasProductSection: state.hasProductSection,
+	isOwner: state.isOwner,
+	isFollower: state.isFollower,
+	orderToShow: state.orderToShow,
+	ordersApprove: state.ordersApprove,
+	ordersPrepare: state.ordersPrepare,
+	ordersReady: state.ordersReady,
+	ordersDelivered: state.ordersDelivered,
+	products: state.products,
+	productsInTransactions: state.productsInTransactions,
+	productToDelete: state.productDelete,
+	replyFeedback: state.replyFeedback,
+	reportFeedback: state.reportFeedback,
+	sections: state.sections,
+	showFeedback: state.showFeedback,
+	showReportFeedback: state.showReportFeedback,
+	showProductDeletion: state.showProductDeletion,
+	tags: state.tags,
+	transactions: state.transactions,
+	type: state.type,
 });
 
-export default connect(mapStateToProps, { setAlert, logout })(withRouter(ShopDashboard));
+export default connect(mapStateToProps, {
+	approveOrder,
+	closeFeedback,
+	closeTransaction,
+	createProduct,
+	createProductSection,
+	createSection,
+	replyFeedback,
+	reportFeedback,
+	selectFeedback,
+	selectReportFeedback,
+	setOrderReady,
+	setOrderDelivered,
+	setOrderPaid,
+	setAlert,
+	closeProduct,
+	deleteProduct,
+	deleteSection,
+	deleteShop,
+	deleteTransaction,
+	editProductSection,
+	editShop,
+	editShopSection,
+	followShop,
+	getOrder,
+	getProductChart,
+	getTransaction,
+	logout,
+	moveSection,
+	getProduct,
+	getProductToDelete,
+	getShop,
+	rateShop,
+	swapImgSection,
+	unFollowShop,
+})(withRouter(ShopDashboard));

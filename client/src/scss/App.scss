@@ -4413,6 +4413,13 @@ Dialog Prime
         max-width: 35rem;
       }
     }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      textarea {
+        min-width: 20rem;
+        max-width: 20rem;
+      }
+    }
   }
 
   /********************************************************************************************************
@@ -4753,24 +4760,55 @@ Cart
     left: 0;
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.5);
-    .inner {
-      position: relative;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      max-width: 30rem;
-      max-height: 30rem;
-      i {
-        position: absolute;
-        top: -2.5rem;
-        right: 1rem;
-        color: $white-color;
-        border-radius: 50%;
-        font-size: 2rem;
+    // Landscape
+    @media (max-width: 45rem) {
+      .inner {
+        //border: solid 2px red;
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 30rem;
+        max-height: 30rem;
+        .chart-container {
+          max-width: 30rem;
+          min-width: 30rem;
+        }
+        i {
+          position: absolute;
+          top: -1rem;
+          right: -2.5rem;
+          color: $white-color;
+          border-radius: 50%;
+          font-size: 2rem;
+        }
+        i:hover {
+          color: $white-dark-color;
+          cursor: pointer;
+        }
       }
-      i:hover {
-        color: $white-dark-color;
-        cursor: pointer;
+    }
+    // Portrait
+    @media (max-width: 22.5rem) {
+      .inner {
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 30rem;
+        max-height: 30rem;
+        i {
+          position: absolute;
+          top: -2.5rem;
+          right: 1rem;
+          color: $white-color;
+          border-radius: 50%;
+          font-size: 2rem;
+        }
+        i:hover {
+          color: $white-dark-color;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -4840,14 +4878,6 @@ Review Section
   .section-creation {
     min-width: 22rem;
     max-width: 22rem;
-    // Landscape
-    @media (max-width: 45rem) {
-      min-height: 18rem;
-      max-height: 18rem;
-      left: 50%;
-      top: 58%;
-      transform: translate(-50%, -50%);
-    }
     // Portrait
     @media (max-width: 22.5rem) {
       max-height: 30rem;

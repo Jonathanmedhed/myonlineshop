@@ -14,7 +14,7 @@ const TransactionView = ({ toggle, transaction, openProduct, orderView }) => {
 				<h1 className="page-title">{orderView ? 'Order Info' : 'Transaction Info'}</h1>
 				<div className="dashboard mt-half">
 					{/** Go Back Button */}
-					<button className="btn btn-danger m-auto" onClick={() => toggle(null)}>
+					<button className="btn btn-danger m-auto" onClick={() => toggle()}>
 						Back
 					</button>
 					{/** List of products with pic and stuff*/}

@@ -9,10 +9,12 @@ import UploadComp from '../partials/file-uploader';
 import PrimeSpinner from '../partials/spinner';
 
 // Functions
-import { editUser, editShop } from '../../actions/requests';
+import { editShop } from '../../actions/requests';
 import { setAlert } from '../../actions/alerts';
 
 const DialogPrime = ({
+	closeProduct,
+	editUser,
 	setAlert,
 	changeLocation,
 	setChangeLocation,
@@ -142,15 +144,7 @@ const DialogPrime = ({
 				// User email
 				if (user) {
 					const res = await editUser(formData);
-					if (res.status === 200 && res.data !== 'Email already in use') {
-						setSuccess(true);
-						setCurrentUser(res.data);
-						setAlert('Email Modified', 'success');
-					} else if (res.status === 200 && res.data === 'Email already in use') {
-						setAlert('Email already in use', 'error');
-					} else {
-						setAlert('Modification Failed', 'error');
-					}
+					onHide();
 				}
 				// Shop email
 				if (shop) {
@@ -169,35 +163,17 @@ const DialogPrime = ({
 			// Edit location
 			if (changeLocation && !checkLocation()) {
 				const res = await editUser(formData);
-				if (res.status === 200) {
-					setSuccess(true);
-					setCurrentUser(res.data);
-					setAlert('Location Modified', 'success');
-				} else {
-					setAlert('Modification Failed', 'error');
-				}
+				onHide();
 			}
 			// Edit name
 			if (changeName && !checkName()) {
 				const res = await editUser(formData);
-				if (res.status === 200) {
-					setSuccess(true);
-					setCurrentUser(res.data);
-					setAlert('Name Modified', 'success');
-				} else {
-					setAlert('Modification Failed', 'error');
-				}
+				onHide();
 			}
 			// Edit Password
 			if (changePassword && !checkPassword()) {
 				const res = await editUser(formData);
-				if (res.status === 200) {
-					setSuccess(true);
-					setCurrentUser(res.data);
-					setAlert('Password Modified', 'success');
-				} else {
-					setAlert('Modification Failed', 'error');
-				}
+				onHide();
 			}
 			// Edit social data
 			if (
@@ -212,13 +188,7 @@ const DialogPrime = ({
 				// User social
 				if (user) {
 					const res = await editUser(formData);
-					if (res.status === 200) {
-						setSuccess(true);
-						setCurrentUser(res.data);
-						setAlert('Social Data Modified', 'success');
-					} else {
-						setAlert('Modification Failed', 'error');
-					}
+					onHide();
 				}
 				// Shop social
 				if (shop) {
@@ -234,16 +204,13 @@ const DialogPrime = ({
 			}
 			// Delect section dialog
 			if (deleteSection) {
-				const res = await deleteSection(section.shop, section._id);
-				setUpdatedItems(res.data);
-				setAlert('Section Removed!', 'success');
-				setSuccess(true);
+				const res = await deleteSection(section.shop, section._id, setSuccess, null);
 			}
 			// Cart items added dialog
 			if (itemAdded) {
 				setShowCart(true);
 				setItemAdded(false);
-				setProduct(null);
+				closeProduct();
 			}
 		}
 		// Hide Spinner
@@ -623,6 +590,7 @@ const DialogPrime = ({
 					{/** Change picture inputs */}
 					{changePicture && (
 						<UploadComp
+							editUser={editUser}
 							setAlert={setAlert}
 							setSuccess={setSuccess}
 							setCurrentUser={setCurrentUser}
@@ -809,14 +777,6 @@ const DialogPrime = ({
 							<div className="buttons-form">
 								{success ? (
 									<Fragment>
-										{deleteSection && (
-											<button
-												onClick={() => applyChanges(updatedItems)}
-												className="btn btn-success"
-											>
-												Apply
-											</button>
-										)}
 										<button onClick={() => onHide()} className="btn btn-danger">
 											Exit
 										</button>

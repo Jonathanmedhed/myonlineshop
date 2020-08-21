@@ -46,7 +46,7 @@ const ProductData = ({
 
 	/** Add product to cart  */
 	const addToCart = () => {
-		hideProduct(null);
+		hideProduct();
 		product.quantity = purchaseQty;
 		setCartContent([...cartContent, product]);
 		setItemAdded(true);

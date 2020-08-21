@@ -6,7 +6,7 @@ import DataViewComp from '../partials/data-view';
 import DialogPrime from '../partials/dialog';
 import PrimeSpinner from '../partials/spinner';
 // Functions
-import { deleteSection, moveSection, swapImgSection } from '../../actions/requests';
+import { moveSection, swapImgSection } from '../../actions/requests';
 
 const InfoSection = ({
 	isOwner,
@@ -20,6 +20,7 @@ const InfoSection = ({
 	setSectionToEdit,
 	setCurrentProduct,
 	productSectionRef,
+	deleteSection
 }) => {
 	// To show Loading on submitions
 	const [submition, setSubmition] = useState(false);
@@ -31,24 +32,7 @@ const InfoSection = ({
 	const onDelete = () => {
 		setShowDialog(true);
 	};
-	// On section moving
-	const onMove = async (direction) => {
-		setSubmition(true);
-		const res = await moveSection({ direction: direction }, section._id);
-		if (res.status === 200) {
-			setSections(res.data);
-		}
-		setSubmition(false);
-	};
-	// On swap section img position
-	const onSwap = async () => {
-		setSubmition(true);
-		const res = await swapImgSection(section._id);
-		if (res.status === 200) {
-			setSections(res.data);
-		}
-		setSubmition(false);
-	};
+
 	// Set edit to true and set section to edit
 	const select = () => {
 		setSubmition(true);
@@ -83,7 +67,7 @@ const InfoSection = ({
 						{isOwner && (
 							<i
 								onClick={() => {
-									onSwap();
+									swapImgSection(section._id);
 								}}
 								className="fas fa-exchange-alt"
 							></i>
@@ -92,11 +76,7 @@ const InfoSection = ({
 						<div className={section.reverse === true ? 'info-extra' : 'info-extra'}>
 							<img
 								className="info-img"
-								src={
-									section.img
-										? section.img
-										: require('../../img/galaxy1.jpg')
-								}
+								src={section.img ? section.img : require('../../img/galaxy1.jpg')}
 								alt=""
 							></img>
 						</div>
@@ -139,7 +119,7 @@ const InfoSection = ({
 				{/** Buttons to change section position */}
 				{isOwner && (
 					<div className="move-options">
-						<i onClick={() => onMove('up')} className="fas fa-sort-up"></i>
+						<i onClick={() => moveSection({ direction: 'up' }, section._id)} className="fas fa-sort-up"></i>
 						{!remove && (section.type === 'text-only' || section.type === 'w/img') && (
 							<i onClick={() => select()} className="fas fa-cog"></i>
 						)}
@@ -147,7 +127,10 @@ const InfoSection = ({
 							<i onClick={() => setRemove(true)} className="fas fa-cog"></i>
 						)}
 						{remove && <i onClick={() => onDelete()} className="fas fa-trash-alt"></i>}
-						<i onClick={() => onMove('down')} className="fas fa-sort-down"></i>
+						<i
+							onClick={() => moveSection({ direction: 'down' }, section._id)}
+							className="fas fa-sort-down"
+						></i>
 					</div>
 				)}
 			</div>

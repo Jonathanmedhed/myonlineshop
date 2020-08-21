@@ -191,7 +191,6 @@ const List = ({ item, jumbo, view, history, isAuthenticated, loading, logout, sh
 			},
 		},
 	];
-
 	return (
 		<Fragment>
 			<div>

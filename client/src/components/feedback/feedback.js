@@ -11,7 +11,7 @@ import DataViewComp from '../partials/data-view';
 import { Rating } from 'primereact/rating';
 import TextArea from '../partials/text-area';
 
-const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, user, shop, product }) => {
+const FeedbackComp = ({ feedback, user, shop, product, replyFeedback }) => {
 	const [formData, setFormData] = useState({
 		comment: '',
 	});
@@ -27,38 +27,11 @@ const FeedbackComp = ({ feedback, setAlert, setCurrentFeedback, setFeedback, use
 	// Reply to feedback
 	const onReply = async () => {
 		if (user) {
-			const replayGiven = await replayFeedbackUser(formData, user._id, feedback._id);
-			if (replayGiven.status === 200) {
-				//update user feedback
-				setFeedback(replayGiven.data.userFeedback);
-				// update feedback that is being replied to
-				setCurrentFeedback(replayGiven.data.feedback);
-				setAlert('Reply posted!', 'success');
-			} else {
-				setAlert('Reply failed!', 'error');
-			}
+			replyFeedback(formData, user._id, feedback._id);
 		} else if (shop) {
-			const replayGiven = await replayFeedbackShop(formData, shop._id, feedback._id);
-			if (replayGiven.status === 200) {
-				//update shop feedback
-				setFeedback(replayGiven.data.shopFeedback);
-				// update feedback that is being replied to
-				setCurrentFeedback(replayGiven.data.feedback);
-				setAlert('Reply posted!', 'success');
-			} else {
-				setAlert('Reply failed!', 'error');
-			}
+			replyFeedback(formData, shop._id, feedback._id);
 		} else if (product) {
-			const replayGiven = await replayFeedbackProduct(formData, product._id, feedback._id);
-			if (replayGiven.status === 200) {
-				//update product feedback
-				setFeedback(replayGiven.data.productFeedback);
-				// update feedback that is being replied to
-				setCurrentFeedback(replayGiven.data.feedback);
-				setAlert('Reply posted!', 'success');
-			} else {
-				setAlert('Reply failed!', 'error');
-			}
+			replyFeedback(formData, product._id, feedback._id);
 		}
 	};
 

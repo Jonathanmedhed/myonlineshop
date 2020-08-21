@@ -195,13 +195,15 @@ export const transProductsQty = (transactions) => {
  */
 export const transProductsQtyById = (transactions, id) => {
 	let products = [];
-	transactions.forEach((transaction) => {
-		transaction.products.forEach((trans_product) => {
-			if (trans_product.product === id) {
-				trans_product.date = transaction.date;
-				products.push(trans_product);
-			}
+	if (transactions.length > 0) {
+		transactions.forEach((transaction) => {
+			transaction.products.forEach((trans_product) => {
+				if (trans_product.product === id) {
+					trans_product.date = transaction.date;
+					products.push(trans_product);
+				}
+			});
 		});
-	});
+	}
 	return products;
 };

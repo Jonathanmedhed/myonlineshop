@@ -9,16 +9,22 @@ import UploadComp from '../partials/file-uploader';
 import { InputNumber } from 'primereact/inputnumber';
 import PrimeSpinner from '../partials/spinner';
 
-// Functions
-import { createProduct } from '../../actions/requests';
-
-const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setCurrentProduct, setSections }) => {
+const ProductCreation = ({
+	history,
+	createdProduct,
+	createProduct,
+	toggle,
+	setAlert,
+	shop_id,
+	setProducts,
+	setCurrentProduct,
+	setSections,
+}) => {
 	/** Loading Submition */
 	const [submition, setSubmition] = useState(false);
 	/** Operation success */
 	const [success, setSuccess] = useState(false);
 	/** Created item (Created object after submition) */
-	const [createdItem, setCreatedItem] = useState(null);
 	/** Product pics */
 	const [productPics, setProductPics] = useState([]);
 	/** Selected product type (Asign to form on submit) */
@@ -60,21 +66,8 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 		if (productPics) {
 			formData.pics = productPics;
 		}
-		const res = await createProduct(formData, shop_id);
-		if (res.status === 200 && res.data !== 'Product name already in use') {
-			setAlert('Product Created', 'success');
-			setSuccess(true);
-			// Set the new created product
-			setCreatedItem(res.data.products[res.data.products.length - 1]);
-			// Update shop products
-			setProducts(res.data.products);
-			// Update shop sections
-			setSections(res.data.sections);
-		} else if (res.status === 200 && res.data === 'Product name already in use') {
-			setAlert('Product name already in use', 'error');
-		}
+		createProduct(formData, shop_id, setSuccess);
 		setSubmition(false);
-		return res;
 	};
 
 	// Check input, go to next step it correct, else Alert
@@ -126,7 +119,7 @@ const ProductCreation = ({ history, toggle, setAlert, shop_id, setProducts, setC
 
 	// Open created product and close current dialog
 	const openProduct = () => {
-		setCurrentProduct(createdItem._id);
+		setCurrentProduct(createdProduct._id);
 		toggle(false);
 	};
 

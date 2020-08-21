@@ -471,7 +471,7 @@ const SlideComp = ({
 						label: 'Follow Us',
 						icon: 'fas fa-plus',
 						command: () => {
-							follow();
+							follow(shop._id);
 						},
 				  }
 				: isFollower &&
@@ -479,7 +479,7 @@ const SlideComp = ({
 						label: 'Unfollow',
 						icon: 'fas fa-minus',
 						command: () => {
-							unFollow();
+							unFollow(shop._id);
 						},
 				  },
 			{

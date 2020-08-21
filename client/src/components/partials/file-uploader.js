@@ -10,12 +10,12 @@ import {
 	uploadShopJumbo,
 	uploadProductImgs,
 	editProduct,
-	editUser,
 	editShop,
 } from '../../actions/requests';
 
 const UploadComp = ({
 	auto,
+	editUser,
 	multiple,
 	setAlert,
 	setSuccess,
@@ -179,13 +179,6 @@ const UploadComp = ({
 					} else {
 						formData.pic = url;
 						const res = await editUser(formData);
-						setSuccess(true);
-						setCurrentUser(res.data);
-						if (res.status === 200) {
-							setAlert('Picture Changed', 'success');
-						} else {
-							setAlert('Modification Failed', 'error');
-						}
 					}
 					setSubmition(false);
 				} else {

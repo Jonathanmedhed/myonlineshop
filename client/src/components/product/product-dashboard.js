@@ -3,17 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 /** Functions */
+import { deleteShopProduct, visitProductAuth, visitProduct, soldOutProduct } from '../../actions/requests';
 import {
-	deleteShopProduct,
-	getCurrentUser,
-	getProduct,
-	getProductSections,
 	rateProduct,
-	visitProductAuth,
-	visitProduct,
-	soldOutProduct,
-} from '../../actions/requests';
+	setProduct,
+	closeFeedback,
+	selectFeedback,
+	selectReportFeedback,
+	replyFeedback,
+	reportFeedback,
+	reportProduct,
+} from '../../actions/product';
+
 import { setAlert } from '../../actions/alerts';
+import { transProductsQtyById } from '../../actions/utilities';
 /**  Components */
 import Alert from '../alerts/alert';
 import { Accordion, AccordionTab } from 'primereact/accordion';
@@ -36,7 +39,10 @@ import SectionCreation from '../shop/section-creation';
 
 const ProductDashboard = ({
 	backButton,
-	hideProduct,
+	closeProduct,
+	deleteProduct,
+	rateProduct,
+	setProduct,
 	history,
 	match,
 	setAlert,
@@ -56,28 +62,22 @@ const ProductDashboard = ({
 	setProducts,
 	setSubmition,
 	setCurrentProduct,
+	closeFeedback,
+	selectFeedback,
+	selectReportFeedback,
+	replyFeedback,
+	reportFeedback,
+	reportProduct,
+	product: { currentFeedback, loading, feedback, product, sections, showFeedback, showReportFeedback },
 }) => {
 	// show report product
 	const [showReportProduct, setShowReportProduct] = useState(false);
-	// show report feedback
-	const [showReportFeedback, setShowReportFeedback] = useState(false);
-	// show reply feedback
-	const [showFeedback, setShowFeedback] = useState(false);
-	const [currentFeedback, setCurrentFeedback] = useState(null);
 	// Show delete product dialog
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
 	//Chart
 	const [productChartOption, setProductChartOption] = useState('Sold Items');
 	// Purchase Quantity
 	const [purchaseQty, setPurchaseQty] = useState(1);
-	// Current user viewing the product
-	const [currentUser, setCurrentUser] = useState(null);
-	// Product
-	const [product, setProduct] = useState(null);
-	// Feedback
-	const [feedback, setFeedback] = useState([]);
-	// Sections
-	const [sections, setSections] = useState([]);
 	const [checked1, setChecked1] = useState(false);
 	// Tabs
 	const [activeIndex, setActiveIndex] = useState();
@@ -122,91 +122,24 @@ const ProductDashboard = ({
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	// Give feedback to product and update state
-	const onRate = async () => {
-		const feedBackGiven = await rateProduct(formData, product._id);
-		if (feedBackGiven.status === 200) {
-			setFeedback(feedBackGiven.data);
-			setAlert('Feedback Given!', 'success');
-		} else {
-			setAlert('Feedback Failed', 'error');
-		}
-	};
-
-	// Delete a product and update state
-	const onDeleteProduct = async () => {
-		setSubmition(true);
-		const productToDelete = await deleteShopProduct(product._id);
-		if (productToDelete.status === 200) {
-			setAlert('Product Deleted');
-			setProducts(productToDelete.data);
-			setShowDeleteProduct(false);
-			goBack();
-		}
-		setSubmition(false);
-	};
-
-	// Select feedback to replay to
-	const selectFeedback = (feedback) => {
-		setCurrentFeedback(feedback);
-		setShowFeedback(true);
-	};
-
-	// Report a feedback
-	const selectReportFeedback = (feedback) => {
-		setCurrentFeedback(feedback);
-		setShowReportFeedback(true);
-	};
-
 	// Close reply to and report feedback
 	const hideFeedbackDialog = () => {
-		setShowFeedback(false);
-		setShowReportFeedback(false);
+		closeFeedback();
 		setShowReportProduct(false);
 	};
 
 	useEffect(() => {
 		if (productObject) {
-			// Get Feedback
-			setFeedback(productObject.feedback);
-			// Get Sections
-			setSections(productObject.sections);
-			// Set Other products Suggestion
 			setOtherProducts(products && products);
 			setProduct(productObject);
 			// Update Visit Count
-			if (isOwner) {
+			if (isAuthenticated) {
 				visitProductAuth(productObject._id);
 			} else {
 				visitProduct(productObject._id);
 			}
-		} else {
-			const fetchData = async () => {
-				const result = await getProduct(match.params.id);
-				let productObject = result.data;
-				// Get Feedback
-				setFeedback(result.data.feedback);
-				// Get Sections
-				const productSections = await getProductSections(match.params.id);
-				setSections(productSections.data);
-				// Get Current User
-				const user = await getCurrentUser();
-				setCurrentUser(user.data);
-				//Set isOwner view if user is owner
-				if (productObject.user === user.data._id) {
-					setIsOwner(false);
-				}
-				setProduct(productObject);
-				// Update Visit Count
-				if (user) {
-					visitProductAuth(match.params.id);
-				} else {
-					visitProduct(match.params.id);
-				}
-			};
-			fetchData();
 		}
-	}, [match.params.id]);
+	}, []);
 
 	return (
 		<Fragment>
@@ -226,21 +159,21 @@ const ProductDashboard = ({
 						{showFeedback && (
 							<FeedbackComp
 								product={product}
-								setCurrentFeedback={setCurrentFeedback}
-								setFeedback={setFeedback}
+								setCurrentFeedback={selectFeedback}
 								feedback={currentFeedback}
 								setAlert={setAlert}
+								replyFeedback={replyFeedback}
 							/>
 						)}
 						{/** Report component (feedback) */}
 						{showReportFeedback && (
 							<Report
 								product={product}
-								setCurrentFeedback={setCurrentFeedback}
-								setFeedback={setFeedback}
+								setCurrentFeedback={selectReportFeedback}
 								feedback={currentFeedback}
 								setAlert={setAlert}
-								close={setShowReportFeedback}
+								close={hideFeedbackDialog}
+								reportFeedback={reportFeedback}
 							/>
 						)}
 						{/** Report component (product) */}
@@ -248,11 +181,10 @@ const ProductDashboard = ({
 							<Report
 								product={product}
 								reportProduct={true}
-								setCurrentFeedback={setCurrentFeedback}
-								setFeedback={setFeedback}
 								feedback={currentFeedback}
 								setAlert={setAlert}
-								close={setShowReportProduct}
+								close={hideFeedbackDialog}
+								reportProductRequest={reportProduct}
 							/>
 						)}
 					</Dialog>
@@ -265,7 +197,7 @@ const ProductDashboard = ({
 						<div className="message-button-sm">
 							<div className="message">{'Delete ' + product.name + '?'}</div>
 							<div className="options">
-								<button onClick={() => onDeleteProduct()} className="btn btn-success">
+								<button onClick={() => deleteProduct(product._id)} className="btn btn-success">
 									Yes
 								</button>
 								<button onClick={() => setShowDeleteProduct(false)} className="btn btn-danger">
@@ -298,14 +230,14 @@ const ProductDashboard = ({
 							showImg={setShowLightBox}
 							sectionToEdit={sectionToEdit}
 							setSectionToEdit={setSectionToEdit}
-							setSections={setSections}
+							//setSections={setSections}
 							currentSections={sections}
 						/>
 					)}
 					<div className="dashboard">
 						{/** Go Back Button */}
 						{backButton && (
-							<div className="btn btn-danger m-auto" onClick={() => goBack(null)}>
+							<div className="btn btn-danger m-auto" onClick={() => goBack()}>
 								Back
 							</div>
 						)}
@@ -337,7 +269,7 @@ const ProductDashboard = ({
 										toggleLogin={toggleLogin}
 										setProducts={setProducts}
 										soldOutProduct={soldOutProduct}
-										hideProduct={hideProduct}
+										hideProduct={closeProduct}
 										setShowReportProduct={setShowReportProduct}
 									/>
 								</div>
@@ -358,7 +290,7 @@ const ProductDashboard = ({
 													section={section}
 													setAlert={setAlert}
 													setSectionToEdit={setSectionToEdit}
-													setSections={setSections}
+													//setSections={setSections}
 													setEdit={setEditSection}
 													setCurrentProduct={setCurrentProduct}
 												/>
@@ -420,7 +352,7 @@ const ProductDashboard = ({
 															section={section}
 															setAlert={setAlert}
 															setSectionToEdit={setSectionToEdit}
-															setSections={setSections}
+															//setSections={setSections}
 															setEdit={setEditSection}
 															setCurrentProduct={setCurrentProduct}
 														/>
@@ -466,7 +398,7 @@ const ProductDashboard = ({
 															<ChartComp
 																data={
 																	productChartOption === 'Sold Items'
-																		? transactionInfo
+																		? transProductsQtyById(transactionInfo)
 																		: productObject.visits
 																}
 																onlychart={true}
@@ -554,7 +486,10 @@ const ProductDashboard = ({
 												/>
 												<TextArea name="comment" value={comment} setValue={onChange} />
 												<Alert />
-												<button onClick={() => onRate()} className="btn btn-primary my-1">
+												<button
+													onClick={() => rateProduct(formData.product._id)}
+													className="btn btn-primary my-1"
+												>
 													Leave Review
 												</button>
 											</div>
@@ -602,12 +537,44 @@ const ProductDashboard = ({
 };
 
 ProductDashboard.propTypes = {
+	currentFeedback: PropTypes.object.isRequired,
 	history: PropTypes.object.isRequired,
 	setAlert: PropTypes.func.isRequired,
+	loading: PropTypes.object.isRequired,
+	feedback: PropTypes.array.isRequired,
+	product: PropTypes.object.isRequired,
+	rateProduct: PropTypes.func.isRequired,
+	sections: PropTypes.array.isRequired,
+	setProduct: PropTypes.func.isRequired,
+	showFeedback: PropTypes.bool.isRequired,
+	showReportFeedback: PropTypes.bool.isRequired,
+	closeFeedback: PropTypes.func.isRequired,
+	selectFeedback: PropTypes.func.isRequired,
+	selectReportFeedback: PropTypes.func.isRequired,
+	replyFeedback: PropTypes.func.isRequired,
+	reportFeedback: PropTypes.func.isRequired,
+	reportProduct: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+	currentFeedback: state.currentFeedback,
 	history: state.history,
+	loading: state.loading,
+	feedback: state.feedback,
+	product: state.product,
+	sections: state.sections,
+	showFeedback: state.showFeedback,
+	showReportFeedback: state.showReportFeedback,
 });
 
-export default connect(mapStateToProps, { setAlert })(withRouter(ProductDashboard));
+export default connect(mapStateToProps, {
+	setAlert,
+	rateProduct,
+	setProduct,
+	closeFeedback,
+	selectFeedback,
+	selectReportFeedback,
+	replyFeedback,
+	reportFeedback,
+	reportProduct,
+})(withRouter(ProductDashboard));

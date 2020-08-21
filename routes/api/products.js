@@ -143,17 +143,27 @@ router.put('/feedback/:id', auth, async (req, res) => {
 		if (comment) feedbackFields.comment = comment;
 
 		if (product_receiver.feedback.length > 0) {
+			// Check if user has rated before
+			let feedbackFound = false;
 			let feedbacks = product_receiver.feedback;
 			feedbacks.forEach(async (feedback) => {
 				// If user has rated before
 				if (feedback.user.toString() === user._id.toString()) {
+					feedbackFound = true;
 					const index = feedbacks.indexOf(feedback);
 					if (index > -1) {
 						// Remove old feedback
 						feedbacks.splice(index, 1);
-						// Add new feedback
-						feedbacks.unshift(feedbackFields);
 					}
+					// Add new feedback
+					feedbacks.unshift(feedbackFields);
+					product_receiver.feedback = feedbacks;
+					await product_receiver.save();
+					res.json(product_receiver.feedback.sort((a, b) => (a.date > b.date ? 1 : -1)));
+				}
+				// If user hasnt rated before
+				if (feedbackFound === false) {
+					feedbacks.unshift(feedbackFields);
 					product_receiver.feedback = feedbacks;
 					await product_receiver.save();
 					res.json(product_receiver.feedback.sort((a, b) => (a.date > b.date ? 1 : -1)));

@@ -14,7 +14,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 // Functions
 import { editShop, editProduct, removeLogo, soldOutProduct } from '../../actions/requests';
 
-const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProducts }) => {
+const ItemEdition = ({ editShop, itemType, toggle, setAlert, item, setItem, field, setProducts }) => {
 	/** Shop Pics */
 	const [logo, setLogo] = useState(null);
 	const [jumbo, setJumbo] = useState(null);
@@ -116,23 +116,7 @@ const ItemEdition = ({ itemType, toggle, setAlert, item, setItem, field, setProd
 			if (selectedTags) {
 				formData.tags = selectedTags;
 			}
-			const res = await editShop(formData, item._id);
-			if (
-				res.status === 200 &&
-				res.data !== 'Shop name already in use' &&
-				res.data !== 'Shop email already in use'
-			) {
-				setSuccess(true);
-				setItem(res.data);
-				setAlert('Shop Edited', 'success');
-			} else if (res.data === 'Shop name already in use') {
-				setAlert('Name already in use', 'error');
-			} else if (res.data === 'Shop email already in use') {
-				setAlert('Email already in use', 'error');
-			} else {
-				setAlert('Edition Failed', 'error');
-			}
-			return res;
+			editShop(formData, item._id, setSuccess);
 		}
 		if (itemType === 'product') {
 			// Asign qty selected to form

@@ -4,18 +4,25 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
 /** Functions */
-import {
-	reportFeedbackUser,
-	reportFeedbackShop,
-	reportFeedbackProduct,
-	reportProductRequest,
-} from '../../actions/requests';
+import { reportFeedbackUser, reportFeedbackShop, reportFeedbackProduct } from '../../actions/requests';
 /** Partials */
 import Alert from '../alerts/alert';
 import TextArea from '../partials/text-area';
 import { RadioButton } from 'primereact/radiobutton';
 
-const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, user, close, product, reportProduct }) => {
+const Report = ({
+	reportFeedback,
+	feedback,
+	setAlert,
+	setCurrentFeedback,
+	setFeedback,
+	shop,
+	user,
+	close,
+	product,
+	reportProduct,
+	reportProductRequest,
+}) => {
 	// Form content
 	let [formData, setFormData] = useState({
 		comment: '',
@@ -40,52 +47,16 @@ const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, use
 		formData.reason = reason;
 		// User feedback
 		if (user) {
-			const reportRequest = await reportFeedbackUser(formData, user._id, feedback._id);
-			if (reportRequest.status === 200) {
-				// update user feedback
-				setFeedback(reportRequest.data.userFeedback);
-				// Update current feedback
-				setCurrentFeedback(reportRequest.data.feedback);
-				setAlert('Feedback Reported!', 'success');
-				setSuccess(true);
-			} else {
-				setAlert('Reporting failed!', 'error');
-			}
+			reportFeedback(formData, user._id, feedback._id);
 			// Shop Feedback
 		} else if (shop) {
-			const reportRequest = await reportFeedbackShop(formData, shop._id, feedback._id);
-			if (reportRequest.status === 200) {
-				// Update shop feedback
-				setFeedback(reportRequest.data.shopFeedback);
-				// Update current feedback
-				setCurrentFeedback(reportRequest.data.feedback);
-				setAlert('Feedback Reported!', 'success');
-				setSuccess(true);
-			} else {
-				setAlert('Reporting failed!', 'error');
-			}
+			reportFeedback(formData, shop._id, feedback._id);
 			// Product Feedback
 		} else if (product && !reportProduct) {
-			const reportSubmit = await reportFeedbackProduct(formData, product._id, feedback._id);
-			if (reportSubmit.status === 200) {
-				// Update product feedback
-				setFeedback(reportSubmit.data.productFeedback);
-				// Update current feedback
-				setCurrentFeedback(reportSubmit.data.feedback);
-				setAlert('Feedback Reported!', 'success');
-				setSuccess(true);
-			} else {
-				setAlert('Reporting failed!', 'error');
-			}
+			reportFeedback(formData, product._id, feedback._id);
 			// Report product
 		} else if (product && reportProduct) {
-			const reportSubmit = await reportProductRequest(formData, product._id);
-			if (reportSubmit.status === 200) {
-				setAlert('Product Reported!', 'success');
-				setSuccess(true);
-			} else {
-				setAlert('Reporting failed!', 'error');
-			}
+			reportProductRequest(formData, product._id, close);
 		}
 	};
 
@@ -206,7 +177,7 @@ const Report = ({ feedback, setAlert, setCurrentFeedback, setFeedback, shop, use
 								Our team will analyze the evidence and get back to you with the response in the next few
 								hours.
 							</div>
-							<div onClick={() => close(false)} className="btn btn-primary mb-half">
+							<div onClick={() => close()} className="btn btn-primary mb-half">
 								close
 							</div>
 						</div>
