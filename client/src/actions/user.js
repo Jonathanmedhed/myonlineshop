@@ -169,7 +169,6 @@ export const deleteUser = (history) => async (dispatch) => {
 export const getCurrentUser = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/users/');
-		console.log(res.data);
 		// dispatch user info and success type
 		dispatch({
 			type: GET_USER_SUCCESS,
@@ -182,6 +181,28 @@ export const getCurrentUser = () => async (dispatch) => {
 		}
 		dispatch({
 			type: GET_USER_ERROR,
+		});
+	}
+};
+
+/**
+ *  Get current session user
+ */
+export const getUserById = (id) => async (dispatch) => {
+	try {
+		const res = await axios.get(`/api/users/${id}`);
+		// dispatch user info and success type
+		dispatch({
+			type: GET_USER_BY_ID_SUCCESS,
+			payload: res.data,
+		});
+	} catch (err) {
+		const errors = err.response.data.errors;
+		if (errors) {
+			errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+		}
+		dispatch({
+			type: GET_USER_BY_ID_ERROR,
 		});
 	}
 };

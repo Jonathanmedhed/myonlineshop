@@ -231,6 +231,7 @@ export default function (state = initialState, action) {
 				shops: payload.shops_owned,
 				products: payload.products,
 				feedback: payload.feedback,
+				isOwner: null,
 				loading: false,
 			};
 		case GET_PRODUCT_SUCCESS:

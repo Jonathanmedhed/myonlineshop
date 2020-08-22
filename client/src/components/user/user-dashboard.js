@@ -14,6 +14,7 @@ import {
 	getProductChart,
 	getShopChart,
 	getProduct,
+	getUserById,
 	closeProduct,
 	closeTransaction,
 	getProductToDelete,
@@ -82,6 +83,7 @@ const UserDashboard = ({
 	getProductToDelete,
 	getTransactionPurchase,
 	getTransactionSale,
+	getUserById,
 	approveOrder,
 	replyFeedback,
 	reportFeedback,
@@ -385,18 +387,23 @@ const UserDashboard = ({
 		}
 	};
 
-	if (!isAuthenticated) {
+	if (!isAuthenticated && !match.params.id) {
 		return <Redirect to="/" />;
 	}
 
 	useEffect(() => {
-		getCurrentUser();
-	}, [getCurrentUser]);
+		if (match.params.id) {
+			getUserById(match.params.id);
+		} else {
+			getCurrentUser();
+		}
+	}, [getUserById, getCurrentUser, match.params.id]);
 
 	return loading && user === null ? (
 		<PrimeSpinner />
 	) : (
 		<Fragment>
+			{console.log(isOwner)}
 			{/** Navbar */}
 			<Navbar
 				view={
@@ -1645,6 +1652,7 @@ UserDashboard.propTypes = {
 	getShopToDelete: PropTypes.func.isRequired,
 	getTransactionPurchase: PropTypes.func.isRequired,
 	getTransactionSale: PropTypes.func.isRequired,
+	getUserById: PropTypes.func.isRequired,
 	closeProduct: PropTypes.func.isRequired,
 	closeTransaction: PropTypes.func.isRequired,
 	deleteProduct: PropTypes.func.isRequired,
@@ -1739,6 +1747,7 @@ export default connect(mapStateToProps, {
 	getShopToDelete,
 	getTransactionPurchase,
 	getTransactionSale,
+	getUserById,
 	approveOrder,
 	setOrderReady,
 	setOrderDelivered,
