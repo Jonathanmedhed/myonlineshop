@@ -216,6 +216,8 @@ export default function (state = initialState, action) {
 				productsInTransactions:
 					payload.transactions_sale &&
 					payload.transactions_sale.length > 0 &&
+					payload.products &&
+					payload.products.length > 0 &&
 					transProductsQtyById(getOrders(payload.transactions_sale).paid, payload.products[0]._id),
 				products: payload.products,
 				feedback: payload.feedback,

@@ -169,6 +169,7 @@ export const deleteUser = (history) => async (dispatch) => {
 export const getCurrentUser = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/users/');
+		console.log(res.data);
 		// dispatch user info and success type
 		dispatch({
 			type: GET_USER_SUCCESS,
