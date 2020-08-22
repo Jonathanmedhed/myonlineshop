@@ -28,6 +28,7 @@ const Navbar = ({
 	cartContent,
 	setShowCart,
 	setProduct,
+	setCustomerView,
 }) => {
 	return (
 		<nav className="navbar-hover-under">
@@ -57,6 +58,7 @@ const Navbar = ({
 						setShowCart={setShowCart}
 						setProduct={setProduct}
 						shop={shop}
+						setCustomerView={setCustomerView}
 					/>
 				</div>
 				<div className="title">
@@ -90,6 +92,7 @@ const Navbar = ({
 					loading={loading}
 					logout={logout}
 					toggleCreateShop={toggleCreateShop}
+					setCustomerView={setCustomerView}
 				/>
 			</div>
 			{/** Mobile Menu */}
@@ -118,6 +121,7 @@ const Navbar = ({
 						setShowCart={setShowCart}
 						setProduct={setProduct}
 						shop={shop}
+						setCustomerView={setCustomerView}
 					/>
 				</div>
 			</div>

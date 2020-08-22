@@ -54,6 +54,8 @@ import {
 	SELECT_REPORT_FEEDBACK_ERROR_SHOP,
 	SET_CHART_PRODUCT_SHOP,
 	SET_CHART_PRODUCT_ERROR_SHOP,
+	SET_CUSTOMER_VIEW,
+	SET_CUSTOMER_VIEW_ERROR,
 	SWAP_IMG_SECTION,
 	SWAP_IMG_SECTION_ERROR,
 } from '../actions/types';
@@ -330,6 +332,12 @@ export default function (state = initialState, action) {
 				productsInTransactions: transProductsQtyById(payload.transactionsSold, payload._id),
 				loading: false,
 			};
+		case SET_CUSTOMER_VIEW:
+			return {
+				...state,
+				isOwner: false,
+				loading: false,
+			};
 		case SWAP_IMG_SECTION:
 			return {
 				...state,
@@ -361,6 +369,7 @@ export default function (state = initialState, action) {
 		case SELECT_FEEDBACK_ERROR_SHOP:
 		case SELECT_REPORT_FEEDBACK_ERROR_SHOP:
 		case SET_CHART_PRODUCT_ERROR_SHOP:
+		case SET_CUSTOMER_VIEW_ERROR:
 		case SWAP_IMG_SECTION_ERROR:
 			return {
 				...state,

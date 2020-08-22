@@ -3,6 +3,10 @@ import { setAlert } from './alerts';
 import {
 	CLEAR_FEEDBACK_PRODUCT,
 	CLEAR_FEEDBACK_ERROR_PRODUCT,
+	CREATE_SECTION_PRODUCT_PRODUCT,
+	CREATE_SECTION_ERROR_PRODUCT_PRODUCT,
+	DELETE_SECTION_PRODUCT,
+	DELETE_SECTION_ERROR_PRODUCT,
 	RATE_PRODUCT,
 	RATE_PRODUCT_ERROR,
 	REPLY_FEEDBACK_PRODUCT,
@@ -25,6 +29,33 @@ import {
  *
  ***********************************************************************************************/
 
+/**
+ * Delete shop section
+ * @param {*} id
+ */
+export const deleteSection = (product_id, section_id, setSuccess, setDeleted) => async (dispatch) => {
+	try {
+		const res = await axios.delete(`/api/products/section/${product_id}/${section_id}`);
+
+		if (setDeleted) {
+			setDeleted(true);
+		}
+		setSuccess(true);
+
+		// dispatch updated sections and delete type
+		dispatch({
+			type: DELETE_SECTION_PRODUCT,
+			payload: res.data,
+		});
+		dispatch(setAlert('Section Deleted!', 'success'));
+	} catch (err) {
+		dispatch(setAlert('Deletion Failed', 'error'));
+		dispatch({
+			type: DELETE_SECTION_ERROR_PRODUCT,
+		});
+	}
+};
+
 /***********************************************************************************************
  *
  *	 GET REQUESTS
@@ -36,6 +67,45 @@ import {
  *	 POST REQUESTS
  *
  ***********************************************************************************************/
+
+/**
+ * Create product section
+ * @param {*} formData
+ * @param {*} id
+ * @param {*} setSuccess
+ */
+export const createProductSection = (formData, id, setSuccess, setCreated) => async (dispatch) => {
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		const res = await axios.post(`/api/products/section/${id}`, formData, config);
+
+		let product = null;
+		const productData = await axios.get(`/api/products/${id}`);
+		product = productData.data;
+		product.sections = res.data;
+		setSuccess(true);
+		setCreated(true);
+
+		dispatch({
+			type: CREATE_SECTION_PRODUCT_PRODUCT,
+			payload: product,
+		});
+
+		dispatch(setAlert('Section Created', 'success'));
+	} catch (err) {
+		dispatch(setAlert('Section Creation Failed', 'error'));
+
+		dispatch({
+			type: CREATE_SECTION_ERROR_PRODUCT_PRODUCT,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
 
 /***********************************************************************************************
  *

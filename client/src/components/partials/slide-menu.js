@@ -24,6 +24,7 @@ const SlideComp = ({
 	cartContent,
 	setShowCart,
 	setProduct,
+	setCustomerView,
 }) => {
 	const openCart = () => {
 		setShowCart(true);

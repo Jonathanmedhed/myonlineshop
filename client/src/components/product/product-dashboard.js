@@ -5,9 +5,11 @@ import { withRouter } from 'react-router';
 /** Functions */
 import { deleteShopProduct, visitProductAuth, visitProduct, soldOutProduct } from '../../actions/requests';
 import {
+	deleteSection,
 	rateProduct,
 	setProduct,
 	closeFeedback,
+	createProductSection,
 	selectFeedback,
 	selectReportFeedback,
 	replyFeedback,
@@ -40,7 +42,9 @@ import SectionCreation from '../shop/section-creation';
 const ProductDashboard = ({
 	backButton,
 	closeProduct,
+	createProductSection,
 	deleteProduct,
+	deleteSection,
 	rateProduct,
 	setProduct,
 	history,
@@ -230,7 +234,8 @@ const ProductDashboard = ({
 							showImg={setShowLightBox}
 							sectionToEdit={sectionToEdit}
 							setSectionToEdit={setSectionToEdit}
-							//setSections={setSections}
+							createProductSection={createProductSection}
+							deleteSection={deleteSection}
 							currentSections={sections}
 						/>
 					)}
@@ -537,7 +542,9 @@ const ProductDashboard = ({
 };
 
 ProductDashboard.propTypes = {
+	createProductSection: PropTypes.func.isRequired,
 	currentFeedback: PropTypes.object.isRequired,
+	deleteSection: PropTypes.func.isRequired,
 	history: PropTypes.object.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	loading: PropTypes.object.isRequired,
@@ -568,6 +575,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
+	createProductSection,
+	deleteSection,
 	setAlert,
 	rateProduct,
 	setProduct,

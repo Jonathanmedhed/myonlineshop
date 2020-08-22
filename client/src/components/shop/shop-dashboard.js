@@ -68,6 +68,7 @@ import {
 	setOrderReady,
 	setOrderDelivered,
 	setOrderPaid,
+	setCustomerView,
 	swapImgSection,
 	unFollowShop,
 } from '../../actions/shop';
@@ -102,6 +103,7 @@ const ShopDashboard = ({
 	getShop,
 	getTransaction,
 	rateShop,
+	setCustomerView,
 	unFollowShop,
 	approveOrder,
 	replyFeedback,
@@ -468,6 +470,7 @@ const ShopDashboard = ({
 				isFollower={isFollower}
 				cartContent={cartContent}
 				setShowCart={setShowCart}
+				setCustomerView={setCustomerView}
 				//setProduct={setProduct}
 			/>
 			<Fragment>
@@ -996,7 +999,7 @@ const ShopDashboard = ({
 											showCreateSection={setSectionCreation}
 											isOwner={isOwner}
 											logout={logout}
-											//setIsOwner={setIsOwner}
+											setCustomerView={setCustomerView}
 											setOption={setHeaderOption}
 											shop={shop}
 											user={currentUser}
@@ -1753,6 +1756,7 @@ ShopDashboard.propTypes = {
 	showFeedback: PropTypes.bool.isRequired,
 	showReportFeedback: PropTypes.bool.isRequired,
 	showProductDeletion: PropTypes.bool.isRequired,
+	setCustomerView: PropTypes.func.isRequired,
 	swapImgSection: PropTypes.func.isRequired,
 	tags: PropTypes.array.isRequired,
 	transactions: PropTypes.array.isRequired,
@@ -1823,6 +1827,7 @@ export default connect(mapStateToProps, {
 	getProductToDelete,
 	getShop,
 	rateShop,
+	setCustomerView,
 	swapImgSection,
 	unFollowShop,
 })(withRouter(ShopDashboard));

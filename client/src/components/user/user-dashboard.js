@@ -1502,7 +1502,7 @@ const UserDashboard = ({
 								</div>
 							}
 						>
-							<div className="big-items">
+							<div className="settings-options">
 								{/**
 									<div className="big-item">
 										<div className="bold">Do something:</div>
@@ -1513,7 +1513,7 @@ const UserDashboard = ({
 										<InputSwitch checked={checked1} onChange={(e) => setChecked1(e.value)} />
 									</div>
 									 */}
-								<div className="big-item mt-1">
+								<div className="setting">
 									<div className="bold">Delete Account:</div>
 									<button onClick={() => setDeleteAccount(true)} className="btn btn-danger">
 										Delete

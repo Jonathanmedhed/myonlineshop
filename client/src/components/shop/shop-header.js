@@ -25,6 +25,7 @@ const ShopHeader = ({
 	type,
 	view,
 	products,
+	setCustomerView,
 }) => {
 	// Items for the navbar/sidebar
 	let items =
@@ -96,7 +97,7 @@ const ShopHeader = ({
 						label: isOwner ? 'Customer View' : 'Owner View',
 						icon: 'far fa-eye',
 						command: () => {
-							setIsOwner(!isOwner);
+							setCustomerView();
 						},
 					},
 			  ]
@@ -157,26 +158,6 @@ const ShopHeader = ({
 				{/** Navbar options for desktop */}
 				<div className="hide-sm">
 					<Menubar model={items}></Menubar>
-				</div>
-				{/** Searchbox and cart */}
-				<div className="hide-sm">
-					{!isOwner && (
-						<div className="horizontal">
-							<input placeholder="search..." className="search-big" type="text"></input>
-							<div className="header-cart">
-								{/** Empty cart black, otherwise white */}
-								{cartContent.length > 0 ? (
-									<div onClick={() => openCart()} className="full-cart">
-										<i class="fas fa-shopping-cart"></i>
-									</div>
-								) : (
-									<div className="empty-cart">
-										<i class="fas fa-shopping-cart"></i>
-									</div>
-								)}
-							</div>
-						</div>
-					)}
 				</div>
 				{/** Mobile Menu */}
 				<div className="show-sm">

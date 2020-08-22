@@ -3,7 +3,18 @@ import {} from 'react-router-dom';
 // Components
 import { Menubar } from 'primereact/menubar';
 
-const List = ({ item, jumbo, view, history, isAuthenticated, loading, logout, shops, toggleCreateShop }) => {
+const List = ({
+	item,
+	jumbo,
+	view,
+	history,
+	isAuthenticated,
+	loading,
+	logout,
+	shops,
+	toggleCreateShop,
+	setCustomerView,
+}) => {
 	/** User Shops */
 	let shopItems = [
 		{
@@ -123,15 +134,14 @@ const List = ({ item, jumbo, view, history, isAuthenticated, loading, logout, sh
 		{
 			separator: true,
 		},
-		!loading &&
-			isAuthenticated && {
-				label: 'Logout',
-				icon: 'fas fa-sign-out-alt',
-				command: (event) => {
-					logout();
-					history.replace('/');
-				},
+		isAuthenticated && {
+			label: 'Logout',
+			icon: 'fas fa-sign-out-alt',
+			command: (event) => {
+				logout();
+				history.replace('/');
 			},
+		},
 	];
 
 	/** Options for Shop Owner, Shop Component */
@@ -149,6 +159,9 @@ const List = ({ item, jumbo, view, history, isAuthenticated, loading, logout, sh
 		{
 			label: 'Customer View',
 			icon: 'far fa-eye',
+			command: (event) => {
+				setCustomerView();
+			},
 		},
 	];
 

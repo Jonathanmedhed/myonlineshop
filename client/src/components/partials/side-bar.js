@@ -25,6 +25,7 @@ const SideBarComp = ({
 	cartContent,
 	setShowCart,
 	setProduct,
+	setCustomerView,
 }) => {
 	const [visibleLeft, setVisibleLeft] = useState(false);
 	const [visibleRight, setVisibleRight] = useState(false);
@@ -61,6 +62,7 @@ const SideBarComp = ({
 							setShowCart={setShowCart}
 							setProduct={setProduct}
 							shop={shop}
+							setCustomerView={setCustomerView}
 						/>
 					</Sidebar>
 					<Button icon="fas fa-bars" onClick={(e) => setVisibleLeft(true)} />
@@ -97,6 +99,7 @@ const SideBarComp = ({
 								setShowCart={setShowCart}
 								setProduct={setProduct}
 								shop={shop}
+								setCustomerView={setCustomerView}
 							/>
 						</Sidebar>
 						<Button icon="fas fa-bars" onClick={(e) => setVisibleRight(true)} />

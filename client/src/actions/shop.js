@@ -56,6 +56,8 @@ import {
 	SELECT_REPORT_FEEDBACK_ERROR_SHOP,
 	SET_CHART_PRODUCT_SHOP,
 	SET_CHART_PRODUCT_ERROR_SHOP,
+	SET_CUSTOMER_VIEW,
+	SET_CUSTOMER_VIEW_ERROR,
 	SWAP_IMG_SECTION,
 	SWAP_IMG_SECTION_ERROR,
 } from './types';
@@ -1067,6 +1069,23 @@ export const selectReportFeedback = (feedback) => async (dispatch) => {
 		dispatch(setAlert('Feedback Selection Failed', 'error'));
 		dispatch({
 			type: SELECT_REPORT_FEEDBACK_ERROR_SHOP,
+		});
+	}
+};
+
+/**
+ * Set customer view
+ */
+export const setCustomerView = () => async (dispatch) => {
+	try {
+		dispatch(setAlert('Customer View Activated', 'success'));
+		dispatch({
+			type: SET_CUSTOMER_VIEW,
+		});
+	} catch (err) {
+		dispatch(setAlert('Error, Try Again', 'error'));
+		dispatch({
+			type: SET_CUSTOMER_VIEW_ERROR,
 		});
 	}
 };

@@ -1,6 +1,10 @@
 import {
 	CLEAR_FEEDBACK_PRODUCT,
 	CLEAR_FEEDBACK_ERROR_PRODUCT,
+	CREATE_SECTION_PRODUCT_PRODUCT,
+	CREATE_SECTION_ERROR_PRODUCT_PRODUCT,
+	DELETE_SECTION_PRODUCT,
+	DELETE_SECTION_ERROR_PRODUCT,
 	RATE_PRODUCT,
 	RATE_PRODUCT_ERROR,
 	REPLY_FEEDBACK_PRODUCT,
@@ -36,6 +40,19 @@ export default function (state = initialState, action) {
 				showFeedback: false,
 				showReportFeedback: false,
 				currentFeedback: null,
+				loading: false,
+			};
+		case CREATE_SECTION_PRODUCT_PRODUCT:
+			return {
+				...state,
+				product: payload,
+				sections: payload.sections,
+				loading: false,
+			};
+		case DELETE_SECTION_PRODUCT:
+			return {
+				...state,
+				sections: payload,
 				loading: false,
 			};
 		case RATE_PRODUCT:
@@ -81,6 +98,8 @@ export default function (state = initialState, action) {
 				loading: false,
 			};
 		case CLEAR_FEEDBACK_ERROR_PRODUCT:
+		case CREATE_SECTION_ERROR_PRODUCT_PRODUCT:
+		case DELETE_SECTION_ERROR_PRODUCT:
 		case RATE_PRODUCT_ERROR:
 		case REPLY_FEEDBACK_PRODUCT_ERROR:
 		case REPORT_FEEDBACK_PRODUCT_ERROR:
