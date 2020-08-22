@@ -10,6 +10,7 @@ import ItemEdition from '../partials/item-edition';
 import { Dialog } from 'primereact/dialog';
 
 const ProductData = ({
+	editProduct,
 	feedback,
 	hideProduct,
 	product,
@@ -107,8 +108,7 @@ const ProductData = ({
 					itemType={'product'}
 					setAlert={setAlert}
 					toggle={setEdit}
-					setItem={setProduct}
-					setProducts={setProducts}
+					editProduct={editProduct}
 				/>
 			)}
 			{/** Product Data */}

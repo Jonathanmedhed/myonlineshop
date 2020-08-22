@@ -9,12 +9,12 @@ import {
 	uploadShopLogo,
 	uploadShopJumbo,
 	uploadProductImgs,
-	editProduct,
-	editShop,
 } from '../../actions/requests';
 
 const UploadComp = ({
 	auto,
+	editProduct,
+	editShop,
 	editUser,
 	multiple,
 	setAlert,
@@ -139,25 +139,13 @@ const UploadComp = ({
 					// upload and asign logo
 					if (type === 'logo') {
 						formData.pic_logo = url;
-						const res = await editShop(formData, id);
-						if (res.status === 200) {
-							setAlert('Picture Updated', 'success');
-							setShop(res.data);
-						} else {
-							setAlert('Upload Failed', 'error');
-						}
+						const res = await editShop(formData, id, setSuccess);
 						// Upload and asign product pic
 					} else if (type === 'product-pics') {
 						let pictures = product.pics;
 						pictures.push(url);
 						formData.pics = pictures;
-						const res = await editProduct(formData, product._id);
-						if (res.status === 200) {
-							setAlert('Picture Uploaded', 'success');
-							setProduct(res.data.product);
-						} else {
-							setAlert('Upload Failed', 'error');
-						}
+						editProduct(formData, product._id, setSuccess);
 						// Set section image
 					} else if (type === 'section-img') {
 						setImg(url);
@@ -169,13 +157,7 @@ const UploadComp = ({
 						// Upload and asign shop jumbo
 					} else if (type === 'jumbo') {
 						formData.pic_jumbo = url;
-						const res = await editShop(formData, id);
-						if (res.status === 200) {
-							setAlert('Picture Updated', 'success');
-							setShop(res.data);
-						} else {
-							setAlert('Upload Failed', 'error');
-						}
+						const res = await editShop(formData, id, setSuccess);
 					} else {
 						formData.pic = url;
 						const res = await editUser(formData);

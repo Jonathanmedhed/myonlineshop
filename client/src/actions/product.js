@@ -7,6 +7,9 @@ import {
 	CREATE_SECTION_ERROR_PRODUCT_PRODUCT,
 	DELETE_SECTION_PRODUCT,
 	DELETE_SECTION_ERROR_PRODUCT,
+	EDIT_PRODUCT,
+	EDIT_PRODUCT_ERROR,
+	EDIT_PRODUCT_SHOP,
 	RATE_PRODUCT,
 	RATE_PRODUCT_ERROR,
 	REPLY_FEEDBACK_PRODUCT,
@@ -67,6 +70,49 @@ export const deleteSection = (product_id, section_id, setSuccess, setDeleted) =>
  *	 POST REQUESTS
  *
  ***********************************************************************************************/
+
+/**
+ * Edit product
+ * @param {*} formData
+ * @param {*} id
+ * @param {*} setSuccess
+ */
+export const editProduct = (formData, id, setSuccess) => async (dispatch) => {
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		const res = await axios.post(`/api/shops/product/edit/${id}`, formData, config);
+		if (res.status === 200 && res.data !== 'Product name already in use') {
+			if (setSuccess) {
+				setSuccess(true);
+			}
+
+			dispatch(setAlert('Product Edited', 'success'));
+
+			dispatch({
+				type: EDIT_PRODUCT,
+				payload: res.data,
+			});
+			dispatch({
+				type: EDIT_PRODUCT_SHOP,
+				payload: res.data,
+			});
+		} else if (res.status === 200 && res.data === 'Product name already in use') {
+			dispatch(setAlert('Product name already in use', 'error'));
+		}
+	} catch (err) {
+		dispatch(setAlert('Product Edition Failed', 'error'));
+
+		dispatch({
+			type: EDIT_PRODUCT_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
 
 /**
  * Create product section

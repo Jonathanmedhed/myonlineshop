@@ -23,6 +23,7 @@ import {
 	DELETE_TRANSACTION_ERROR_SHOP,
 	EDIT_ORDER_SHOP,
 	EDIT_ORDER_ERROR_SHOP,
+	EDIT_PRODUCT_SHOP,
 	EDIT_SECTION,
 	EDIT_SECTION_ERROR,
 	EDIT_SECTION_PRODUCT,
@@ -197,6 +198,12 @@ export default function (state = initialState, action) {
 				ordersPrepare: getOrders(payload).toPrepare,
 				ordersReady: getOrders(payload).ready,
 				ordersDelivered: getOrders(payload).delivered,
+				loading: false,
+			};
+		case EDIT_PRODUCT_SHOP:
+			return {
+				...state,
+				products: payload.products,
 				loading: false,
 			};
 		case EDIT_SECTION:

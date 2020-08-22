@@ -12,9 +12,9 @@ import { InputNumber } from 'primereact/inputnumber';
 import { InputTextarea } from 'primereact/inputtextarea';
 
 // Functions
-import { editShop, editProduct, removeLogo, soldOutProduct } from '../../actions/requests';
+import { removeLogo, soldOutProduct } from '../../actions/requests';
 
-const ItemEdition = ({ editShop, itemType, toggle, setAlert, item, setItem, field, setProducts }) => {
+const ItemEdition = ({ editProduct, editShop, itemType, toggle, setAlert, item, setItem, field, setProducts }) => {
 	/** Shop Pics */
 	const [logo, setLogo] = useState(null);
 	const [jumbo, setJumbo] = useState(null);
@@ -131,16 +131,7 @@ const ItemEdition = ({ editShop, itemType, toggle, setAlert, item, setItem, fiel
 			if (selectedTags) {
 				formData.tags = selectedTags;
 			}
-			const res = await editProduct(formData, item._id);
-			if (res.status === 200 && res.data !== 'Product name already in use') {
-				setAlert('Product Edited', 'success');
-				setSuccess(true);
-				setItem(res.data.product);
-				setProducts(res.data.products);
-			} else if (res.status === 200 && res.data === 'Product name already in use') {
-				setAlert('Product name already in use', 'error');
-			}
-			return res;
+			editProduct(formData, item._id, setSuccess);
 		}
 	};
 
@@ -485,7 +476,7 @@ const ItemEdition = ({ editShop, itemType, toggle, setAlert, item, setItem, fiel
 										setAlert={setAlert}
 										type={'jumbo'}
 										id={item._id}
-										setShop={setItem}
+										editShop={editShop}
 									/>
 								</Fragment>
 							)}
@@ -506,7 +497,7 @@ const ItemEdition = ({ editShop, itemType, toggle, setAlert, item, setItem, fiel
 											setAlert={setAlert}
 											type={'logo'}
 											id={item._id}
-											setShop={setItem}
+											editShop={editShop}
 										/>
 									</div>
 								</Fragment>

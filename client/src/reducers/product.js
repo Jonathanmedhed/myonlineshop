@@ -5,6 +5,8 @@ import {
 	CREATE_SECTION_ERROR_PRODUCT_PRODUCT,
 	DELETE_SECTION_PRODUCT,
 	DELETE_SECTION_ERROR_PRODUCT,
+	EDIT_PRODUCT,
+	EDIT_PRODUCT_ERROR,
 	RATE_PRODUCT,
 	RATE_PRODUCT_ERROR,
 	REPLY_FEEDBACK_PRODUCT,
@@ -53,6 +55,12 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				sections: payload,
+				loading: false,
+			};
+		case EDIT_PRODUCT:
+			return {
+				...state,
+				product: payload.product,
 				loading: false,
 			};
 		case RATE_PRODUCT:

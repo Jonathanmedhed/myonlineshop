@@ -4,10 +4,8 @@ import React, { Fragment, useState } from 'react';
 import Alert from '../alerts/alert';
 import CardCarousel from '../partials/card-carousel';
 import UploadComp from '../partials/file-uploader';
-// Functions
-import { editProduct } from '../../actions/requests';
 
-const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
+const ProductCard = ({ editProduct, product, isOwner, setAlert, setProduct }) => {
 	let [formData, setFormData] = useState({
 		pics: product.pics ? product.pics : [],
 	});
@@ -15,12 +13,7 @@ const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
 	// Form submition
 	const onSubmit = async (pic) => {
 		formData.pics.push(pic);
-		const res = await editProduct(formData, product._id);
-		if (res.status === 200) {
-			setAlert('Image Added', 'success');
-			setProduct(res.data);
-		}
-		return res;
+		editProduct(formData, product._id, null);
 	};
 
 	return (
@@ -49,6 +42,7 @@ const ProductCard = ({ product, isOwner, setAlert, setProduct }) => {
 				{isOwner && (
 					<div className="">
 						<UploadComp
+							editProduct={editProduct}
 							product={product}
 							setProduct={setProduct}
 							type={'product-pics'}

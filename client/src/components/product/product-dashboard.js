@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { deleteShopProduct, visitProductAuth, visitProduct, soldOutProduct } from '../../actions/requests';
 import {
 	deleteSection,
+	editProduct,
 	rateProduct,
 	setProduct,
 	closeFeedback,
@@ -45,6 +46,7 @@ const ProductDashboard = ({
 	createProductSection,
 	deleteProduct,
 	deleteSection,
+	editProduct,
 	rateProduct,
 	setProduct,
 	history,
@@ -219,7 +221,7 @@ const ProductDashboard = ({
 							itemType={'product'}
 							setAlert={setAlert}
 							toggle={setEdit}
-							setProducts={setProducts}
+							editProduct={editProduct}
 						/>
 					)}
 					{/** Section Creation */}
@@ -252,6 +254,7 @@ const ProductDashboard = ({
 								<div className="sub-page-header">
 									{/** Top Left */}
 									<ProductCard
+										editProduct={editProduct}
 										product={product}
 										isOwner={isOwner}
 										setAlert={setAlert}
@@ -259,6 +262,7 @@ const ProductDashboard = ({
 									/>
 									{/** Top Right */}
 									<ProductData
+										editProduct={editProduct}
 										product={product}
 										feedback={feedback}
 										isOwner={isOwner}
@@ -545,6 +549,7 @@ ProductDashboard.propTypes = {
 	createProductSection: PropTypes.func.isRequired,
 	currentFeedback: PropTypes.object.isRequired,
 	deleteSection: PropTypes.func.isRequired,
+	editProduct: PropTypes.func.isRequired,
 	history: PropTypes.object.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	loading: PropTypes.object.isRequired,
@@ -577,6 +582,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
 	createProductSection,
 	deleteSection,
+	editProduct,
 	setAlert,
 	rateProduct,
 	setProduct,

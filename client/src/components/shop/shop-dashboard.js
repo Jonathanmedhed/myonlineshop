@@ -900,7 +900,7 @@ const ShopDashboard = ({
 									itemType={'shop'}
 									setAlert={setAlert}
 									toggle={setEdit}
-									//setProducts={setProducts}
+									editShop={editShop}
 								/>
 							)}
 							{/** Product Creation */}
