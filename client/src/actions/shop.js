@@ -526,7 +526,9 @@ export const editShop = (formData, id, setSuccess) => async (dispatch) => {
 		const res = await axios.post(`/api/shops/edit/${id}`, formData, config);
 
 		if (res.status === 200 && res.data !== 'Shop name already in use' && res.data !== 'Shop email already in use') {
-			setSuccess(true);
+			if (setSuccess) {
+				setSuccess(true);
+			}
 
 			dispatch(setAlert('Shop Edited', 'success'));
 
