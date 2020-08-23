@@ -627,6 +627,28 @@ router.post('/section/move/:id', auth, async (req, res) => {
 	}
 });
 
+// @route  POST api/products/section/swap/id
+// @desc   Swap img position in section
+// @access Private
+router.post('/section/swap/:id', auth, async (req, res) => {
+	try {
+		const section = await Section.findById(req.params.id);
+		if (!section) {
+			return res.status(404).json({ msg: 'Section not found' });
+		}
+		section.reverse = !section.reverse;
+		await section.save();
+		// Updated Sections
+		const updatedSections = await Section.find({
+			product: section.product,
+		});
+		res.json(updatedSections.sort((a, b) => (a.position > b.position ? 1 : -1)));
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 /************************************************************************************************************
  * Delete Request
  *************************************************************************************************************/

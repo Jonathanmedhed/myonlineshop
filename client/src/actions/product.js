@@ -10,6 +10,8 @@ import {
 	EDIT_PRODUCT,
 	EDIT_PRODUCT_ERROR,
 	EDIT_PRODUCT_SHOP,
+	MOVE_SECTION_PRODUCT,
+	MOVE_SECTION_ERROR_PRODUCT,
 	RATE_PRODUCT,
 	RATE_PRODUCT_ERROR,
 	REPLY_FEEDBACK_PRODUCT,
@@ -24,6 +26,8 @@ import {
 	SELECT_REPORT_FEEDBACK_ERROR_PRODUCT,
 	SET_PRODUCT,
 	SET_PRODUCT_ERROR,
+	SWAP_IMG_SECTION_PRODUCT,
+	SWAP_IMG_SECTION_ERROR_PRODUCT,
 } from './types';
 
 /***********************************************************************************************
@@ -148,6 +152,92 @@ export const createProductSection = (formData, id, setSuccess, setCreated) => as
 
 		dispatch({
 			type: CREATE_SECTION_ERROR_PRODUCT_PRODUCT,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+/**
+ * Move product section
+ * @param {*} formData
+ * @param {*} id
+ */
+export const moveSection = (formData, id) => async (dispatch) => {
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		const res = await axios.post(`/api/products/section/move/${id}`, formData, config);
+
+		dispatch({
+			type: MOVE_SECTION_PRODUCT,
+			payload: res.data,
+		});
+
+		dispatch(setAlert('Section Moved', 'success'));
+	} catch (err) {
+		dispatch(setAlert('Section Modification Failed', 'error'));
+
+		dispatch({
+			type: MOVE_SECTION_ERROR_PRODUCT,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+/**
+ * Make product sold out
+ * @param {*} id
+ */
+export const soldOutProduct = (id, setSuccess) => async (dispatch) => {
+	try {
+		const res = await axios.post(`/api/shops/product/soldout/${id}`);
+
+		dispatch({
+			type: EDIT_PRODUCT,
+			payload: res.data,
+		});
+		dispatch({
+			type: EDIT_PRODUCT_SHOP,
+			payload: res.data,
+		});
+		if (setSuccess) {
+			setSuccess(true);
+		}
+
+		dispatch(setAlert('Product is Sold Out', 'success'));
+	} catch (err) {
+		dispatch(setAlert('Product Edition Failed', 'error'));
+
+		dispatch({
+			type: EDIT_PRODUCT_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+/**
+ * Swap img position in section
+ * @param {*} id
+ */
+export const swapImgSection = (id) => async (dispatch) => {
+	try {
+		const res = await axios.post(`/api/products/section/swap/${id}`);
+
+		dispatch({
+			type: SWAP_IMG_SECTION_PRODUCT,
+			payload: res.data,
+		});
+
+		dispatch(setAlert('Image position swaped', 'success'));
+	} catch (err) {
+		dispatch(setAlert('Section Modification Failed', 'error'));
+
+		dispatch({
+			type: SWAP_IMG_SECTION_ERROR_PRODUCT,
 			payload: { msg: err.response.statusText, status: err.response.status },
 		});
 	}

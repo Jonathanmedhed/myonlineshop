@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 /** Functions */
-import { deleteShopProduct, visitProductAuth, visitProduct, soldOutProduct } from '../../actions/requests';
+import { deleteShopProduct, visitProductAuth, visitProduct } from '../../actions/requests';
 import {
 	deleteSection,
 	editProduct,
+	moveSection,
 	rateProduct,
 	setProduct,
 	closeFeedback,
@@ -14,8 +15,10 @@ import {
 	selectFeedback,
 	selectReportFeedback,
 	replyFeedback,
+	soldOutProduct,
 	reportFeedback,
 	reportProduct,
+	swapImgSection,
 } from '../../actions/product';
 
 import { setAlert } from '../../actions/alerts';
@@ -47,6 +50,7 @@ const ProductDashboard = ({
 	deleteProduct,
 	deleteSection,
 	editProduct,
+	moveSection,
 	rateProduct,
 	setProduct,
 	history,
@@ -68,12 +72,14 @@ const ProductDashboard = ({
 	setProducts,
 	setSubmition,
 	setCurrentProduct,
+	soldOutProduct,
 	closeFeedback,
 	selectFeedback,
 	selectReportFeedback,
 	replyFeedback,
 	reportFeedback,
 	reportProduct,
+	swapImgSection,
 	product: { currentFeedback, loading, feedback, product, sections, showFeedback, showReportFeedback },
 }) => {
 	// show report product
@@ -295,13 +301,14 @@ const ProductDashboard = ({
 													isOwner={isOwner}
 													items={otherProducts}
 													itemsType={'products'}
+													moveSection={moveSection}
 													reverse={false}
 													section={section}
 													setAlert={setAlert}
 													setSectionToEdit={setSectionToEdit}
-													//setSections={setSections}
 													setEdit={setEditSection}
 													setCurrentProduct={setCurrentProduct}
+													swapImgSection={swapImgSection}
 												/>
 											))}
 								</div>
@@ -343,10 +350,10 @@ const ProductDashboard = ({
 								<Accordion>
 									{/** Product page content */}
 									<AccordionTab header="Page Content">
-										<Alert />
 										<button onClick={() => setSectionCreation(true)} className="btn btn-primary">
 											Add Section
 										</button>
+										<Alert />
 										<Fragment>
 											{sections &&
 												sections.length > 0 &&
@@ -357,13 +364,14 @@ const ProductDashboard = ({
 															isOwner={isOwner}
 															items={otherProducts}
 															itemsType={'products'}
+															moveSection={moveSection}
 															reverse={false}
 															section={section}
 															setAlert={setAlert}
 															setSectionToEdit={setSectionToEdit}
-															//setSections={setSections}
 															setEdit={setEditSection}
 															setCurrentProduct={setCurrentProduct}
+															swapImgSection={swapImgSection}
 														/>
 													))}
 										</Fragment>
@@ -551,6 +559,7 @@ ProductDashboard.propTypes = {
 	deleteSection: PropTypes.func.isRequired,
 	editProduct: PropTypes.func.isRequired,
 	history: PropTypes.object.isRequired,
+	moveSection: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	loading: PropTypes.object.isRequired,
 	feedback: PropTypes.array.isRequired,
@@ -566,6 +575,8 @@ ProductDashboard.propTypes = {
 	replyFeedback: PropTypes.func.isRequired,
 	reportFeedback: PropTypes.func.isRequired,
 	reportProduct: PropTypes.func.isRequired,
+	soldOutProduct: PropTypes.func.isRequired,
+	swapImgSection: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -583,6 +594,7 @@ export default connect(mapStateToProps, {
 	createProductSection,
 	deleteSection,
 	editProduct,
+	moveSection,
 	setAlert,
 	rateProduct,
 	setProduct,
@@ -592,4 +604,6 @@ export default connect(mapStateToProps, {
 	replyFeedback,
 	reportFeedback,
 	reportProduct,
+	soldOutProduct,
+	swapImgSection,
 })(withRouter(ProductDashboard));

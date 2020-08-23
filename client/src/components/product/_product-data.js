@@ -53,17 +53,6 @@ const ProductData = ({
 		setItemAdded(true);
 	};
 
-	// Sold out product
-	const soldOutItem = async () => {
-		const res = await soldOutProduct(product._id);
-		if (res.status === 200) {
-			setProduct(res.data.product);
-			setProducts(res.data.products);
-			setAlert('Product Edited', 'success');
-			setSuccess(true);
-		}
-	};
-
 	return (
 		<Fragment>
 			<Dialog header={showSoldOut && 'Sold Out'} visible={showSoldOut} onHide={() => setShowSoldOut(false)}>
@@ -73,7 +62,10 @@ const ProductData = ({
 						<Fragment>
 							<div className="message">{product.name + ' sold out?'}</div>
 							<div className="options">
-								<button onClick={() => soldOutItem()} className="btn btn-success">
+								<button
+									onClick={() => soldOutProduct(product._id, setSuccess)}
+									className="btn btn-success"
+								>
 									Yes
 								</button>
 								<button onClick={() => setShowSoldOut(false)} className="btn btn-danger">

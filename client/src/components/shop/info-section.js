@@ -5,13 +5,12 @@ import CardCarousel from '../partials/card-carousel';
 import DataViewComp from '../partials/data-view';
 import DialogPrime from '../partials/dialog';
 import PrimeSpinner from '../partials/spinner';
-// Functions
-import { moveSection, swapImgSection } from '../../actions/requests';
 
 const InfoSection = ({
 	isOwner,
 	items,
 	itemsType,
+	moveSection,
 	reverse,
 	section,
 	setAlert,
@@ -20,7 +19,8 @@ const InfoSection = ({
 	setSectionToEdit,
 	setCurrentProduct,
 	productSectionRef,
-	deleteSection
+	deleteSection,
+	swapImgSection,
 }) => {
 	// To show Loading on submitions
 	const [submition, setSubmition] = useState(false);

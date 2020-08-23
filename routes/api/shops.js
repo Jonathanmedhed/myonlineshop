@@ -1200,7 +1200,7 @@ router.post('/section/swap/:id', auth, async (req, res) => {
 		const updatedSections = await Section.find({
 			shop: section.shop,
 		});
-		res.json(updatedSections);
+		res.json(updatedSections.sort((a, b) => (a.position > b.position ? 1 : -1)));
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');

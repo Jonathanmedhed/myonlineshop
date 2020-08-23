@@ -543,7 +543,7 @@ const ItemEdition = ({
 						</Fragment>
 					)}
 					{/** Submit and discard buttons */}
-					{!success && field !== 'Pic_Logo' && (
+					{!success && field !== 'Pic_Logo' && field !== 'Pic_Jumbo' && (
 						<div className="form-group-buttons">
 							<div className="form-group">
 								<div onClick={() => checkInput()} className="btn btn-primary">

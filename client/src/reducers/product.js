@@ -7,6 +7,8 @@ import {
 	DELETE_SECTION_ERROR_PRODUCT,
 	EDIT_PRODUCT,
 	EDIT_PRODUCT_ERROR,
+	MOVE_SECTION_PRODUCT,
+	MOVE_SECTION_ERROR_PRODUCT,
 	RATE_PRODUCT,
 	RATE_PRODUCT_ERROR,
 	REPLY_FEEDBACK_PRODUCT,
@@ -21,6 +23,8 @@ import {
 	SELECT_REPORT_FEEDBACK_ERROR_PRODUCT,
 	SET_PRODUCT,
 	SET_PRODUCT_ERROR,
+	SWAP_IMG_SECTION_PRODUCT,
+	SWAP_IMG_SECTION_ERROR_PRODUCT,
 } from '../actions/types';
 const initialState = {
 	currentFeedback: null,
@@ -61,6 +65,12 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				product: payload.product,
+				loading: false,
+			};
+		case MOVE_SECTION_PRODUCT:
+			return {
+				...state,
+				sections: payload,
 				loading: false,
 			};
 		case RATE_PRODUCT:
@@ -105,9 +115,17 @@ export default function (state = initialState, action) {
 				sections: payload.sections,
 				loading: false,
 			};
+		case SWAP_IMG_SECTION_PRODUCT:
+			return {
+				...state,
+				sections: payload,
+				loading: false,
+			};
 		case CLEAR_FEEDBACK_ERROR_PRODUCT:
 		case CREATE_SECTION_ERROR_PRODUCT_PRODUCT:
 		case DELETE_SECTION_ERROR_PRODUCT:
+		case EDIT_PRODUCT_ERROR:
+		case MOVE_SECTION_ERROR_PRODUCT:
 		case RATE_PRODUCT_ERROR:
 		case REPLY_FEEDBACK_PRODUCT_ERROR:
 		case REPORT_FEEDBACK_PRODUCT_ERROR:
@@ -116,6 +134,7 @@ export default function (state = initialState, action) {
 		case REPORT_PRODUCT:
 		case REPORT_PRODUCT_ERROR:
 		case SET_PRODUCT_ERROR:
+		case SWAP_IMG_SECTION_ERROR_PRODUCT:
 			return {
 				...state,
 				error: payload,
