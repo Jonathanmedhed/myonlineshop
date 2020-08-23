@@ -61,6 +61,7 @@ import {
 	getTransaction,
 	moveSection,
 	rateShop,
+	removeLogo,
 	replyFeedback,
 	reportFeedback,
 	selectFeedback,
@@ -106,6 +107,7 @@ const ShopDashboard = ({
 	setCustomerView,
 	unFollowShop,
 	approveOrder,
+	removeLogo,
 	replyFeedback,
 	reportFeedback,
 	selectFeedback,
@@ -901,6 +903,7 @@ const ShopDashboard = ({
 									setAlert={setAlert}
 									toggle={setEdit}
 									editShop={editShop}
+									removeLogo={removeLogo}
 								/>
 							)}
 							{/** Product Creation */}
@@ -1748,6 +1751,7 @@ ShopDashboard.propTypes = {
 	productsInTransactions: PropTypes.array.isRequired,
 	productToDelete: PropTypes.object.isRequired,
 	rateShop: PropTypes.func.isRequired,
+	removeLogo: PropTypes.func.isRequired,
 	replyFeedback: PropTypes.func.isRequired,
 	reportFeedback: PropTypes.func.isRequired,
 	sections: PropTypes.array.isRequired,
@@ -1801,6 +1805,7 @@ export default connect(mapStateToProps, {
 	createProduct,
 	createProductSection,
 	createSection,
+	removeLogo,
 	replyFeedback,
 	reportFeedback,
 	selectFeedback,

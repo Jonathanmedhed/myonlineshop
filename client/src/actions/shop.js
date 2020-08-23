@@ -660,6 +660,30 @@ export const moveSection = (formData, id) => async (dispatch) => {
 };
 
 /**
+ * Remove shop logo
+ * @param {*} id
+ */
+export const removeLogo = (id) => async (dispatch) => {
+	try {
+		const res = await axios.post(`/api/shops/remove-logo/${id}`);
+
+		dispatch({
+			type: EDIT_SHOP,
+			payload: res.data,
+		});
+
+		dispatch(setAlert('Logo Removed', 'success'));
+	} catch (err) {
+		dispatch(setAlert('Logo Removal Failed', 'error'));
+
+		dispatch({
+			type: EDIT_SHOP_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+/**
  * Set order as ready, if reverse true, set ready as false
  * @param {*} formData
  * @param {*} reverse

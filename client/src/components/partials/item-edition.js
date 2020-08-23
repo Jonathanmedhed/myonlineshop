@@ -12,9 +12,20 @@ import { InputNumber } from 'primereact/inputnumber';
 import { InputTextarea } from 'primereact/inputtextarea';
 
 // Functions
-import { removeLogo, soldOutProduct } from '../../actions/requests';
+import { soldOutProduct } from '../../actions/requests';
 
-const ItemEdition = ({ editProduct, editShop, itemType, toggle, setAlert, item, setItem, field, setProducts }) => {
+const ItemEdition = ({
+	editProduct,
+	editShop,
+	removeLogo,
+	itemType,
+	toggle,
+	setAlert,
+	item,
+	setItem,
+	field,
+	setProducts,
+}) => {
 	/** Shop Pics */
 	const [logo, setLogo] = useState(null);
 	const [jumbo, setJumbo] = useState(null);
@@ -84,17 +95,6 @@ const ItemEdition = ({ editProduct, editShop, itemType, toggle, setAlert, item, 
 	// Asign values on change
 	const onChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
-
-	// Remove Logo
-	const removeLogoFunc = async () => {
-		const res = await removeLogo(item._id);
-		if (res.status === 200) {
-			setSuccess(true);
-			setItem(res.data);
-			setAlert('Logo Removed', 'success');
-		}
-		return res;
 	};
 
 	// Form submition
@@ -488,7 +488,7 @@ const ItemEdition = ({ editProduct, editShop, itemType, toggle, setAlert, item, 
 										alt=""
 									></img>
 									<div className="buttons-upload-remove">
-										<button onClick={() => removeLogoFunc()} className="btn btn-danger">
+										<button onClick={() => removeLogo(item._id)} className="btn btn-danger">
 											No Logo
 										</button>
 										<UploadComp
@@ -543,7 +543,7 @@ const ItemEdition = ({ editProduct, editShop, itemType, toggle, setAlert, item, 
 						</Fragment>
 					)}
 					{/** Submit and discard buttons */}
-					{!success && (field !== 'Pic_Logo' || field !== 'Pic_Jumbo') && (
+					{!success && field !== 'Pic_Logo' && (
 						<div className="form-group-buttons">
 							<div className="form-group">
 								<div onClick={() => checkInput()} className="btn btn-primary">
