@@ -1080,12 +1080,24 @@ const ShopDashboard = ({
 													<div className="text-container">
 														<h1>{shop.name}</h1>
 														{/** Edit option for owner */}
-														{isOwner && (
-															<i
-																onClick={() => selectEdit('Name')}
-																className="far fa-edit"
-															></i>
-														)}
+														<div className="hide-sm">
+															{isOwner && (
+																<i
+																	onClick={() => selectEdit('Name')}
+																	className="far fa-edit"
+																></i>
+															)}
+														</div>
+														<div className="show-sm">
+															{isOwner && (
+																<div className="middle-edit">
+																	<i
+																		onClick={() => selectEdit('Name')}
+																		className="far fa-edit"
+																	></i>
+																</div>
+															)}
+														</div>
 													</div>
 													{/** Show intro if has one */}
 													{!isOwner && shop.intro && (
@@ -1124,14 +1136,12 @@ const ShopDashboard = ({
 													<Alert />
 												</div>
 												{/** Edit button for jumbo */}
-												{isOwner === true && (
+												{isOwner && (
 													<div className="edit-button">
-														{isOwner && (
-															<i
-																onClick={() => selectEdit('Pic_Jumbo')}
-																className="far fa-edit"
-															></i>
-														)}
+														<i
+															onClick={() => selectEdit('Pic_Jumbo')}
+															className="far fa-edit"
+														></i>
 													</div>
 												)}
 												{/** Footer */}

@@ -633,6 +633,18 @@ Card Review Vertical
       object-fit: cover;
     }
   }
+  .card-user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      max-height: 5rem;
+      max-width: 5rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
 }
 
 .card-review-vert-border {
@@ -4517,6 +4529,14 @@ Cart
       position: absolute;
       right: 1rem;
       bottom: 14rem;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    .middle-edit {
+      position: absolute;
+      left: 50%;
+      top: 4rem;
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -4976,6 +4996,17 @@ Review Section
         cursor: pointer;
         color: $white-dark-color;
       }
+    }
+  }
+
+  /***************************************************************************************************
+Settings
+***************************************************************************************************/
+  .settings-options {
+    // Portrait
+    @media (max-width: 22.5rem) {
+      margin-top: 0.5rem;
+      max-width: 20rem;
     }
   }
 

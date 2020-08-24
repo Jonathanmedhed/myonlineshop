@@ -131,13 +131,13 @@ const UserCard = ({ setCurrentUser, user, isOwner, feedback, editUser }) => {
 										) : (
 											<i className="fab fa-facebook dark"></i>
 										)}
-										{user.social && user.social.email ? (
+										{/**user.social && user.social.email ? (
 											<a href={`mailto: ${user.social.email}`}>
 												<i className="fas fa-envelope"></i>
 											</a>
 										) : (
 											<i className="fas fa-envelope dark"></i>
-										)}
+										)*/}
 										{user.social && user.social.instagram ? (
 											<a href={user.social.instagram}>
 												<i className="fab fa-instagram"></i>
